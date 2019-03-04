@@ -8,8 +8,12 @@
 	<title>LMS Lite</title>
 </head>
 <body>
-  <header> 
-  <p>Hello {{ user.first_name }} {{ user.last_name }}</p>
+  <header>
+
+  {% if user.is_authenticated %}
+    <p>Hello {{ user.first_name }} {{ user.last_name }}</p>
+  {% endif %}
+
   	<a href={% url 'index' %}>
     	<pre class="logo">LEARNING MANAGEMENT SYSTEM LITE</pre>
   	</a>
