@@ -1,0 +1,2 @@
+- version: unreleased
+- added a basic profile page, added User authenticated link displays to base.html(@Chino96 )
