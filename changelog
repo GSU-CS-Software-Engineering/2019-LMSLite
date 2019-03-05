@@ -1,2 +1,3 @@
 - version: unreleased
-- added a basic profile page, added User authenticated link displays to base.html(@Chino96 )
+- added a basic profile page, added User authenticated link displays to base.html(@Chino96)
+- started courses app added courses to admin page(@Chino96)

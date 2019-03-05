@@ -3,14 +3,14 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 
-from .forms import UserAdminCreationForm, UserAdminChangeForm
-from .models import User
+from .forms import StudentAdminCreationForm, StudentAdminChangeForm
+from .models import User, Student, Professor
 
 
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
-    form = UserAdminChangeForm
-    add_form = UserAdminCreationForm
+    form = StudentAdminChangeForm
+    add_form = StudentAdminCreationForm
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -19,15 +19,15 @@ class UserAdmin(BaseUserAdmin):
     list_filter = ('admin',)
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name')}),
-        ('Permissions', {'fields': ('admin', 'staff', 'active')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'courses')}),
+        ('Permissions', {'fields': ('active', 'role')}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name')}
+            'fields': ('email', 'password1', 'password2', 'first_name', 'last_name', 'courses', 'role')}
         ),
     )
     search_fields = ('email',)
@@ -35,6 +35,6 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(Student, UserAdmin)
 admin.site.unregister(Group)
 # Register your models here.

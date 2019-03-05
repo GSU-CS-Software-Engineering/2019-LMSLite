@@ -2,10 +2,12 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
-# Create your models here.
+from courses.models import Course
+
+
 class UserManager(BaseUserManager):
 
-    def create_user(self, email, password=None, is_active=True, is_staff=False, is_admin=False):
+    def create_user(self, email, password=None, is_active=True, is_staff=False, is_admin=False, role=None):
 
         if not email:
             raise ValueError("Please input valid email")
@@ -16,6 +18,7 @@ class UserManager(BaseUserManager):
         user.admin = is_admin
         user.staff = is_staff
         user.active = is_active
+        user.role = role
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -24,7 +27,8 @@ class UserManager(BaseUserManager):
         user = self.create_user(
             email,
             password=password,
-            is_staff=True
+            is_staff=True,
+            role=1
         )
         user.save(using=self._db)
         return user
@@ -34,7 +38,8 @@ class UserManager(BaseUserManager):
             email,
             password=password,
             is_staff=True,
-            is_admin=True
+            is_admin=True,
+            role=0
         )
         user.save(using=self._db)
         return user
@@ -48,6 +53,14 @@ class User(AbstractBaseUser):
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
+
+    USER_TYPE_CHOICES = (
+        (2, 'student'),
+        (1, 'professor'),
+        (0, 'admin'),
+    )
+
+    role = models.SmallIntegerField(choices=USER_TYPE_CHOICES, blank=True)
 
     USERNAME_FIELD = 'email'
 
@@ -81,3 +94,18 @@ class User(AbstractBaseUser):
     @property
     def is_active(self):
         return self.active
+
+
+class Student(User):
+    courses = models.ManyToManyField('courses.Course')
+
+    def __str__(self):
+        return self.user.email
+
+
+class Professor(User):
+    courses = models.ManyToManyField('courses.Course')
+
+    def __str__(self):
+        return self.user.email
+
