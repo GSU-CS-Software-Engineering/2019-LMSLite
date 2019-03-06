@@ -25,7 +25,7 @@ Exit Settings<br/>
 Click "Edit Configurations" in the toolbar<br/>
 Click the + button and choose Django server<br/>
 Enable Run browser<br/>
-Add the following Environment Variables ; Name: DJANGO_SETTINGS_MODULE    Value: LMSLite.settings<br/>
+Add the following Environment Variables ; Name: "DJANGO_SETTINGS_MODULE"    Value: "LMSLite.settings"<br/>
 Choose the Python Interpretor you created earlier<br/>
 Click Apply and OK<br/>
 #Project is now set up<br/>
