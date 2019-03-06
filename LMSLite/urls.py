@@ -18,7 +18,8 @@ from django.urls import path
 from django.conf.urls import url
 from django.conf.urls import include
 from LMSLite import views
-
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,3 +27,6 @@ urlpatterns = [
     path('auth/', include('django.contrib.auth.urls')),
     path('profile/', views.profile_view, name='profile'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
