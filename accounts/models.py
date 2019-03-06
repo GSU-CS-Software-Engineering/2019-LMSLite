@@ -100,12 +100,12 @@ class Student(User):
     courses = models.ManyToManyField('courses.Course')
 
     def __str__(self):
-        return self.user.email
+        return self.email
 
 
 class Professor(User):
     courses = models.ManyToManyField('courses.Course')
 
     def __str__(self):
-        return self.user.email
+        return self.email
 
