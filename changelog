@@ -1,7 +1,8 @@
 - version: unreleased
-
 - added a basic profile page, added User authenticated link displays to base.html(@Chino96)
 - started courses app added courses to admin page(@Chino96)
 - Got CSS working(@as12660)
 - Added Professor model to admin page(@Chino96)
 - Changed Student and Professor Add and Change forms(@Chino96)
+- Added course list to profile page(@Chino96)
+- Changed course creation form and course model(@Chino96)

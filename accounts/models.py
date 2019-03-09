@@ -53,6 +53,7 @@ class User(AbstractBaseUser):
     active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
+    courses = models.ManyToManyField('courses.Course')
 
     USER_TYPE_CHOICES = (
         (2, 'student'),
@@ -97,14 +98,14 @@ class User(AbstractBaseUser):
 
 
 class Student(User):
-    courses = models.ManyToManyField('courses.Course')
+    role = 2
 
     def __str__(self):
         return self.email
 
 
 class Professor(User):
-    courses = models.ManyToManyField('courses.Course')
+    role = 1
 
     def __str__(self):
         return self.email
