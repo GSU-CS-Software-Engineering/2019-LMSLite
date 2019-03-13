@@ -5,9 +5,11 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>LMS Lite</title>
-    <link rel="stylesheet" type = "text/css"
-        href="{% static '/css/main.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>LMS Lite</title>
+    <link rel="stylesheet" type = "text/css" href="{% static '/css/main.css' %}">
+    <script type = "text/javascript" src="{% static '/js/main.js' %}"></script>
+
 </head>
 <body>
   <header>
@@ -22,16 +24,20 @@
 
   {% block navbar %}
     <nav>
-      <ul>
-        <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'profile' %}">Profile</a></li>
-          {% if user.is_authenticated %}
-              <li><a href="{% url 'logout' %}">Logout</a></li>
-          {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
-          {% endif %}
 
-      </ul>
+       <div class="topnav" id="myTopnav">
+
+       <a href="{% url 'index' %}">Home</a>
+          <a href="{% url 'profile' %}">Profile</a>
+          {% if user.is_authenticated %}
+              <a href="{% url 'logout' %}">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        <a href="javascript:void(0);" class="icon" onclick="navBarFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+      </div>
     </nav>
   {% endblock navbar %}
 
