@@ -5,12 +5,24 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>LMS Lite</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>LMS Lite</title>
     <link rel="stylesheet" type = "text/css"
         href="{% static '/css/main.css' %}">
+
+<script>
+function myFunction() {
+  var x = document.getElementById("myTopnav");
+  if (x.className === "topnav") {
+    x.className += " responsive";
+  } else {
+    x.className = "topnav";
+  }
+}
+</script>
 </head>
 <body>
-  <header>
+  <header >
 
   {% if user.is_authenticated %}
     <p>Hello {{ user.first_name }} {{ user.last_name }}</p>
@@ -20,24 +32,29 @@
     	<pre class="logo">LEARNING MANAGEMENT SYSTEM LITE</pre>
   	</a>
     <nav>
-      <ul>
-        <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'profile' %}">Profile</a></li>
-          {% if user.is_authenticated %}
-              <li><a href="{% url 'logout' %}">Logout</a></li>
-          {% else %}
-            <li><a href="{% url 'login' %}">Login</a></li>
-          {% endif %}
 
-      </ul>
+       <div class="topnav" id="myTopnav">
+
+       <a href="{% url 'index' %}">Home</a>
+          <a href="{% url 'profile' %}">Profile</a>
+          {% if user.is_authenticated %}
+              <a href="{% url 'logout' %}">Logout</a>
+          {% else %}
+            <a href="{% url 'login' %}">Login</a>
+          {% endif %}
+        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+    <i class="fa fa-bars"></i>
+  </a>
+      </div>
     </nav>
   </header>
   
   {% block content %}{% endblock content %}
-  
+
+
   <footer>
 	<div class="copyright">&copy;2019 - <strong>LMSLITE</strong></div>
   </footer>
-  
+
 </body>
 </html>
