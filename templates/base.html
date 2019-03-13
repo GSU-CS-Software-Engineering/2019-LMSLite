@@ -19,6 +19,8 @@
   	<a href={% url 'index' %}>
     	<pre class="logo">LEARNING MANAGEMENT SYSTEM LITE</pre>
   	</a>
+
+  {% block navbar %}
     <nav>
       <ul>
         <li><a href="{% url 'index' %}">Home</a></li>
@@ -31,9 +33,13 @@
 
       </ul>
     </nav>
+  {% endblock navbar %}
+
   </header>
-  
-  {% block content %}{% endblock content %}
+
+  {% block content %}
+
+  {% endblock content %}
   
   <footer>
 	<div class="copyright">&copy;2019 - <strong>LMSLITE</strong></div>
