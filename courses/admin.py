@@ -10,15 +10,15 @@ class CourseAdmin(UserAdmin):
 	form = CourseAdminCreationForm
 	add_form = CourseAdminChangeForm
 
-	list_display = ('course_name', 'prof')
+	list_display = ('course_name', )
 	list_filter = ('prof',)
 
 	fieldsets = (
-		(None, {'fields': ('course_name', 'prof', 'students')}),
+		(None, {'fields': ('course_name', )}),
 	)
 
 	add_fieldsets = (
-		(None, {'fields': ('course_name', 'prof', 'students')}),
+		(None, {'fields': ('course_name', )}),
 	)
 
 	search_fields = ('course_name',)

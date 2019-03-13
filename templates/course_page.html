@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block navbar %}
+    <h2>{{ course.course_name }}</h2>
+<nav>
+      <ul>
+          <li><a href="{% url 'index' %}">Home</a></li>
+          <li><a href="{% url 'profile' %}">Profile</a></li>
+          <li><a>Assignments</a></li>
+          <li><a>Quizes</a></li>
+          <li><a>Homework</a></li>
+          <li><a>Surveys</a></li>
+          <li><a>Grades</a></li>
+      </ul>
+    </nav>
+{% endblock navbar %}
+
+{% block content %}
+
+
+{% endblock content %}
