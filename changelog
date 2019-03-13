@@ -8,3 +8,4 @@
 - Changed course creation form and course model(@Chino96)
 - Created base Course Page Template(@Chino96)
 - Added read in file logic to courses/forms.py (@kh06089)
+- Added navigation bar to the home page (@cm09516)
