@@ -7,22 +7,12 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>LMS Lite</title>
-    <link rel="stylesheet" type = "text/css"
-        href="{% static '/css/main.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static '/css/main.css' %}">
+    <script type = "text/javascript" src="{% static '/js/main.js' %}"></script>
 
-<script>
-function myFunction() {
-  var x = document.getElementById("myTopnav");
-  if (x.className === "topnav") {
-    x.className += " responsive";
-  } else {
-    x.className = "topnav";
-  }
-}
-</script>
 </head>
 <body>
-  <header >
+  <header>
 
   {% if user.is_authenticated %}
     <p>Hello {{ user.first_name }} {{ user.last_name }}</p>
@@ -31,6 +21,8 @@ function myFunction() {
   	<a href={% url 'index' %}>
     	<pre class="logo">LEARNING MANAGEMENT SYSTEM LITE</pre>
   	</a>
+
+  {% block navbar %}
     <nav>
 
        <div class="topnav" id="myTopnav">
@@ -42,19 +34,22 @@ function myFunction() {
           {% else %}
             <a href="{% url 'login' %}">Login</a>
           {% endif %}
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+        <a href="javascript:void(0);" class="icon" onclick="navBarFunction()">
     <i class="fa fa-bars"></i>
   </a>
       </div>
     </nav>
+  {% endblock navbar %}
+
   </header>
+
+  {% block content %}
+
+  {% endblock content %}
   
-  {% block content %}{% endblock content %}
-
-
   <footer>
 	<div class="copyright">&copy;2019 - <strong>LMSLITE</strong></div>
   </footer>
-
+  
 </body>
 </html>
