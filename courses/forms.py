@@ -38,11 +38,11 @@ class QuizCreationForm(forms.ModelForm):
 		model = Quiz
 		fields = ('assignment_name', )
 
-	def create_quiz(self, file):
+	def create_quiz(self, input):
 
 		qtype = []
 
-		with open("Sample_Quiz.txt", "r") as file:
+		with open(input, "r") as file:
 			reader = csv.reader(file, delimiter='\t')  # parse by tab
 			reader = (line for line in reader if line)  # ignore blank lines
 			for questy in reader:
