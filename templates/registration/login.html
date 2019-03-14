@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
-<div class="wrapper fadeInDown">
+
+    <link rel="stylesheet" type = "text/css" href="{% static '/css/main.css' %}">
+
     <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-      <input type="submit" name="submit" value="Log In">
+        <div>
+            <input id= "submit" type="submit" name="submit" value="Log In">
+        </div>
     </form>
 {% endblock content %}
