@@ -62,7 +62,7 @@ body {
   text-align: center;
 }
 
-#submit {
+form #submit {
   display: block;
   margin : 0 auto;
 }
