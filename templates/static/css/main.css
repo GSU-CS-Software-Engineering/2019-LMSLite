@@ -110,12 +110,34 @@ h2{
 form #submit {
   display: block;
   margin : 0 auto;
+  width: 25%;
+  background-color: #333333;
+  color: #f2f2f2;
 }
 
-form p {
-  margin: auto;
+#submit:hover {
+  background-color: #f2f2f2;
+  color: #333333;
+
+}
+
+#Login {
+  margin: 30px 350px;
+  vertical-align: center;
+  padding: 150px;
+  background-color: blueviolet;
+  color: #f2f2f2;
+}
+
+.login header {
+  font-style: italic;
+  font-size: 50px;
+}
+
+p {
+  margin: 0 auto;
   width: 50%;
-  padding: 10px;
+  padding: 20px;
   left-margin: 50%;
   text-align: center;
 }
