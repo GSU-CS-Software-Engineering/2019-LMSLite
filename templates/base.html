@@ -12,10 +12,10 @@
 
 </head>
 <body>
-  <header>
+  <header id="titlebar">
 
   {% if user.is_authenticated %}
-    <p>Hello {{ user.first_name }} {{ user.last_name }}</p>
+    <p id="hellomessage">Hello {{ user.first_name }} {{ user.last_name }}</p>
   {% endif %}
 
   	<a href={% url 'index' %}>
@@ -46,7 +46,7 @@
   {% block content %}
 
   {% endblock content %}
-  
+
   <footer>
 	<div class="copyright">&copy;2019 - <strong>LMSLITE</strong></div>
   </footer>
