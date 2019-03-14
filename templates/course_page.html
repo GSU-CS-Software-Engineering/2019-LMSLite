@@ -1,21 +1,24 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
-    <h2>{{ course.course_name }}</h2>
 <nav>
-      <ul>
-          <li><a href="{% url 'index' %}">Home</a></li>
-          <li><a href="{% url 'profile' %}">Profile</a></li>
-          <li><a>Assignments</a></li>
-          <li><a>Quizes</a></li>
-          <li><a>Homework</a></li>
-          <li><a>Surveys</a></li>
-          <li><a>Grades</a></li>
-      </ul>
-    </nav>
+      <div class="topnav" id="myTopnav">
+          <a href="{% url 'index' %}">Home</a>
+          <a href="{% url 'profile' %}">Profile</a>
+          <a>Assignments</a>
+          <a>Quizes</a>
+          <a>Homework</a>
+          <a>Surveys</a>
+          <a>Grades</a>
+          <a href="javascript:void(0);" class="icon" onclick="navBarFunction()">
+              <i class="fa fa-bars"></i>
+          </a>
+      </div>
+
+    <h2>{{ course.course_name }}</h2>
+</nav>
 {% endblock navbar %}
 
 {% block content %}
-
 
 {% endblock content %}
