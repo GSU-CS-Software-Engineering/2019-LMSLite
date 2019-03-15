@@ -6,9 +6,37 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+form {
+  padding-bottom: 10px;
+}
+
+form p {
+  margin: 0 auto;
+  width: 50%;
+  padding: 20px;
+  left-margin: 50%;
+  text-align: center;
+}
+
+a pre{
+    margin: auto;
+    margin-left: auto;
+}
+
+footer{
+    text-align: center;
+    background-color: #9b43cb;
+    height: 25px;
+    line-height: 25px;
+    position:fixed;bottom:0;
+    width:100%;
+    display:block;
+}
+
 .logo {
-  font-size: 30px;
-  color: #a2a2a2;
+    font-size: 30px;
+    width: fit-content;
+    color: #eaeaea;
 }
 
 #hellomessage{
@@ -30,11 +58,12 @@ body {
 }
 
 #titlebar{
-  background-color: #703092;
+    background-color: #703092;
+    text-align: center;
 }
 
 #titlebar a:link, a:visited {
-  color: #a2a2a2;
+  color: #eaeaea;
 }
 
 #titlebar a:hover, a:active{
@@ -42,7 +71,7 @@ body {
 }
 .topnav a:hover {
   background-color: #ddd;
-  color: rgba(120, 122, 119, 0.93);
+  color: rgba(80, 82, 79, 0.93);
 }
 
 .active {
@@ -54,12 +83,12 @@ body {
   display: none;
 }
 
-h2{
-
-}
 .row {
-  display: flex;
-  flex-wrap: wrap;
+    display: flex;
+    flex-wrap: wrap;
+    height: 100%;
+    min-height: 640px;
+    margin: 0px;
 }
 
 /* Create two unequal columns that sits next to each other */
@@ -68,6 +97,7 @@ h2{
   flex: 30%;
   background-color: #f1f1f1;
   padding: 20px;
+    min-height: 100%;
 }
 
 /* Main column */
@@ -75,8 +105,8 @@ h2{
   flex: 70%;
   background-color: white;
   padding: 20px;
+    min-height: 100%;
 }
-
 
 @media screen and (max-width: 600px) {
   .topnav a:not(:first-child) {display: none;}
@@ -101,47 +131,44 @@ h2{
 }
 
 .copyright {
-  text-align: center;
-  background-color: #9b43cb;
-  height: 25px;
-  padding: 20px;
+    text-align: center;
+    background-color: #9b43cb;
+    height: 25px;
+    line-height: 25px;
+    position:fixed;bottom:0;
+    width:100%;
+    display:block;
 }
 
 form #submit {
-  display: block;
-  margin : 0 auto;
-  width: 25%;
-  background-color: #333333;
-  color: #f2f2f2;
+    display: block;
+    margin : 0 auto;
+    width: 25%;
+    background-color: #333333;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 #submit:hover {
-  background-color: #f2f2f2;
-  color: #333333;
-
+    background-color: #f2f2f2;
+    color: #333333;
 }
 
-#Login {
-  margin: 30px 350px;
-  vertical-align: center;
-  padding: 150px;
-  background-color: blueviolet;
-  color: #f2f2f2;
+#id_username, #id_password {
+    display: block;
+    margin: 0 auto;
+    width: 75%;
+    text-align: center;
+    border: 1px solid black;
+    padding: 15px 20px;
+    height: 30px;
+    position: relative;
+    outline: none;
+    background-color: white;
+    font-size: 16px;
 }
 
-.login header {
-  font-style: italic;
-  font-size: 50px;
-}
-
-p {
-  margin: 0 auto;
-  width: 50%;
-  padding: 20px;
-  left-margin: 50%;
-  text-align: center;
-}
-
-form {
-  padding-bottom: 10px;
-}

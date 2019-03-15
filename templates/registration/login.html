@@ -6,7 +6,6 @@
 
     <form method="POST">
     <div class = "login" id = "Login">
-        <header>LMS LITE</header>
     {% csrf_token %}
     {{ form.as_p }}
         <input id= "submit" type="submit" name="submit" value="Log In">
