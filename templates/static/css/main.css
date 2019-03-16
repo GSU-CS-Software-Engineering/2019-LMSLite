@@ -40,7 +40,8 @@ footer{
 }
 
 #hellomessage{
-  color: #a2a2a2;
+    color: #a2a2a2;
+    text-align: left;
 }
 .topnav {
   overflow: hidden;
@@ -91,8 +92,6 @@ footer{
     margin: 0px;
 }
 
-/* Create two unequal columns that sits next to each other */
-/* Sidebar/left column */
 .side {
   flex: 30%;
   background-color: #f1f1f1;
@@ -100,7 +99,6 @@ footer{
     min-height: 100%;
 }
 
-/* Main column */
 .main {
   flex: 70%;
   background-color: white;
