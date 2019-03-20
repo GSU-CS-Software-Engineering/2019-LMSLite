@@ -11,3 +11,4 @@
 - Added navigation bar to the home page (@cm09516)
 - Added navigation bar to the course page (@kh06089/@as12660)
 - Updated auto sizing of page elements for Login and Home (@as12660)
+- Added more CSS (including animation) to home/login/profile/course page (@as12660)

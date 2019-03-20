@@ -1,5 +1,12 @@
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    background: transparent;
 }
 body {
   margin: 0;
@@ -68,7 +75,7 @@ footer{
 }
 
 #titlebar a:hover, a:active{
-  color: #dddddd;
+  color: #3d3d3d;
 }
 .topnav a:hover {
   background-color: #ddd;
@@ -88,21 +95,21 @@ footer{
     display: flex;
     flex-wrap: wrap;
     height: 100%;
-    min-height: 640px;
+    min-height: 100vh;
     margin: 0px;
 }
 
 .side {
-  flex: 30%;
-  background-color: #f1f1f1;
-  padding: 20px;
+    flex: 30%;
+    background-color: #f1f1f1;
+    padding: 20px;
     min-height: 100%;
 }
 
 .main {
-  flex: 70%;
-  background-color: white;
-  padding: 20px;
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
     min-height: 100%;
 }
 
@@ -152,7 +159,7 @@ form #submit {
 }
 
 #submit:hover {
-    background-color: #f2f2f2;
+    background-color: #cfb9f2;
     color: #333333;
 }
 
@@ -170,3 +177,42 @@ form #submit {
     font-size: 16px;
 }
 
+.classList a {
+    border-radius: 4px;
+    background-color: #800080;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 24px;
+    padding: 20px;
+    width: fit-content;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 5px;
+    display: inline-flex;
+}
+
+.classList a span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.classList a span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.classList a:hover span {
+  padding-right: 25px;
+}
+
+.classList a:hover span:after {
+  opacity: 1;
+  right: 0;
+}
