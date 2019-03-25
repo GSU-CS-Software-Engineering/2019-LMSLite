@@ -3,13 +3,19 @@
 {% block navbar %}
 <nav>
       <div class="topnav" id="myTopnav">
-          <a href="{% url 'index' %}">Home</a>
+          <a href="{% url 'index' %}"><i class="fa fa-home"></i> Home</a>
           <a href="{% url 'profile' %}">Profile</a>
-          <a>Assignments</a>
-          <a>Quizzes</a>
-          <a>Homework</a>
-          <a>Surveys</a>
-          <a>Grades</a>
+          <div class = "dropdown">
+              <button class="dropbtn">Assignments
+                  <i class="fa fa-caret-down"></i>
+              </button>
+              <div class="dropdown-content">
+                  <a href="#">Quizzes</a>
+                  <a href="#">Homeworks</a>
+                  <a href="#">Surveys</a>
+              </div>
+          </div>
+          <a href="#">Grades</a>
           <a href="javascript:void(0);" class="icon" onclick="navBarFunction()">
               <i class="fa fa-bars"></i>
           </a>
