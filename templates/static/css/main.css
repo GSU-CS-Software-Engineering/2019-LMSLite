@@ -32,10 +32,10 @@ a pre{
 
 footer{
     text-align: center;
-    background-color: #9b43cb;
     height: 25px;
     line-height: 25px;
-    position:fixed;bottom:0;
+    z-index:-1;
+    bottom:0;
     width:100%;
     display:block;
 }
@@ -138,7 +138,7 @@ form #submit {
     color: #333333;
 }
 
-#id_username, #id_password {
+#id_username, #id_password, #id_password1, #id_password2 {
     display: block;
     margin: 0 auto;
     width: 75%;
@@ -205,7 +205,7 @@ ul.errorlist.nonfield {
   font-size: 16px;
   border: none;
   outline: none;
-  color: white;
+  color: #eaeaea;
   padding: 14px 16px;
   background-color: inherit;
   font-family: inherit;
@@ -260,4 +260,32 @@ ul.errorlist.nonfield {
     display: block;
     text-align: left;
   }
+}
+
+#calendar{
+    width: 100%;
+    background-color: #770ced;
+    color: #fff;
+    border-radius: 5%;
+    box-shadow: 0 4px 4px 0 rgba(50, 50, 50, 0.4);
+}
+
+#calendar>p{
+    font-family: Verdana, Arial, sans-serif;
+    margin: 0;
+    color: #fff;
+    text-align: center;
+}
+
+#calendar-day{
+    font-size: 24px;
+}
+
+#calendar-month-year{
+    font-size: 14px;
+}
+
+#calendar-date{
+    font-size: 64px;
+    padding-bottom: 0;
 }
