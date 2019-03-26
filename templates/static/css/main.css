@@ -48,7 +48,8 @@ footer{
 
 #hellomessage{
     color: #a2a2a2;
-    text-align: left;
+    text-align: right;
+    padding-right: 10px;
 }
 
 .topnav {
