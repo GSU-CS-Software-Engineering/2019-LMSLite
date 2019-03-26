@@ -6,11 +6,13 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>OLMS Lite</title>
     <link rel="stylesheet" type = "text/css" href="{% static '/css/main.css' %}">
     <link rel="stylesheet" type = "text/css" href="{% static '/css/w3.css' %}">
-    <script type = "text/javascript" src="{% static '/js/main.js' %}"></script>
+    <link rel="stylesheet" type = "text/css" href="{% static '/css/logo.css' %}">
     <link rel="icon" href="{% static '/images/lms.jpg' %}">
+    <script type = "text/javascript" src="{% static '/js/main.js' %}"></script>
+    <title>OLMS Lite</title>
+
 
 </head>
 <body>
@@ -21,8 +23,10 @@
   {% endif %}
 
   	<a href={% url 'index' %}>
-    	<pre class="logo">OPEN LMS LITE</pre>
-  	</a>
+        <pre class="logo" id ="logo"><!-- content generated with JS -->
+        </pre>
+    </a>
+    <script type = "text/javascript" src="{% static '/js/logo.js' %}"></script>
 
   {% block navbar %}
     <nav>
