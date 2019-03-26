@@ -5,10 +5,10 @@
     <link rel="stylesheet" type = "text/css" href="{% static '/css/main.css' %}">
 
     <form method="POST">
+    <div class = "login w3-container w3-center w3-animate-top" id = "Login">
     {% csrf_token %}
     {{ form.as_p }}
-        <div>
-            <input id= "submit" type="submit" name="submit" value="Log In">
-        </div>
+        <input id= "submit" type="submit" name="submit" value="Log In">
+    </div>
     </form>
 {% endblock content %}
