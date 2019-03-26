@@ -18,16 +18,16 @@
   transition: ease 0.1s all;
 }
 #logo .wrapper span.letter-2 {
-  color: rgba(114, 35, 255, 0.84);
+  color: rgba(255, 252, 0, 0.84);
 }
 #logo .wrapper span.letter-1 {
-  color: rgba(255, 70, 43, 0.6);
+  color: rgb(255, 255, 255);
   z-index: 1;
 }
 #logo .wrapper span.letter-1:hover {
   top: -3px;
   right: -3px;
-}
+}1
 #logo .wrapper span.letter-1:hover ~ .letter-2 {
   top: 3px;
   right: 3px;
