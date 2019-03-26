@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+    {% block extra_css %}
+    <link rel="stylesheet" type = "text/css" href="{% static '/css/logo.css' %}">
+    {% endblock %}
+
+    {% block extra_js %}
+    <script type = "text/javascript" src="{% static '/js/logo.js' %}"></script>
+    {% endblock %}
+
 <div class="row">
     {% if user.is_authenticated %}
     <div class = "classList main w3-animate-opacity">

@@ -31,8 +31,8 @@ class RegisterForm(forms.ModelForm):
 class ProfessorAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='New Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm New Password', widget=forms.PasswordInput)
 
     class Meta:
         model = Professor
@@ -76,8 +76,8 @@ class ProfessorAdminChangeForm(forms.ModelForm):
 class StudentAdminCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='New Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm New Password', widget=forms.PasswordInput)
 
     class Meta:
         model = Student
@@ -123,8 +123,8 @@ class ProfessorChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+    password1 = forms.CharField(label='New Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm New Password', widget=forms.PasswordInput)
 
     class Meta:
         model = Professor
