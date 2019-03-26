@@ -2,14 +2,12 @@
 
 {% block content %}
 
-    <ul>
-        {% for course in  user.courses.all %}
+    <form method="POST">
 
-            <li><a href="{% url 'course_page' id=course.id%}">{{ course.course_name }}</a></li>
-
-        {%  endfor %}
-
-    </ul>
-
+    {{ form.as_p }}
+        <div>
+            <input id= "submit" type="submit" name="submit" value="Submit">
+        </div>
+    </form>
 
 {% endblock content %}

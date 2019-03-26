@@ -19,6 +19,7 @@ from django.conf.urls import url
 from django.conf.urls import include
 
 from courses import views as courseView
+from accounts import views as accountView
 from LMSLite import views
 from django.conf import settings
 from django.conf.urls.static import static
@@ -27,7 +28,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^$', views.index, name='index'),
     path('auth/', include('django.contrib.auth.urls')),
-    path('profile/', views.profile_view, name='profile'),
+    path('profile/', accountView.profile_view, name='profile'),
     path('courses/<int:id>/', courseView.course_view, name='course_page')
 ]
 

@@ -8,6 +8,13 @@
           <li><a href="{% url 'profile' %}">Profile</a></li>
           <li><a>Assignments</a></li>
           <li><a>Quizes</a></li>
+          <form method="POST">
+
+            {{ quizform.as_p }}
+             <div>
+                <input id= "submit" type="submit" name="submit" value="Submit">
+            </div>
+          </form>
           <li><a>Homework</a></li>
           <li><a>Surveys</a></li>
           <li><a>Grades</a></li>
