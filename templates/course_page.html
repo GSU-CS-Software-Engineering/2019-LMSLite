@@ -39,7 +39,15 @@
       {{ course.description }}
       <br>
       <h3>Quiz Form</h3>
-      {{ quizform.as_p }}
+      <form>
+           <ul>
+          {% for quiz in course.quizes.all %}
+              <li><a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a> </li>
+          {% endfor %}
+
+      </ul>
+            {{ quizform.as_p }}
+      </form>
       <br>
       <h3>Homework Form</h3>
       <ul>
