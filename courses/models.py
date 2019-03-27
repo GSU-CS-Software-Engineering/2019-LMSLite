@@ -1,10 +1,6 @@
 from django.db import models
 
 
-def upload(instance, filename, loc):
-	return '/'.join([instance.coursename, loc, filename])
-
-
 class Assignment(models.Model):
 
 	assignment_name = models.CharField(max_length=255, blank=True)
@@ -47,7 +43,7 @@ class Survey(Assignment):
 
 class Homework(Assignment):
 	type = 2
-	file = models.FileField(upload_to=upload(loc='homework'), blank=True)
+	file = models.FileField(upload_to='homework', blank=True)
 
 	def __str__(self):
 		return self.assignment_name
