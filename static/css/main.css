@@ -2,7 +2,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    border: 0;
     outline: 0;
     font-size: 100%;
     vertical-align: baseline;
@@ -82,7 +81,7 @@ footer{
 
 .topnav a:hover {
   background-color: #ddd;
-  color: rgba(80, 82, 79, 0. 93);
+  color: rgba(80, 82, 79, 93);
 }
 
 .topnav .icon {
@@ -113,7 +112,7 @@ footer{
 
 .copyright {
     text-align: center;
-    background-color: #9b43cb;
+    background-color: #703092;
     height: 25px;
     line-height: 25px;
     position:fixed;bottom:0;
@@ -289,4 +288,18 @@ ul.errorlist.nonfield {
 #calendar-date{
     font-size: 64px;
     padding-bottom: 0;
+}
+
+#courseName {
+    cursor: pointer;
+    text-decoration: underline;
+    width: fit-content;
+}
+
+#courseName:hover {
+    color: #9c27b0;
+}
+
+#proEmail, #proFName, #proLName, #proInfo {
+    width: fit-content;
 }

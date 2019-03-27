@@ -10,9 +10,9 @@
                   <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                  <a href="#">Quizzes</a>
-                  <a href="#">Homeworks</a>
-                  <a href="#">Surveys</a>
+                  <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
+                  <a href="#" id = "survBtn">Surveys</a>
               </div>
           </div>
           <a href="#">Grades</a>
@@ -34,12 +34,15 @@
 
     <div class="row">
   <div class="main w3-animate-opacity">
-    <h2>{{ course.course_name }}</h2>
-    <h3>Description</h3>
-      {{ course.description }}
-      <br>
+    <h2 id = "courseName" onclick="showHideCourse()">{{ course.course_name }}</h2>
+
+      <div id="courseDesc" style="display: block;">
+            <h3>Description</h3>
+            {{ course.description }}
+      </div>
+
+      <form id = "quizForm" style="display: none;">
       <h3>Quiz Form</h3>
-      <form>
            <ul>
           {% for quiz in course.quizes.all %}
               <li><a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a> </li>
@@ -48,7 +51,8 @@
       </ul>
             {{ quizform.as_p }}
       </form>
-      <br>
+
+    <form id ="hmwkForm" style="display: none;">
       <h3>Homework Form</h3>
       <ul>
           {% for assignment in course.homeworks.all %}
@@ -56,7 +60,6 @@
           {% endfor %}
 
       </ul>
-      <form >
           {{ hwForm.as_p }}
       </form>
 

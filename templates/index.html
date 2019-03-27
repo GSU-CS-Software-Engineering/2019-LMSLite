@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
+    {% block extra_css %}
+    <link rel="stylesheet" type = "text/css" href="{% static '/css/logo.css' %}">
+    {% endblock %}
+
+    {% block extra_js %}
+    <script type = "text/javascript" src="{% static '/js/logo.js' %}"></script>
+    {% endblock %}
+
 <div class="row">
     {% if user.is_authenticated %}
     <div class = "classList main w3-animate-opacity">
@@ -17,9 +26,9 @@
                 Kym is a senior computer science major at Georgia Southern University and will be graduating in May 2019.
                 <br>He currently serves as the group lead of his senior capstone project.
              <br><br><strong><u>Byron Hickey</u></strong><br>
-
+                Byron is a senior computer science major at Georgia Southern University and will be graduating in May 2019.
              <br><br><strong><u>Cameron Morgan</u></strong><br>
-
+                Cameron is a senior computer science major at Georgia Southern University and will be graduating in May 2019.
              <br><br> <strong><u>Austin Simmons</u></strong><br>
                 Austin is a senior computer science major at Georgia Southern University and will be graduating in May 2019.
                 <br>He also works at Koyo Bearings NA in Sylvania GA as a Co-Op.
