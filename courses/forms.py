@@ -1,7 +1,9 @@
 import csv
 
 from django import forms
-from .models import Course, Quiz
+from django.core.files.storage import DefaultStorage
+
+from .models import Course, Quiz, Homework
 from accounts.models import Professor
 
 
@@ -9,17 +11,14 @@ class CourseAdminCreationForm(forms.ModelForm):
 
 	class Meta:
 		model = Course
-		fields = ('course_name', )
+		fields = ('course_name', 'description')
 
 	def save(self, commit=True):
 		# Save the provided password in hashed format
 		course = super(CourseAdminCreationForm, self).save(commit=False)
-		prof = Professor.objects.get(self.prof.id)
-		prof.courses.add(course)
 
 		if commit:
 			course.save()
-			prof.save()
 		return course
 
 
@@ -27,14 +26,26 @@ class CourseAdminChangeForm(forms.ModelForm):
 
 	class Meta:
 		model = Course
-		fields = ('course_name', )
+		fields = ('course_name', 'description')
+
+
+class Question:
+	_type = ''
+	label = ''
+	answers = []
+	cAnswers = []
+
+	def __init__(self, pType, pLabel, pAnswers, cAns):
+		self.label = pLabel
+		self.answers = pAnswers
+		self.cAnswers = cAns
+		self._type = pType
 
 
 def create_quiz(input):
 
 	qtype = []
-
-	choices = []
+	questions = []
 
 	with open(input, "r") as file:
 		reader = csv.reader(file, delimiter='\t')  # parse by tab
@@ -45,35 +56,59 @@ def create_quiz(input):
 		i = 0  # initialize index
 		while i < len(qtype):
 
-			choices = []
-
 			if qtype[i][0] == "MC":
 				print(qtype[i][qtype[i].index("Correct") - 1])#
-				choices = qtype[i][1:]
-				forms.ChoiceField(choices=tuple(choices), widget=forms.RadioSelect)
-				forms.CharField(max_length=255, label=qtype[i][1])
+				questions.append(
+					Question(
+							_type='MC',
+							pLabel=qtype[i][1],
+							pAnswers=qtype[i][2:],
+							cAns=qtype[i][qtype[i].index("Correct") - 1]))
 
 			if qtype[i][0] == "SR":  # Short Answer
 				print(qtype[i][2])  # The answer for SR will always be in third index
+				questions.append(Question(_type='SR', pLabel=qtype[i][1], pAnswers=qtype[i][2], cAns=qtype[i][2]))
+
 			if qtype[i][0] == "MA":  # Multiple Select
+				cAns = []
 				for k in range(len(qtype[i])):
 					if qtype[i][k] == "Correct":
 						print(qtype[i][k - 1])  # Print all correct answers
+						cAns.append(qtype[i][k - 1])
+				questions.append(Question(_type='MA', pLabel=qtype[i][1], pAnswers=[i][2:], cAns=cAns))
+
 			if qtype[i][0] == "FIB":
+				cAns = []
 				j = 2
 				while j < len(qtype[i]):
-					print(qtype[i][j])  # Print all answer options
+					print(qtype[i][j]) # Print all answer options
+					cAns.append((qtype[i][j]))
 					j += 1
+				questions.append(Question(_type='FIB', pLabel=qtype[i][1], pAnswers=cAns, cAns=cAns))
+
 			if qtype[i][0] == "TF":  # True or False
 				print(qtype[i][2])
+				questions.append(Question(_type='TF', pLabel=qtype[i][1], pAnswers=qtype[i][2],cAns=qtype[i][2]))
 			if qtype[i][0] == "ESS":  # Esaay Question
 				print(qtype[i][2])  # Place holder Text
+				questions.append(Question(_type='ESS', pLabel=qtype[i][1], pAnswers=qtype[i][2],cAns=qtype[i][2]))
 				i += 1
+
+	return questions
 
 
 class QuizCreationForm(forms.ModelForm):
 
+	File = forms.FileField(label='Upload')
+
 	class Meta:
 		model = Quiz
 		fields = ('assignment_name', )
+
+
+class HomeworkCreationForm(forms.ModelForm):
+
+	class Meta:
+		model = Homework
+		fields = ('assignment_name', 'file',)
 

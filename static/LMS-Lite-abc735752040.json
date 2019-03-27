@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "lms-lite-235819",
+  "private_key_id": "abc7357520407628136955c64c3be3481f32a355",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCL5gTsyxvvrPNA\n61Ppaewc6michnuYDhIZRBRlAwcKGsTR66YIMtvicTmHqMQNkmjdH/ZorfMCVRjV\n1OYxB0jsPjXX6RcPIBuOBXfS6VAXOD7lmkUSH7oN3yeZRyygQjmZ53LnjA+2S7k6\n6DSVQ/gq2w8Hk6iyuwGzVDUtC/47fskwN2c8oMZYBJybB10gmtFPLH9ht3hv4D0T\nHWHqq1ZD6/4VDlse0UvVxaEPIsRLPj05ttWz3LxGV2qjpK7obCfTzcp4f0fiqUvQ\nB/bwgXfog+OFURtIQshqnzLbh+2ePu0JsQXlwD+2t1qlyjNQVH5XTQUeyVl4PORC\nckzpGsONAgMBAAECggEADzXIU0vB6He6pX7wdfA45kFAyRkrVtzbcDkhU9orFG4p\n9/4m5Gf4gCYkmxs+NZDgKyp5H+h0WKHn5q0UWerw2BPrcWNmSRQJ6ucCoBZodB3U\nDiKNCpYTJG70CeDdzo66Cdb1fIyTKL69j39aODWrmv02JRy+EAXvqWT+YxIVZ2Ji\n+k4MLDzqLNFaSDm5P301Qd30/mF1IkQCRpuZH+sBCt7jxNKV+4nEm8k47HzQgs3b\nLB5QyfXFHoRdcTPMq6nl0427ORpl5jPTyCnraA/COjikkl2R4iPBabs1efXn03my\n9Kz5Fq9vmnCoaa8nP2CjFBsQLz91jD5FxviaEGiGAQKBgQDESS9lV9oQ+lob7jlb\nDNEahikDhr9F10Znpwh+arznrhCvGrxGCiDFNdiE7Uf7TBmlgzr6AJUmmYTq/cqA\nrcS/dFZ972afsBfPCchvLkRJ8n5q1jGcHqgtFJbY1RyxjFpTOnU+DBamE1KHqY2G\nZSrYJ4E0o8RrrpyjANxtVY1eqwKBgQC2dV2edU/eBa7Yqo2Sar3a16cR1Mww7ezV\nCm71SiFeFj4KPuH7R6snxDg+/jMJZMIsn7lJZBkODEo2cRzwjD0BwgVUuJtgIMgf\naNJfQaVuwI2QDI4ZO5rcxIZ2xgKMNj7QGG8FzXnabuGn4hjPRVKRIUzPV/dX5/Sv\ncGXulP4GpwKBgQC5jHVBV8rMQdzsikWtzG/eovQiYT5uxxHG6h8dYckxOVqMLLnN\ne8V+p2gGQEfLRiT4URVvPx2/X2BGw6KqAZn7Yf5hDe31BoF7NcRDVXk4bgMS+2fq\nLRDNjKkMUGjPbd30z04FWWgPljRuCdm/MeNOcgmxuR30rRtk+2tj73u0AQKBgBR7\ndmf8aVvWLXubIctm+isf/FxPFCEGBIkh47TbfoVuX8aMqpenwvny2BGSPa53Rij2\nQTmQ6BMgpBAagJIsXAjfe/O3yZFv/KcyADO7TdPx/7JFBoqkm0zfLu0Ua2LMEB8S\nLxxqpZw0yFYtVnWmJY+vOk0oZdbTbi9nobm3thCPAoGAMfgfxyB+O9uQ1SMAPvdx\n6NcS5GDQnBq8FRt5Ua6qbH+kJf/aSHiStWddf6+NogwRkfwM3Px0zLKWbjaEE5bu\nXfpgHbrrAhiDjUYoGYKlhk9aSznWughIsDFk+BpZZC5IyNKulH6CqSuqYQvZ+i2W\nNVXGfsWyEshZ0QD3ToY4XCU=\n-----END PRIVATE KEY-----\n",
+  "client_email": "lms-lite@lms-lite-235819.iam.gserviceaccount.com",
+  "client_id": "109147657033655014670",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lms-lite%40lms-lite-235819.iam.gserviceaccount.com"
+}

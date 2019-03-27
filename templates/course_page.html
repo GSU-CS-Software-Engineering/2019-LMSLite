@@ -35,18 +35,27 @@
     <div class="row">
   <div class="main w3-animate-opacity">
     <h2>{{ course.course_name }}</h2>
-    <p>Some text about me in culpa qui officia deserunt mollit anim..</p>
-    <h3>More Text</h3>
-    <p>Lorem ipsum dolor sit ame.</p>
-    <div class="fakeimg" style="height:60px;">Image</div><br>
-    <div class="fakeimg" style="height:60px;">Image</div><br>
-    <div class="fakeimg" style="height:60px;">Image</div>
+    <h3>Description</h3>
+      {{ course.description }}
+      <br>
+      <h3>Quiz Form</h3>
+      {{ quizform.as_p }}
+      <br>
+      <h3>Homework Form</h3>
+      <ul>
+          {% for assignment in course.homeworks.all %}
+              <li><a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a> </li>
+          {% endfor %}
+
+      </ul>
+      <form >
+          {{ hwForm.as_p }}
+      </form>
+
   </div>
   <div class="side w3-center w3-animate-right">
     <h2>TASK VIEW</h2>
     <h5>Title description, Dec 7, 2017</h5>
-    <div class="fakeimg" style="height:200px;">Image</div>
-    <p>Some text..</p>
 
   </div>
 </div>
