@@ -11,14 +11,14 @@ class CourseAdmin(UserAdmin):
 	add_form = CourseAdminChangeForm
 
 	list_display = ('course_name', )
-	list_filter = ('prof',)
+	list_filter = ('course_name',)
 
 	fieldsets = (
-		(None, {'fields': ('course_name', )}),
+		(None, {'fields': ('course_name', 'description')}),
 	)
 
 	add_fieldsets = (
-		(None, {'fields': ('course_name', )}),
+		(None, {'fields': ('course_name', 'description')}),
 	)
 
 	search_fields = ('course_name',)
@@ -26,5 +26,5 @@ class CourseAdmin(UserAdmin):
 	filter_horizontal = ()
 
 
-admin.site.register(Course)
+admin.site.register(Course, CourseAdmin)
 

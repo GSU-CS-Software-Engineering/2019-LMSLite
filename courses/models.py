@@ -26,6 +26,7 @@ class Quiz(Assignment):
 
 	grade_viewable = models.BooleanField()
 	type = 0
+	file = models.FileField(upload_to='quizes', blank=True)
 
 	def __str__(self):
 		return self.assignment_name
@@ -34,6 +35,7 @@ class Quiz(Assignment):
 class Survey(Assignment):
 	type = 1
 	grade = None
+	file = models.FileField(upload_to='surveys', blank=True)
 
 	def __str__(self):
 		return self.assignment_name
@@ -41,7 +43,7 @@ class Survey(Assignment):
 
 class Homework(Assignment):
 	type = 2
-	link = models.CharField(max_length=255, blank=True)
+	file = models.FileField(upload_to='homework', blank=True)
 
 	def __str__(self):
 		return self.assignment_name
@@ -51,6 +53,7 @@ class Homework(Assignment):
 class Course(models.Model):
 
 	course_name 	= models.CharField(max_length=255, unique=True)
+	description		= models.TextField(blank=True)
 	quizes			= models.ManyToManyField(Quiz)
 	surveys 		= models.ManyToManyField(Survey)
 	homeworks		= models.ManyToManyField(Homework)
