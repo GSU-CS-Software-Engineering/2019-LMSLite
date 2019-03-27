@@ -1,5 +1,5 @@
 #logo:hover {
-  cursor: default;
+  cursor: pointer;
 }
 #logo .wrapper {
   display: inline-block;

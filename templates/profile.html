@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+    <form id = "proInfo">
+        <h3 id = "proFName">First Name: {{ user.first_name }}</h3>
+        <h3 id = "proLName">Last Name: {{ user.last_name }}</h3>
+        <h3 id = "proEmail">Email: {{ user.email }}</h3>
+    </form>
+
     <form method="POST">
     {{ form.as_p }}
         <div>
