@@ -16,3 +16,4 @@
 - Added dropdown menu to Assignments tab in navigation on course page along with other small CSS changes (@as12660)
 - Added date and weather to home page (@as12660)
 - Added profile info and changed slight CSS (@as12660)
+- Created javascript for ip restriction and redundancy if someone disables javascript (@as12660)

@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
+    <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
+        </noscript>
+
     <form id = "proInfo">
         <h3 id = "proFName">First Name: {{ user.first_name }}</h3>
         <h3 id = "proLName">Last Name: {{ user.last_name }}</h3>
@@ -7,6 +12,8 @@
     </form>
 
     <form method="POST">
+
+    <h3 id = "cngPassHead">Change Password</h3>
     {{ form.as_p }}
         <div>
             <input id= "submit" type="submit" name="submit" value="Submit">
