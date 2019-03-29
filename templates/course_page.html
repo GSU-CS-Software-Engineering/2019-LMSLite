@@ -44,11 +44,11 @@
       <form id = "quizForm" style="display: none;">
       <h3>Quiz Form</h3>
            <ul>
-          {% for quiz in course.quizes.all %}
-              <li><a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a> </li>
-          {% endfor %}
+                {% for quiz in course.quizes.all %}
+                    <li><a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a> </li>
+                {% endfor %}
 
-      </ul>
+           </ul>
             {{ quizform.as_p }}
       </form>
 

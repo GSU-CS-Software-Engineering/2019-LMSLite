@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-
     'accounts',
     'courses',
 ]
@@ -128,8 +127,11 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
-    #'/var/www/static',
 ]
+
+BOOTSTRAP4 = {
+    'include_jquery': True,
+}
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'static_cdn')
 

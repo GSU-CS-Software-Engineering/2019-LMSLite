@@ -1,0 +1,13 @@
+MC	What is the sixth planet from the Sun?	Mars	Incorrect	Saturn	Correct	Jupiter	Incorrect	Mercury	Incorrect
+SR	What is the opposite of subtraction?	addition
+MC	Which of the following is not a warm color?	Red	Incorrect	Orange	Incorrect	Blue	Correct	Yellow	Incorrect
+
+MA	Which of the following are multiples of 3?	12	Correct	27	Correct	15	Correct	31	Incorrect
+FIB	________ is the first African-American president of the United States.	Barack	Obama	Barack Obama
+MA	Which of the following are programming languages?	Java	Correct		C++	Correct		C#	Correct		C%	Incorrect
+TF	The capital of Georgia is Atlanta.	True
+TF	There are a total of 10 continents in the world.	False
+
+FIB	________ is the opposite of day.	Night	night
+SR	What is the first priority in the order of operations, PEMDAS?	parentheses
+ESS	Write a response of no more than 200 words, explaining your favorite historical event.	Ex: The Civil War

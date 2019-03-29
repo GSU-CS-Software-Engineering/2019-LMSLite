@@ -1,4 +1,5 @@
 - version: unreleased
+- Finished quiz edit form using read logic(@Chino96)
 - Changed course/quiz/homework forms also updated corresponding models(@Chino96)
 - added a basic profile page, added User authenticated link displays to base.html(@Chino96)
 - started courses app added courses to admin page(@Chino96)

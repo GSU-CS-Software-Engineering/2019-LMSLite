@@ -4,8 +4,8 @@ from django.db import models
 class Assignment(models.Model):
 
 	assignment_name = models.CharField(max_length=255, blank=True)
-	open_date		= models.DateTimeField(auto_now_add=True, blank=True)
-	due_date		= models.DateTimeField(auto_now_add=True, blank=True)
+	open_date		= models.DateTimeField(blank=True)
+	due_date		= models.DateTimeField(blank=True)
 	prof			= models.ForeignKey('accounts.Professor', on_delete=models.CASCADE)
 	course_id		= models.ForeignKey('courses.Course', on_delete=models.CASCADE)
 	grade			= models.BigIntegerField(blank=True, default=None)
@@ -44,6 +44,7 @@ class Survey(Assignment):
 class Homework(Assignment):
 	type = 2
 	file = models.FileField(upload_to='homework', blank=True)
+
 
 	def __str__(self):
 		return self.assignment_name
