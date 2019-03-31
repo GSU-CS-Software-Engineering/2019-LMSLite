@@ -12,6 +12,27 @@
 
 <div class="row">
     {% if user.is_authenticated %}
+        <noscript>
+        <div id="overlay">
+            <div id="overlaytext">Please Enable JavaScript to Continue.</div>
+        </div>
+
+        <style>
+            #overlay {
+                position: fixed;
+                display: block;
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0,0,0,0.5);
+                z-index: 2;
+            }
+        </style>
+    </noscript>
+
     <div class = "classList main w3-animate-opacity">
         {% for course in  user.courses.all %}
             <a href="{% url 'course_page' id=course.id%}"><span>{{ course.course_name }}</span></a>

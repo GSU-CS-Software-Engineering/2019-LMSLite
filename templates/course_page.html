@@ -1,6 +1,15 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block navbar %}
+    {% block extra_js %}
+        <!--<script type = "text/javascript" src="{% static '/js/iprestrict.js' %}"></script>-->
+
+        <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
+        </noscript>
+    {% endblock %}
 <nav>
       <div class="topnav" id="myTopnav">
           <a href="{% url 'index' %}"><i class="fa fa-home"></i> Home</a>
