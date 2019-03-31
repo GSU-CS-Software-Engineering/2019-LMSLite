@@ -1,7 +1,6 @@
 import csv
 
 from django import forms
-from django.core.files.storage import DefaultStorage
 
 from .models import Course, Quiz, Homework
 from accounts.models import Professor
@@ -30,7 +29,7 @@ class CourseAdminChangeForm(forms.ModelForm):
 
 
 class Question:
-	_type = ''
+	type = 0
 	label = ''
 	answers = []
 	cAnswers = []
@@ -39,7 +38,7 @@ class Question:
 		self.label = pLabel
 		self.answers = pAnswers
 		self.cAnswers = cAns
-		self._type = pType
+		self.type = pType
 
 
 def create_quiz(input):
@@ -57,58 +56,94 @@ def create_quiz(input):
 		while i < len(qtype):
 
 			if qtype[i][0] == "MC":
-				print(qtype[i][qtype[i].index("Correct") - 1])#
 				questions.append(
 					Question(
-							_type='MC',
+							pType=1,
 							pLabel=qtype[i][1],
-							pAnswers=qtype[i][2:],
+							pAnswers=qtype[i][::2],
 							cAns=qtype[i][qtype[i].index("Correct") - 1]))
+				questions[i].answers = 	questions[i].answers[1:]
+
 
 			if qtype[i][0] == "SR":  # Short Answer
-				print(qtype[i][2])  # The answer for SR will always be in third index
-				questions.append(Question(_type='SR', pLabel=qtype[i][1], pAnswers=qtype[i][2], cAns=qtype[i][2]))
+				questions.append(Question(pType=2, pLabel=qtype[i][1], pAnswers=qtype[i][2:], cAns=qtype[i][2]))
 
 			if qtype[i][0] == "MA":  # Multiple Select
 				cAns = []
 				for k in range(len(qtype[i])):
 					if qtype[i][k] == "Correct":
-						print(qtype[i][k - 1])  # Print all correct answers
 						cAns.append(qtype[i][k - 1])
-				questions.append(Question(_type='MA', pLabel=qtype[i][1], pAnswers=[i][2:], cAns=cAns))
+				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=[i][2:], cAns=cAns))
 
 			if qtype[i][0] == "FIB":
 				cAns = []
 				j = 2
 				while j < len(qtype[i]):
-					print(qtype[i][j]) # Print all answer options
 					cAns.append((qtype[i][j]))
 					j += 1
-				questions.append(Question(_type='FIB', pLabel=qtype[i][1], pAnswers=cAns, cAns=cAns))
+				questions.append(Question(pType=4, pLabel=qtype[i][1], pAnswers=cAns, cAns=cAns))
 
 			if qtype[i][0] == "TF":  # True or False
-				print(qtype[i][2])
-				questions.append(Question(_type='TF', pLabel=qtype[i][1], pAnswers=qtype[i][2],cAns=qtype[i][2]))
+				questions.append(Question(pType=5, pLabel=qtype[i][1], pAnswers=qtype[i][2:],cAns=qtype[i][2]))
 			if qtype[i][0] == "ESS":  # Esaay Question
-				print(qtype[i][2])  # Place holder Text
-				questions.append(Question(_type='ESS', pLabel=qtype[i][1], pAnswers=qtype[i][2],cAns=qtype[i][2]))
-				i += 1
+				questions.append(Question(pType=6, pLabel=qtype[i][1], pAnswers=qtype[i][2:],cAns=qtype[i][2]))
+			i += 1
 
 	return questions
 
 
-class QuizCreationForm(forms.ModelForm):
+class QuizFileForm(forms.ModelForm):
 
 	File = forms.FileField(label='Upload')
 
 	class Meta:
 		model = Quiz
-		fields = ('assignment_name', )
+		fields = ('assignment_name', 'open_date', 'due_date')
+
+
+class QuizEditForm(forms.ModelForm):
+
+	class Meta:
+		model = Quiz
+		fields = ()
+
+	def __init__(self, *args, **kwargs):
+		super(QuizEditForm, self).__init__(*args, **kwargs)
+		questions = create_quiz('static/Sample_Quiz.txt')
+
+		for x, question in enumerate(questions, start=1):
+
+			self.fields['Question' + str(x) + 'type'] = forms.ChoiceField(
+				choices={(1, 'MC'), (2, 'SR'), (3, 'MA'), (4, 'FIB'), (5, 'TF'), (6, 'ESS')},
+				initial=question.type,
+				label='')
+
+			self.fields['Question' + str(x)] = forms.CharField(
+				max_length=1000,
+				initial=question.label,
+				widget=forms.Textarea(attrs={'rows': 1,
+											 'cols': 40,
+											 'style': 'height: 5rem;'}))
+
+			for y, answer in enumerate(question.answers, start=1):
+
+				self.fields['Question'+str(x)+ 'Answer' + str(y)] = forms.CharField(
+				label='Answer '+str(y),
+				max_length=1000,
+				initial=answer,
+				widget=forms.Textarea(attrs={'rows': 1,
+											 'cols': 40,
+											 'style': 'height: 2rem;'}))
+
+
 
 
 class HomeworkCreationForm(forms.ModelForm):
 
 	class Meta:
 		model = Homework
-		fields = ('assignment_name', 'file',)
+		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
+		widgets = {
+			'open_date': forms.DateInput(),
+		}
 
