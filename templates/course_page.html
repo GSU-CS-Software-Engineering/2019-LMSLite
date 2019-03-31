@@ -10,7 +10,11 @@
                   <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                  <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  {% if user.role == 2 %}
+                      <a href="{% url 'quiz_page' id=1000 cid=50%}" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  {% else %}
+                      <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  {% endif %}
                   <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
                   <a href="#" id = "survBtn">Surveys</a>
               </div>
