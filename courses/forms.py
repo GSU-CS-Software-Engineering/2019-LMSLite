@@ -71,7 +71,6 @@ def create_quiz(input):
 			if qtype[i][0] == "MA":  # Multiple Select
 				cAns = []
 				for k in range(len(qtype[i])):
-					print(k)
 					if qtype[i][k] == "Correct":
 						cAns.append(qtype[i][k - 1])
 				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=qtype[i][::2], cAns=cAns))
