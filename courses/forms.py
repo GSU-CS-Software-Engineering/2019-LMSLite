@@ -73,7 +73,9 @@ def create_quiz(input):
 				for k in range(len(qtype[i])):
 					if qtype[i][k] == "Correct":
 						cAns.append(qtype[i][k - 1])
-				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=[i][2:], cAns=cAns))
+				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=qtype[i][::2], cAns=cAns))
+				questions[i].answers = 	questions[i].answers[1:]
+
 
 			if qtype[i][0] == "FIB":
 				cAns = []
@@ -81,7 +83,7 @@ def create_quiz(input):
 				while j < len(qtype[i]):
 					cAns.append((qtype[i][j]))
 					j += 1
-				questions.append(Question(pType=4, pLabel=qtype[i][1], pAnswers=cAns, cAns=cAns))
+				questions.append(Question(pType=4, pLabel=qtype[i][1], pAnswers=cAns[0:1], cAns=cAns))
 
 			if qtype[i][0] == "TF":  # True or False
 				questions.append(Question(pType=5, pLabel=qtype[i][1], pAnswers=qtype[i][2:],cAns=qtype[i][2]))
