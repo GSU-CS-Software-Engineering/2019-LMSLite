@@ -54,14 +54,11 @@
             {{ course.description }}
       </div>
 
-      <form id = "quizForm" style="display: none;">
+      <form id = "quizForm" style="display: none; background-color: lightgray;">
       <h3>Quiz Form</h3>
-           <ul>
                 {% for quiz in course.quizes.all %}
-                    <li><a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a> </li>
+                    <a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a>
                 {% endfor %}
-
-           </ul>
             {{ quizform.as_p }}
       </form>
 
