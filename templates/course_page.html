@@ -54,7 +54,7 @@
             {{ course.description }}
       </div>
 
-      <form id = "quizForm" style="display: none; background-color: lightgray;">
+      <form id = "quizForm" style="display: none;">
       <h3>Quiz Form</h3>
                 {% for quiz in course.quizes.all %}
                     <a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a>

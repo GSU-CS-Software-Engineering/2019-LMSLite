@@ -348,3 +348,40 @@ textarea {
 #quizForm p label {
     display: block;
 }
+
+#studQuizForm div {
+    width: 60vw;
+    margin: auto;
+    padding: 25px;
+}
+
+#studQuizForm div textarea{
+    width: fit-content;
+    resize: both;
+    max-width: 60vw;
+    min-width: 200px;
+    max-height: 200px;
+    min-height: 30px;
+    width: 60vw;
+}
+
+#studQuizForm div label {
+    font-size: x-large;
+    margin: -20vw;
+}
+
+hr {
+    border-top: 1px solid rgb(162,162,162);
+}
+
+#quizForm p label[for*="id_Question "] {
+    font-size: x-large;
+}
+
+#hmwkForm p label[for*="id_open_date"]{
+    display: block;
+}
+
+#hmwkForm p label[for*="id_due_date"]{
+    display: block;
+}

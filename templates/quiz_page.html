@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <form>
+    <form id = "studQuizForm">
     {% for Question in questions %}
         <div id = "Question '{{ forloop.counter }}'">
+        <label>Question {{ forloop.counter }}</label>
         <h3>{{ Question.label }}</h3>
         {% for answer in Question.answers %}
             {% if Question.type == 1 %}
@@ -36,6 +37,7 @@
 
         {% endfor %}
         </div>
+        <hr>
     {% endfor %}
     </form>
 {% endblock content %}
