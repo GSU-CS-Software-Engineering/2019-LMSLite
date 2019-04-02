@@ -57,19 +57,16 @@
       <form id = "quizForm" style="display: none;">
       <h3>Quiz Form</h3>
                 {% for quiz in course.quizes.all %}
-                    <a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a>
+                    <a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
             {{ quizform.as_p }}
       </form>
 
     <form id ="hmwkForm" style="display: none;">
       <h3>Homework Form</h3>
-      <ul>
           {% for assignment in course.homeworks.all %}
-              <li><a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a> </li>
+              <a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a>
           {% endfor %}
-
-      </ul>
           {{ hwForm.as_p }}
       </form>
 

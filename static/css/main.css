@@ -152,6 +152,19 @@ form #submit {
     font-size: 16px;
 }
 
+#id_open_date, #id_due_date, #id_assignment_name {
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+    text-align: center;
+    border: 1px solid black;
+    height: 30px;
+    position: relative;
+    outline: none;
+    background-color: white;
+    font-size: 16px;
+}
+
 .classList a {
     border-radius: 4px;
     background-color: #800080;
@@ -341,11 +354,7 @@ textarea {
     width: 90vw;
 }
 
-#quizForm p {
-    width: fit-content;
-}
-
-#quizForm p label {
+#quizForm p label, #hmwkForm p label{
     display: block;
 }
 
@@ -374,14 +383,6 @@ hr {
     border-top: 1px solid rgb(162,162,162);
 }
 
-#quizForm p label[for*="id_Question "] {
-    font-size: x-large;
-}
-
-#hmwkForm p label[for*="id_open_date"]{
-    display: block;
-}
-
-#hmwkForm p label[for*="id_due_date"]{
-    display: block;
+#id_File, #id_file {
+    background-color: antiquewhite;
 }
