@@ -18,7 +18,7 @@ form {
 
 form p {
   margin: 0 auto;
-  width: 50%;
+  width: 70%;
   padding: 20px;
   left-margin: 50%;
   text-align: center;
@@ -351,7 +351,7 @@ textarea {
     min-width: 200px;
     max-height: 200px;
     min-height: 30px;
-    width: 90vw;
+    width: 100%;
 }
 
 #quizForm p label, #hmwkForm p label{
