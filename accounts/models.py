@@ -54,6 +54,7 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     courses = models.ManyToManyField('courses.Course')
+    profile_photo = models.ImageField(upload_to='user-profile-photos', blank=True)
 
     USER_TYPE_CHOICES = (
         (2, 'student'),
@@ -98,14 +99,12 @@ class User(AbstractBaseUser):
 
 
 class Student(User):
-    role = 2
 
     def __str__(self):
         return self.email
 
 
 class Professor(User):
-    role = 1
 
     def __str__(self):
         return self.email

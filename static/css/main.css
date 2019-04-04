@@ -18,7 +18,7 @@ form {
 
 form p {
   margin: 0 auto;
-  width: 70%;
+  width: 50%;
   padding: 20px;
   left-margin: 50%;
   text-align: center;
@@ -145,19 +145,6 @@ form #submit {
     text-align: center;
     border: 1px solid black;
     padding: 15px 20px;
-    height: 30px;
-    position: relative;
-    outline: none;
-    background-color: white;
-    font-size: 16px;
-}
-
-#id_open_date, #id_due_date, #id_assignment_name {
-    display: block;
-    margin: 0 auto;
-    width: 90%;
-    text-align: center;
-    border: 1px solid black;
     height: 30px;
     position: relative;
     outline: none;
@@ -315,74 +302,4 @@ ul.errorlist.nonfield {
 
 #proEmail, #proFName, #proLName, #proInfo {
     width: fit-content;
-}
-
-#cngPassHead {
-    text-align: center;
-}
-
-#overlay {
-  position: fixed;
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  z-index: 2;
-}
-
-#overlaytext{
-  position: absolute;
-  top: 60%;
-  left: 50%;
-  font-size: 50px;
-  color: white;
-  transform: translate(-50%,-50%);
-  -ms-transform: translate(-50%,-50%);
-    text-align: center;
-}
-
-textarea {
-    resize: both;
-    max-width: 90vw;
-    min-width: 200px;
-    max-height: 200px;
-    min-height: 30px;
-    width: 100%;
-}
-
-#quizForm p label, #hmwkForm p label{
-    display: block;
-}
-
-#studQuizForm div {
-    width: 60vw;
-    margin: auto;
-    padding: 25px;
-}
-
-#studQuizForm div textarea{
-    width: fit-content;
-    resize: both;
-    max-width: 60vw;
-    min-width: 200px;
-    max-height: 200px;
-    min-height: 30px;
-    width: 60vw;
-}
-
-#studQuizForm div label {
-    font-size: x-large;
-    margin: -20vw;
-}
-
-hr {
-    border-top: 1px solid rgb(162,162,162);
-}
-
-#id_File, #id_file {
-    background-color: antiquewhite;
 }

@@ -1,8 +1,6 @@
 {% load static %}
 <!doctype html>
-
 <html lang="en-US">
-
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,8 +17,8 @@
 <body>
   <header id="titlebar">
 
-  {% if user.is_authenticated %}
-    <p id="hellomessage">Hello {{ user.first_name }} {{ user.last_name }}</p>
+  {% if user.is_authenticated and user.profile_photo.url %}
+    <p id="hellomessage"><img src="{{ user.profile_photo.url }}">{{ user.first_name }} {{ user.last_name }}</p>
   {% endif %}
 
   	<a href={% url 'index' %}>

@@ -4,7 +4,7 @@ MC	Which of the following is not a warm color?	Red	Incorrect	Orange	Incorrect	Bl
 
 MA	Which of the following are multiples of 3?	12	Correct	27	Correct	15	Correct	31	Incorrect
 FIB	________ is the first African-American president of the United States.	Barack	Obama	Barack Obama
-MA	Which of the following are programming languages?	Java	Correct	C++	Correct	C#	Correct	C%	Incorrect
+MA	Which of the following are programming languages?	Java	Correct		C++	Correct		C#	Correct		C%	Incorrect
 TF	The capital of Georgia is Atlanta.	True
 TF	There are a total of 10 continents in the world.	False
 
