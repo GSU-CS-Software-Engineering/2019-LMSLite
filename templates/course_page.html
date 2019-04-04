@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% block navbar %}
+
 <nav>
       <div class="topnav" id="myTopnav">
           <a href="{% url 'index' %}"><i class="fa fa-home"></i> Home</a>
@@ -35,7 +36,7 @@
 {% endblock navbar %}
 
 {% block content %}
-
+<script type="text/javascript" src="main.js"></script>
     <div class="row">
   <div class="main w3-animate-opacity">
     <h2 id = "courseName" onclick="showHideCourse()">{{ course.course_name }}</h2>
@@ -54,6 +55,8 @@
 
            </ul>
             {{ quizform.as_p }}
+
+<p><input type="button" value="Add Question" onclick="addQ()"></p>
       </form>
 
     <form id ="hmwkForm" style="display: none;">
