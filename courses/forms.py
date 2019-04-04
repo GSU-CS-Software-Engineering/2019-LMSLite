@@ -101,6 +101,10 @@ class QuizFileForm(forms.ModelForm):
 	class Meta:
 		model = Quiz
 		fields = ('assignment_name', 'open_date', 'due_date')
+		widgets = {
+			'open_date': forms.TextInput(attrs={'type': 'datetime-local'}),
+			'due_date': forms.TextInput(attrs={'type': 'datetime-local'})
+		}
 
 
 class QuizEditForm(forms.ModelForm):
@@ -120,11 +124,10 @@ class QuizEditForm(forms.ModelForm):
 				initial=question.type,
 				label='')
 
-			self.fields['Question' + str(x)] = forms.CharField(
+			self.fields['Question ' + str(x)] = forms.CharField(
 				max_length=1000,
 				initial=question.label,
 				widget=forms.Textarea(attrs={'rows': 1,
-											 'cols': 40,
 											 'style': 'height: 5rem;'}))
 
 			for y, answer in enumerate(question.answers, start=1):
@@ -134,8 +137,7 @@ class QuizEditForm(forms.ModelForm):
 				max_length=1000,
 				initial=answer,
 				widget=forms.Textarea(attrs={'rows': 1,
-											 'cols': 40,
-											 'style': 'height: 2rem;'}))
+											 'style': 'height: 3rem;'}))
 
 
 
@@ -146,6 +148,7 @@ class HomeworkCreationForm(forms.ModelForm):
 		model = Homework
 		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
 		widgets = {
-			'open_date': forms.DateInput(),
+			'open_date': forms.TextInput(attrs={'type': 'datetime-local'}),
+			'due_date': forms.TextInput(attrs={'type': 'datetime-local'})
 		}
 

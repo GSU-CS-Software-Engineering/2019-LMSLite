@@ -1,18 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <form id = "studQuizForm">
     {% for Question in questions %}
+        <div id = "Question '{{ forloop.counter }}'">
+        <label>Question {{ forloop.counter }}</label>
         <h3>{{ Question.label }}</h3>
         {% for answer in Question.answers %}
             {% if Question.type == 1 %}
             <input type="radio" name='{{ Question.label }}'> {{ answer }}
             <br>
 
-
             {% elif Question.type == 2 %}
             <input type="text" name="Answer:">
             <br>
-
 
             {% elif Question.type == 3 %}
             <input type="checkbox"  name='{{ Question.label }}'> {{ answer }}
@@ -35,5 +36,8 @@
             {% endif %}
 
         {% endfor %}
+        </div>
+        <hr>
     {% endfor %}
+    </form>
 {% endblock content %}
