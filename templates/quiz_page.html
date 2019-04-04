@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <form id = "studQuizForm">
+    {% for Question in questions %}
+        <div id = "Question '{{ forloop.counter }}'">
+        <label>Question {{ forloop.counter }}</label>
+        <h3>{{ Question.label }}</h3>
+        {% for answer in Question.answers %}
+            {% if Question.type == 1 %}
+            <input type="radio" name='{{ Question.label }}'> {{ answer }}
+            <br>
+
+            {% elif Question.type == 2 %}
+            <input type="text" name="Answer:">
+            <br>
+
+            {% elif Question.type == 3 %}
+            <input type="checkbox"  name='{{ Question.label }}'> {{ answer }}
+            <br>
+
+             {% elif Question.type == 4 %}
+            <input type="text" name="Answer:">
+            <br>
+
+            {% elif Question.type == 5 %}
+            <input type="radio" name='{{ Question.label }}'> {{ 'True' }}
+                <br>
+            <input type="radio" name='{{ Question.label }}'> {{ 'False' }}
+
+            <br>
+
+            {% elif Question.type == 6 %}
+                <textarea name ='{{ Question.label }}' cols="50" rows="1" style="height: 5rem" maxlength="1000" id = '{{ Question.label }}'></textarea>
+            <br>
+            {% endif %}
+
+        {% endfor %}
+        </div>
+        <hr>
+    {% endfor %}
+    </form>
+{% endblock content %}
