@@ -18,7 +18,7 @@ form {
 
 form p {
   margin: 0 auto;
-  width: 50%;
+  width: 70%;
   padding: 20px;
   left-margin: 50%;
   text-align: center;
@@ -145,6 +145,19 @@ form #submit {
     text-align: center;
     border: 1px solid black;
     padding: 15px 20px;
+    height: 30px;
+    position: relative;
+    outline: none;
+    background-color: white;
+    font-size: 16px;
+}
+
+#id_open_date, #id_due_date, #id_assignment_name {
+    display: block;
+    margin: 0 auto;
+    width: 90%;
+    text-align: center;
+    border: 1px solid black;
     height: 30px;
     position: relative;
     outline: none;
@@ -330,4 +343,46 @@ ul.errorlist.nonfield {
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
     text-align: center;
+}
+
+textarea {
+    resize: both;
+    max-width: 90vw;
+    min-width: 200px;
+    max-height: 200px;
+    min-height: 30px;
+    width: 100%;
+}
+
+#quizForm p label, #hmwkForm p label{
+    display: block;
+}
+
+#studQuizForm div {
+    width: 60vw;
+    margin: auto;
+    padding: 25px;
+}
+
+#studQuizForm div textarea{
+    width: fit-content;
+    resize: both;
+    max-width: 60vw;
+    min-width: 200px;
+    max-height: 200px;
+    min-height: 30px;
+    width: 60vw;
+}
+
+#studQuizForm div label {
+    font-size: x-large;
+    margin: -20vw;
+}
+
+hr {
+    border-top: 1px solid rgb(162,162,162);
+}
+
+#id_File, #id_file {
+    background-color: antiquewhite;
 }

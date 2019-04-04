@@ -73,7 +73,9 @@ def create_quiz(input):
 				for k in range(len(qtype[i])):
 					if qtype[i][k] == "Correct":
 						cAns.append(qtype[i][k - 1])
-				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=[i][2:], cAns=cAns))
+				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=qtype[i][::2], cAns=cAns))
+				questions[i].answers = 	questions[i].answers[1:]
+
 
 			if qtype[i][0] == "FIB":
 				cAns = []
@@ -81,7 +83,7 @@ def create_quiz(input):
 				while j < len(qtype[i]):
 					cAns.append((qtype[i][j]))
 					j += 1
-				questions.append(Question(pType=4, pLabel=qtype[i][1], pAnswers=cAns, cAns=cAns))
+				questions.append(Question(pType=4, pLabel=qtype[i][1], pAnswers=cAns[0:1], cAns=cAns))
 
 			if qtype[i][0] == "TF":  # True or False
 				questions.append(Question(pType=5, pLabel=qtype[i][1], pAnswers=qtype[i][2:],cAns=qtype[i][2]))
@@ -99,6 +101,10 @@ class QuizFileForm(forms.ModelForm):
 	class Meta:
 		model = Quiz
 		fields = ('assignment_name', 'open_date', 'due_date')
+		widgets = {
+			'open_date': forms.TextInput(attrs={'type': 'datetime-local'}),
+			'due_date': forms.TextInput(attrs={'type': 'datetime-local'})
+		}
 
 
 class QuizEditForm(forms.ModelForm):
@@ -118,11 +124,10 @@ class QuizEditForm(forms.ModelForm):
 				initial=question.type,
 				label='')
 
-			self.fields['Question' + str(x)] = forms.CharField(
+			self.fields['Question ' + str(x)] = forms.CharField(
 				max_length=1000,
 				initial=question.label,
 				widget=forms.Textarea(attrs={'rows': 1,
-											 'cols': 40,
 											 'style': 'height: 5rem;'}))
 
 			for y, answer in enumerate(question.answers, start=1):
@@ -132,8 +137,7 @@ class QuizEditForm(forms.ModelForm):
 				max_length=1000,
 				initial=answer,
 				widget=forms.Textarea(attrs={'rows': 1,
-											 'cols': 40,
-											 'style': 'height: 2rem;'}))
+											 'style': 'height: 3rem;'}))
 
 
 
@@ -144,6 +148,7 @@ class HomeworkCreationForm(forms.ModelForm):
 		model = Homework
 		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
 		widgets = {
-			'open_date': forms.DateInput(),
+			'open_date': forms.TextInput(attrs={'type': 'datetime-local'}),
+			'due_date': forms.TextInput(attrs={'type': 'datetime-local'})
 		}
 
