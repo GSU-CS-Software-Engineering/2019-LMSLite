@@ -60,6 +60,17 @@
                     <a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
             {{ quizform.as_p }}
+
+      <p id="quizEditExtention"><button onclick="newQuestion()">+</button>
+        <select name="Questiontype" id="Questiontype">
+            <option value="1" selected="">MC</option>
+            <option value="6">ESS</option>
+            <option value="3">MA</option>
+            <option value="4">FIB</option>
+            <option value="5">TF</option>
+            <option value="2">SR</option></select></p>
+
+      <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
       </form>
 
     <form id ="hmwkForm" style="display: none;">
