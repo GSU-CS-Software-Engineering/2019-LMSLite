@@ -29,7 +29,8 @@ urlpatterns = [
     url(r'^$', views.index, name='index'),
     path('auth/', include('django.contrib.auth.urls')),
     path('profile/', accountView.profile_view, name='profile'),
-    path('courses/<int:id>/', courseView.course_view, name='course_page')
+    path('courses/<int:id>/', courseView.course_view, name='course_page'),
+    path('courses/<int:cid>/<int:id>/', courseView.quiz_view, name='quiz_page'),
 ]
 
 if settings.DEBUG:
