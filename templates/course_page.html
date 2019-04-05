@@ -4,6 +4,7 @@
 {% block navbar %}
     {% block extra_js %}
         <!--<script type = "text/javascript" src="{% static '/js/iprestrict.js' %}"></script>-->
+        <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
 
         <noscript>
             <style>html{display:none;}</style>
@@ -44,7 +45,6 @@
 {% endblock navbar %}
 
 {% block content %}
-
     <div class="row">
   <div class="main w3-animate-opacity">
     <h2 id = "courseName" onclick="showHideCourse()">{{ course.course_name }}</h2>
@@ -54,16 +54,15 @@
             {{ course.description }}
       </div>
 
-      <form id = "quizForm" style="display: none;">
+      <form onload="quizEditPageLoad()" id = "quizForm" style="display: none;">
       <h3>Quiz Form</h3>
                 {% for quiz in course.quizes.all %}
                     <a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
             {{ quizform.as_p }}
 
-      <p id="quizEditExtention"><button href="javascript:void();" onclick="newQuestion()">+</button></p>
+      <p id="quizEditExtension"><button href="javascript:void();" onclick="newQuestion()">+</button></p>
 
-      <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
       </form>
 
     <form id ="hmwkForm" style="display: none;">

@@ -386,3 +386,9 @@ hr {
 #id_File, #id_file {
     background-color: antiquewhite;
 }
+
+button[id*=deleteBtn] {
+    background-color: rgba(88, 0, 88, 0.94);
+    color: #eaeaea;
+    padding: 2px;
+}

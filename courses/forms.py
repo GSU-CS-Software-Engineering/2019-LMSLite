@@ -88,7 +88,7 @@ def create_quiz(input):
 			if qtype[i][0] == "TF":  # True or False
 				questions.append(Question(pType=5, pLabel=qtype[i][1], pAnswers=qtype[i][2:],cAns=qtype[i][2]))
 			if qtype[i][0] == "ESS":  # Esaay Question
-				questions.append(Question(pType=6, pLabel=qtype[i][1], pAnswers=qtype[i][2:],cAns=qtype[i][2]))
+				questions.append(Question(pType=6, pLabel=qtype[i][1], pAnswers="",cAns=qtype[i][2]))
 			i += 1
 
 	return questions
