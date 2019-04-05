@@ -16,7 +16,7 @@ function quizEditPageLoad() {
 }
 
 function newQuestion() {
-  event.preventDefault();
+    event.preventDefault();
 
   var i = document.querySelectorAll("label[for*=id_Question]:not([for*=Answer])").length;
 
@@ -95,6 +95,37 @@ function newQuestion() {
   p.appendChild(qtArea);
 
   window.scrollBy(0, 200);
+
+    quizForm.appendChild(p);
+    p.appendChild(qlabel);
+    p.appendChild(qtArea);
+
+
+}
+
+function newAnswer() {
+    event.preventDefault();
+
+    var x = document.querySelectorAll("label[for*=id_QuestionAnswer]").length + 1;
+
+    var quizForm = document.getElementById("quizForm");
+
+    var p2 = document.createElement("p2");
+    p2.setAttribute("id", "paExtend" + x);
+
+    var alabel = document.createElement("label");
+    alabel.setAttribute("for", "id_QuestionAnswer" + x);
+
+    var t2 = document.createTextNode("Answer" + x + " ");
+    alabel.appendChild(t2);
+
+    var atArea = document.createElement("TextArea");
+    atArea.setAttribute("for", "id_QuestionAnswer" + x);
+
+    quizForm.appendChild(p2);
+    p2.appendChild(alabel);
+    p2.appendChild(atArea);
+
 }
 
 function deleteElements(clicked_id) {
