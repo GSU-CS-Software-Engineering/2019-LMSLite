@@ -20,9 +20,10 @@ function newQuestion() {
 
   var i = document.querySelectorAll("label[for*=id_Question]:not([for*=Answer])").length;
 
-  var deleteBtnContent = document.getElementById("deleteBtn " + i).innerHTML;
-  var splitBtnName = deleteBtnContent.split(" ");
-  var num2 = splitBtnName[2];
+  var deleteBtnContent = document.querySelectorAll("button[id*='deleteBtn ']");
+  var last = deleteBtnContent[deleteBtnContent.length-1].id;
+  var splitBtnName = last.split(" ");
+  var num2 = splitBtnName[1];
   var updateDeleteLabel = Number(num2)+1;
 
   var quizForm = document.getElementById("quizForm");
@@ -33,7 +34,7 @@ function newQuestion() {
   var deleteBtn = document.createElement("button");
     deleteBtn.setAttribute("id", "deleteBtn " + updateDeleteLabel);
     deleteBtn.setAttribute("onclick","deleteElements(this.id)")
-    var tx = document.createTextNode("Delete Question " + updateDeleteLabel);
+    var tx = document.createTextNode("Delete Question " + (i+1));
     deleteBtn.appendChild(tx);
 
   var selection = document.createElement("select");
@@ -74,7 +75,7 @@ function newQuestion() {
   var qlabel = document.createElement("label");
   qlabel.setAttribute("for", "id_Question "+updateDeleteLabel);
 
-  var t = document.createTextNode("Question "+updateDeleteLabel+ ":");
+  var t = document.createTextNode("Question "+(i+1)+ ":");
   qlabel.appendChild(t);
 
   var sQ = document.getElementById("id_Question"+updateDeleteLabel+"type").selectedIndex;
