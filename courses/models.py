@@ -32,7 +32,6 @@ class Quiz(Assignment):
 
 
 class Survey(Assignment):
-	type = 1
 	grade = None
 	file = models.FileField(upload_to='surveys', blank=True)
 

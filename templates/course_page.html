@@ -10,7 +10,11 @@
                   <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
+                  {% if user.role == 1 %}
                   <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  {% else %}
+                  <a href="{%  url 'quiz_page' cid=course.id id=1 %}" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  {% endif %}
                   <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
                   <a href="#" id = "survBtn">Surveys</a>
               </div>
@@ -44,8 +48,8 @@
       <form id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Quiz Form</h3>
            <ul>
-                {% for quiz in course.quizes.all %}
-                    <li><a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a> </li>
+                {% for quiz in quizes %}
+                    <li><a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a> </li>
                 {% endfor %}
 
            </ul>

@@ -2,7 +2,7 @@ import csv
 
 from django import forms
 from django.core.files.storage import FileSystemStorage
-
+from google.cloud import storage
 from .models import Course, Quiz, Homework
 from accounts.models import Professor
 
@@ -73,7 +73,7 @@ def create_quiz(input):
 				for k in range(len(qtype[i])):
 					if qtype[i][k] == "Correct":
 						cAns.append(qtype[i][k - 1])
-				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=[i][2:], cAns=cAns))
+				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=qtype[i][2:], cAns=cAns))
 
 			if qtype[i][0] == "FIB":
 
@@ -91,23 +91,6 @@ def create_quiz(input):
 			i += 1
 
 	return questions
-
-
-class QuizFileForm(forms.ModelForm):
-
-	class Meta:
-		model = Quiz
-		fields = ('assignment_name', 'open_date', 'due_date', 'file', 'grade_viewable')
-
-	def save(self, commit=True, course=None, prof=None):
-		quiz = super(QuizFileForm, self).save(commit=False)
-
-		if commit:
-			quiz.prof = prof
-			quiz.course_id = course
-			quiz.type = 0
-			quiz.save()
-		return quiz
 
 
 class QuizEditForm(forms.ModelForm):
@@ -148,6 +131,30 @@ class QuizEditForm(forms.ModelForm):
 		super(QuizEditForm, self).__init__(*args, **kwargs)
 		self.generate_quiz_form(self.file_address)
 
+
+class QuizFileForm(forms.ModelForm):
+
+	class Meta:
+		model = Quiz
+		fields = ('assignment_name', 'open_date', 'due_date', 'file', 'grade_viewable')
+
+	def save(self, commit=True, course=None, prof=None):
+		quiz = super(QuizFileForm, self).save(commit=False)
+
+		if commit:
+			quiz.prof = prof
+			quiz.course_id = course
+			quiz.type = 0
+			quiz.save()
+			course.quizes.add(Quiz.objects.get(id=quiz.id))
+			course.save()
+
+		return quiz
+
+	def quiz_url(self):
+		quiz = super(QuizFileForm, self).save(commit=False)
+
+		return quiz.file.url
 
 class HomeworkCreationForm(forms.ModelForm):
 
