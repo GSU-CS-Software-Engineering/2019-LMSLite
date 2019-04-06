@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load static %}
 
 {% block navbar %}
     {% block extra_js %}
@@ -10,6 +9,7 @@
             <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
         </noscript>
     {% endblock %}
+
 <nav>
       <div class="topnav" id="myTopnav">
           <a href="{% url 'index' %}"><i class="fa fa-home"></i> Home</a>
@@ -44,7 +44,7 @@
 {% endblock navbar %}
 
 {% block content %}
-
+<script type="text/javascript" src="main.js"></script>
     <div class="row">
   <div class="main w3-animate-opacity">
     <h2 id = "courseName" onclick="showHideCourse()">{{ course.course_name }}</h2>
@@ -56,10 +56,15 @@
 
       <form id = "quizForm" style="display: none;">
       <h3>Quiz Form</h3>
+           <ul>
                 {% for quiz in course.quizes.all %}
-                    <a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a>
+                    <li><a href="{{quiz.file.url}}">{{ quiz.ssignment_name }}</a> </li>
                 {% endfor %}
+
+           </ul>
             {{ quizform.as_p }}
+
+<p><input type="button" value="Add Question" onclick="addQ()"></p>
 
       <p id="quizEditExtention"><button href="javascript:void();" onclick="newQuestion()">+</button></p>
 
@@ -68,9 +73,12 @@
 
     <form id ="hmwkForm" style="display: none;">
       <h3>Homework Form</h3>
+      <ul>
           {% for assignment in course.homeworks.all %}
-              <a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a>
+              <li><a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a> </li>
           {% endfor %}
+
+      </ul>
           {{ hwForm.as_p }}
       </form>
 
