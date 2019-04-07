@@ -1,39 +1,43 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
     {% for Question in questions %}
         <h3>{{ Question.label }}</h3>
         {% for answer in Question.answers %}
             {% if Question.type == 1 %}
-            <input type="radio" name='{{ Question.label }}'> {{ answer }}
+            <input type="radio" value="{{ answer }}" name="Question {{ forloop.parentloop.counter }}" > {{ answer }}
             <br>
 
 
             {% elif Question.type == 2 %}
-            <input type="text" name="Answer:">
+            <input type="text" name='Question {{forloop.parentloop.counter}} '>
             <br>
 
 
             {% elif Question.type == 3 %}
-            <input type="checkbox"  name='{{ Question.label }}'> {{ answer }}
+            <input type="checkbox" value="{{ answer }}"  name='Question {{forloop.parentloop.counter}}'> {{ answer }}
             <br>
 
              {% elif Question.type == 4 %}
-            <input type="text" name="Answer:">
+            <input type="text" name='Question {{forloop.parentloop.counter}}'>
             <br>
 
             {% elif Question.type == 5 %}
-            <input type="radio" name='{{ Question.label }}'> {{ 'True' }}
+            <input type="radio" value="{{ answer }}" name='Question {{forloop.parentloop.counter}} '> {{ 'True' }}
                 <br>
-            <input type="radio" name='{{ Question.label }}'> {{ 'False' }}
+            <input type="radio" value="{{ answer }}" name='Question {{forloop.parentloop.counter}} '> {{ 'False' }}
 
             <br>
 
             {% elif Question.type == 6 %}
-                <textarea name ='{{ Question.label }}' cols="50" rows="1" style="height: 5rem" maxlength="1000" id = '{{ Question.label }}'></textarea>
+                <textarea name ='Question {{forloop.parentloop.counter}} ' cols="50" rows="1" style="height: 5rem" maxlength="1000" id = '{{ Question.label }}'></textarea>
             <br>
             {% endif %}
 
         {% endfor %}
     {% endfor %}
+    <input type="submit" value="Submit" name="quiz_submit">
+    </form>
 {% endblock content %}

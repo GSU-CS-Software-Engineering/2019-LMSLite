@@ -42,6 +42,32 @@ class Question:
 		self.type = pType
 
 
+def reset_quiz(input, output):
+	qtype = []
+
+	with open(input, "rt") as fin:
+		reader = csv.reader(fin, delimiter='\t')  # parse by tab
+		reader = (line for line in reader if line)  # ignore blank lines
+		for questy in reader:
+			qtype.append(questy)
+
+		fin.close()
+
+	i = 0
+	j = 0
+	with open(output, "wt") as fout:
+		for line in qtype:
+			for ans in qtype[i]:
+				if j % 2 != 0 and qtype[i][j] == 'Correct':
+					qtype[i][j] = 'Incorrect'
+				j += 1
+			j = 0
+			fout.write('\t'.join(qtype[i]))
+			fout.write('\n')
+			i += 1
+		fout.close()
+	return qtype
+
 def create_quiz(input):
 
 	qtype = []

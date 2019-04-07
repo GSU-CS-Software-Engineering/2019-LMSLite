@@ -50,12 +50,19 @@ def quiz_view(request, cid, id):
 
 	downloaded_blob = blob.download_as_string()
 
-	quizKey = NamedTemporaryFile()
+	quizKey = NamedTemporaryFile(delete=False)
 	quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
 	quizKey.seek(0)
 
 	questions = create_quiz(input=quizKey.name)
+	quizKey.seek(0)
+
 	context_dict['questions'] = questions
+
+	if request.method == "POST":
+		stdQuiz = quizKey
+
+		print(request.POST)
 
 	return render(request, 'quiz_page.html', context_dict)
 
