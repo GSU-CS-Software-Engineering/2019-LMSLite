@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django import forms
-
+from tempfile import NamedTemporaryFile
 from accounts.models import Professor
 from courses.models import Course, Quiz
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, create_quiz
+from google.cloud import storage
 
 
 def course_view(request, id):
@@ -19,12 +19,23 @@ def course_view(request, id):
 
 	if 'quizSubmit' in request.POST:
 		quiz.save(course=course, prof=Professor.objects.get(id=request.user.id))
+
 		edit = QuizEditForm
-		edit.file_address = quiz.quiz_url()
+
+		client = storage.Client()
+		bucket = client.get_bucket('lms-lite-2019')
+		blob = bucket.get_blob('quiz/' + request.FILES['file'].name)
+
+		downloaded_blob = blob.download_as_string()
+
+		quizKey = NamedTemporaryFile()
+		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
+		quizKey.seek(0)
+
+		edit.file_address = quizKey.name
 		context_dict['quizform'] = edit
 
 	return render(request, 'course_page.html', context_dict)
-# Create your views here.
 
 
 def quiz_view(request, cid, id):

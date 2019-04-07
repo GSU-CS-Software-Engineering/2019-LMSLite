@@ -95,7 +95,7 @@ def create_quiz(input):
 
 class QuizEditForm(forms.ModelForm):
 
-	file_address = '/home/chino/PycharmProjects/2019-LMSLite/static/Sample_Quiz.txt'
+	file_address = ''
 
 	class Meta:
 		model = Quiz
