@@ -28,11 +28,15 @@ function newQuestion() {
 
   var i = document.querySelectorAll("label[for*=id_Question]:not([for*=Answer])").length;
 
-  var deleteBtnContent = document.querySelectorAll("button[id*='deleteBtn ']");
+  var updateDeleteLabel = 1;
+
+  if (i!=0) {
+      var deleteBtnContent = document.querySelectorAll("button[id*='deleteBtn ']");
   var last = deleteBtnContent[deleteBtnContent.length-1].id;
   var splitBtnName = last.split(" ");
   var num2 = splitBtnName[1];
   var updateDeleteLabel = Number(num2)+1;
+  }
 
   var quizForm = document.getElementById("quizForm");
 
@@ -281,22 +285,22 @@ function newAnswer(ddid) {
 //deletes a questions and updates all questions
 function deleteElements(clicked_id) {
   event.preventDefault();
-  var btnName = document.getElementById(clicked_id).innerHTML;
+  var btnName = document.getElementById(clicked_id).id;
   var splitBtnName = btnName.split(" ");
-  var num = splitBtnName[2];
+  var num = splitBtnName[1];
 
-  var deleteBtnContent = document.getElementById("deleteBtn " + num).innerHTML;
+  var deleteBtnContent = document.getElementById(clicked_id).innerHTML;
   var splitBtnName = deleteBtnContent.split(" ");
   var num2 = splitBtnName[2];
   var updateDeleteLabel = Number(num)+1;
 
   for (var i = updateDeleteLabel; i<100; i++) {
-    if ((document.getElementById("deleteBtn "+i)) && (document.querySelector("label[for='id_Question " + i + "']"))) {
+    if (document.getElementById("deleteBtn "+i)) {
       document.getElementById("deleteBtn "+i).innerHTML = 'Delete Question '+num2;
       document.querySelector("label[for='id_Question " + i + "']").innerHTML = "Question " + num2 + ":";
       num2++;
     }
-    else {break;}
+    else {continue;}
   }
 
   var qParent = document.getElementById("id_Question "+num).parentNode;
