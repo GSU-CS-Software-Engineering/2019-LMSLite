@@ -1,4 +1,5 @@
 function navBarFunction() {
+    event.preventDefault();
   var x = document.getElementById("myTopnav");
   if (x.className === "topnav") {
     x.className += " responsive";
@@ -8,6 +9,7 @@ function navBarFunction() {
 }
 
 function showHideQuiz() {
+    event.preventDefault();
     var x = document.getElementById("quizForm");
     x.style.display = "block";
 
@@ -19,6 +21,7 @@ function showHideQuiz() {
 }
 
 function showHideHmwk() {
+    event.preventDefault();
     var x = document.getElementById("quizForm");
     x.style.display = "none";
 
@@ -30,6 +33,7 @@ function showHideHmwk() {
 }
 
 function showHideCourse() {
+    event.preventDefault();
     var x = document.getElementById("quizForm");
     x.style.display = "none";
 
