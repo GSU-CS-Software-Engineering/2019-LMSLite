@@ -3,11 +3,13 @@ const text = 'OPEN LMS LITE';
 
 // this function turns a string into an array
 const createLetterArray = (string) => {
+    event.preventDefault();
   return string.split('');
 }
 
 // this function creates letter layers wrapped in span tags
 const createLetterLayers = (array) => {
+    event.preventDefault();
   return array.map((letter) => {
       let layer = '';
       //specify # of layers per letter
@@ -25,6 +27,7 @@ const createLetterLayers = (array) => {
 
 // this function wraps each letter in a parent container
 const createLetterContainers = (array) => {
+    event.preventDefault();
   return array.map((item) => {
     let container = '';
     container += '<div class="wrapper">'+item+'</div>';
@@ -34,6 +37,7 @@ const createLetterContainers = (array) => {
 
 // use a promise to output text layers into DOM first
 const outputLayers = new Promise(function(resolve, reject) {
+    event.preventDefault();
       document.getElementById('logo').innerHTML = createLetterContainers(createLetterLayers(createLetterArray(text))).join('');
       resolve();
 });
@@ -41,6 +45,7 @@ const outputLayers = new Promise(function(resolve, reject) {
 // then adjust width and height of each letter
 const spans = Array.prototype.slice.call(document.getElementsByTagName('span'));
 outputLayers.then(() => {
+    event.preventDefault();
     return spans.map((span) => {
       setTimeout(() => {
         span.parentElement.style.width = span.offsetWidth+'px';
@@ -48,6 +53,7 @@ outputLayers.then(() => {
       }, 250);
     });
 }).then(() => {
+    event.preventDefault();
     // then slide letters into view one at a time
     let time = 250;
     return spans.map((span) => {
