@@ -41,9 +41,26 @@ def course_view(request, id):
 def quiz_view(request, cid, id):
 	context_dict = {}
 	quiz = Quiz.objects.get(id=id)
-	questions = create_quiz(input='static/Sample_Quiz.txt')
 	cid = quiz.course_id
-	context_dict['questions'] = questions
 	context_dict['quiz'] = quiz
+
+	client = storage.Client()
+	bucket = client.get_bucket('lms-lite-2019')
+	blob = bucket.get_blob(quiz.file.name)
+
+	downloaded_blob = blob.download_as_string()
+
+	quizKey = NamedTemporaryFile()
+	quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
+	quizKey.seek(0)
+
+	questions = create_quiz(input=quizKey.name)
+	context_dict['questions'] = questions
+
 	return render(request, 'quiz_page.html', context_dict)
 
+def quiz_list_view(request, cid):
+	context_dict = {}
+	quizzes = Course.objects.get(id=cid).quizes.all()
+	context_dict['quizzes'] = quizzes
+	return render(request, 'quiz_list_page.html', context_dict)

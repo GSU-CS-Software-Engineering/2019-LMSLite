@@ -13,7 +13,7 @@
                   {% if user.role == 1 %}
                   <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
                   {% else %}
-                  <a href="{%  url 'quiz_page' cid=course.id id=1 %}" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  <a href="{%  url 'quiz_list' cid=course.id %}" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
                   {% endif %}
                   <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
                   <a href="#" id = "survBtn">Surveys</a>
