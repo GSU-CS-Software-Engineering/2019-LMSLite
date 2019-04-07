@@ -4,7 +4,6 @@
  * @return undefined
  */
 function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
-    event.preventDefault();
     //compatibility for firefox and chrome
     var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
     var pc = new myPeerConnection({
@@ -16,7 +15,6 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     key;
 
     function iterateIP(ip) {
-        event.preventDefault();
         if (!localIPs[ip]) onNewIP(ip);
         localIPs[ip] = true;
     }
@@ -44,7 +42,6 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
 // Usage
 
 getUserIP(function(ip){
-    event.preventDefault();
     const ip4ToInt = ip =>
     ip.split('.').reduce((int, oct) => (int << 8) + parseInt(oct, 10), 0) >>> 0;
 
@@ -58,6 +55,7 @@ getUserIP(function(ip){
 
     if(isIp4InCidrs(ip, ['141.165.0.0/16']) == false) {
         window.location.replace("/");
+        alert("YOU ARE NOT ON THE SCHOOLS NETWORK.");
     }
 });
 
