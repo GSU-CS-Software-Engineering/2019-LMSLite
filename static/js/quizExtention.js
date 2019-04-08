@@ -133,35 +133,56 @@ function newAnswer(ddid) {
             alabel.appendChild(t);
 
             var qanswer = document.createElement("textarea");
-            qanswer.setAttribute("id", "id_Question" + dropdownnum + "Answer"+i);
+            qanswer.setAttribute("id", "id_Question" + dropdownnum + "Answer" + i);
+
+            var radio = document.createElement('input');
+            radio.type = "radio";
+            radio.name = "name";
+            radio.value = "radio";
+            radio.id = "id_radio" + i;
+
             panswer.appendChild(alabel);
-            panswer.appendChild(qanswer);
 
             if (i == 1) {
+                panswer.appendChild(radio);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 2) {
+            else if (i == 2) {
+                panswer.appendChild(radio);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 3) {
+            else if (i == 3) {
+                panswer.appendChild(radio);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 4) {
+            else if (i == 4) {
+                panswer.appendChild(radio);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 5) {
+            else if (i == 5) {
+                panswer.appendChild(radio);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
@@ -194,53 +215,84 @@ function newAnswer(ddid) {
             alabel.appendChild(t);
 
             var qanswer = document.createElement("textarea");
-            qanswer.setAttribute("id", "id_Question" + dropdownnum + "Answer"+i);
+            qanswer.setAttribute("id", "id_Question" + dropdownnum + "Answer" + i);
+
+            var checkbox = document.createElement('input');
+            checkbox.type = "checkbox";
+            checkbox.name = "name";
+            checkbox.value = "value";
+            checkbox.id = "id";
             panswer.appendChild(alabel);
-            panswer.appendChild(qanswer);
+
 
             if (i == 1) {
+                panswer.appendChild(checkbox);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
+
             }
-            else if(i == 2) {
+            else if (i == 2) {
+                panswer.appendChild(checkbox);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 3) {
+            else if (i == 3) {
+                panswer.appendChild(checkbox);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 4) {
+            else if (i == 4) {
+                panswer.appendChild(checkbox);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 5) {
+            else if (i == 5) {
+                panswer.appendChild(checkbox);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 6) {
+            else if (i == 6) {
+                panswer.appendChild(checkbox);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 7) {
+            else if (i == 7) {
+                panswer.appendChild(checkbox);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
             }
-            else if(i == 8) {
+            else if (i == 8) {
+                panswer.appendChild(checkbox);
+                panswer.appendChild(qanswer);
+
                 var ddparent = document.getElementById(ddid).parentNode;
                 var ddParSibling = ddparent.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling;
                 var ddpsPar = ddParSibling.parentNode;
