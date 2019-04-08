@@ -7,24 +7,25 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     //compatibility for firefox and chrome
     var myPeerConnection = window.RTCPeerConnection || window.mozRTCPeerConnection || window.webkitRTCPeerConnection;
     var pc = new myPeerConnection({
-        iceServers: []
-    }),
-    noop = function() {},
-    localIPs = {},
-    ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
-    key;
+            iceServers: []
+        }),
+        noop = function () {
+        },
+        localIPs = {},
+        ipRegex = /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/g,
+        key;
 
     function iterateIP(ip) {
         if (!localIPs[ip]) onNewIP(ip);
         localIPs[ip] = true;
     }
 
-     //create a bogus data channel
+    //create a bogus data channel
     pc.createDataChannel("");
 
     // create offer and set local description
-    pc.createOffer(function(sdp) {
-        sdp.sdp.split('\n').forEach(function(line) {
+    pc.createOffer(function (sdp) {
+        sdp.sdp.split('\n').forEach(function (line) {
             if (line.indexOf('candidate') < 0) return;
             line.match(ipRegex).forEach(iterateIP);
         });
@@ -33,7 +34,7 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
     }, noop);
 
     //listen for candidate events
-    pc.onicecandidate = function(ice) {
+    pc.onicecandidate = function (ice) {
         if (!ice || !ice.candidate || !ice.candidate.candidate || !ice.candidate.candidate.match(ipRegex)) return;
         ice.candidate.candidate.match(ipRegex).forEach(iterateIP);
     };
@@ -41,9 +42,9 @@ function getUserIP(onNewIP) { //  onNewIp - your listener function for new IPs
 
 // Usage
 
-getUserIP(function(ip){
+getUserIP(function (ip) {
     const ip4ToInt = ip =>
-    ip.split('.').reduce((int, oct) => (int << 8) + parseInt(oct, 10), 0) >>> 0;
+        ip.split('.').reduce((int, oct) => (int << 8) + parseInt(oct, 10), 0) >>> 0;
 
     const isIp4InCidr = ip => cidr => {
         const [range, bits = 32] = cidr.split('/');
@@ -53,7 +54,7 @@ getUserIP(function(ip){
 
     const isIp4InCidrs = (ip, cidrs) => cidrs.some(isIp4InCidr(ip));
 
-    if(isIp4InCidrs(ip, ['141.165.0.0/16']) == false) {
+    if (isIp4InCidrs(ip, ['141.165.0.0/16']) == false) {
         window.location.replace("/");
         alert("YOU ARE NOT ON THE SCHOOLS NETWORK.");
     }

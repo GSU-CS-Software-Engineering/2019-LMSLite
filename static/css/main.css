@@ -401,3 +401,8 @@ button#quizQuestionBtn {
     padding: 2px;
     background: #bca9c5;
 }
+
+button[id*=id_removeAnswerBtn], button[id*=id_addAnswerBtn] {
+    padding: 2px;
+    background: #7877c5;
+}
