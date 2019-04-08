@@ -3,7 +3,7 @@
 
 {% block navbar %}
     {% block extra_js %}
-        <script type = "text/javascript" src="{% static '/js/iprestrict.js' %}"></script>
+        <!--<script type = "text/javascript" src="{% static '/js/iprestrict.js' %}"></script>-->
         <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
 
         <noscript>
@@ -61,7 +61,7 @@
                 {% endfor %}
             {{ quizform.as_p }}
 
-      <p id="quizEditExtension"><button href="javascript:void();" onclick="newQuestion()">+</button></p>
+      <p id="quizEditExtension"><button id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button></p>
 
       </form>
 

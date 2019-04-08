@@ -19,6 +19,35 @@ function quizEditPageLoad() {
     var parentP = document.getElementById("id_Question" + (i + 1) + "type").parentNode;
     parentP.insertBefore(deleteBtn, document.getElementById("id_Question" + (i + 1) + "type"));
     count++;
+
+    var e = document.getElementById("id_Question"+(i+1)+"type");
+    var countanswers = document.querySelectorAll("label[for*=id_Question"+(i+1)+"Answer]").length;
+
+    if (e.options[e.selectedIndex].text == "MC") {
+    for (var j = 1; j<=countanswers; j++) {
+        var radio = document.createElement('input');
+            radio.type = "radio";
+            radio.name = "Question"+(i+1)+"RadioGrp";
+            radio.value = "radio";
+            radio.id = "id_EQuestion"+(i+1)+"Radio" + j;
+
+            var answerBx = document.getElementById("id_Question"+(i+1)+"Answer"+j);
+            answerBx.parentNode.insertBefore(radio,answerBx);
+    }
+    }
+    else if (e.options[e.selectedIndex].text == "MA") {
+    for (var j = 1; j<=countanswers; j++) {
+        var checkbox = document.createElement('input');
+            checkbox.type = "checkbox";
+            checkbox.name = "Question"+(i+1)+"CheckboxGrp"
+            checkbox.value = "value";
+            checkbox.id = "id_EQuestion"+(i+1)+"Checkbox" + j;
+
+            var answerBx = document.getElementById("id_Question"+(i+1)+"Answer"+j);
+            answerBx.parentNode.insertBefore(checkbox,answerBx);
+    }
+    }
+
   }
 }
 
@@ -128,7 +157,7 @@ function newAnswer(ddid) {
         for (var i = 1; i < 6; i++) {
             var panswer = document.createElement("p");
             var alabel = document.createElement("label");
-            alabel.setAttribute("for", "id_Question" + dropdownnum + "Answer"+i);
+            alabel.setAttribute("for", "id_Question" + dropdownnum + "Answer" + i);
             var t = document.createTextNode("Answer "+i+":");
             alabel.appendChild(t);
 
@@ -137,9 +166,9 @@ function newAnswer(ddid) {
 
             var radio = document.createElement('input');
             radio.type = "radio";
-            radio.name = "name";
+            radio.name = "Question"+dropdownnum+"RadioGrp";
             radio.value = "radio";
-            radio.id = "id_radio" + i;
+            radio.id = "id_EQuestion"+dropdownnum+"Radio" + i;
 
             panswer.appendChild(alabel);
 
@@ -219,9 +248,9 @@ function newAnswer(ddid) {
 
             var checkbox = document.createElement('input');
             checkbox.type = "checkbox";
-            checkbox.name = "name";
+            checkbox.name = "Question"+dropdownnum+"CheckboxGrp"
             checkbox.value = "value";
-            checkbox.id = "id";
+            checkbox.id = "id_EQuestion"+dropdownnum+"Checkbox" + i;
             panswer.appendChild(alabel);
 
 

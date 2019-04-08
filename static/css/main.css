@@ -351,7 +351,7 @@ textarea {
     min-width: 200px;
     max-height: 200px;
     min-height: 30px;
-    width: 100%;
+    width: 90%;
 }
 
 #quizForm p label, #hmwkForm p label{
@@ -391,4 +391,13 @@ button[id*=deleteBtn] {
     background-color: rgba(88, 0, 88, 0.94);
     color: #eaeaea;
     padding: 2px;
+}
+
+input[id*=id_EQuestion][type=checkbox],input[id*=id_EQuestion][type=radio] {
+    vertical-align: 20px;
+}
+
+button#quizQuestionBtn {
+    padding: 2px;
+    background: #bca9c5;
 }
