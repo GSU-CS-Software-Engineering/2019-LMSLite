@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from tempfile import NamedTemporaryFile
+
+from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz
 from accounts.models import Professor
 from courses.models import Course, Quiz
-from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, create_quiz
+from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm
 from google.cloud import storage
 
 
@@ -60,9 +62,13 @@ def quiz_view(request, cid, id):
 	context_dict['questions'] = questions
 
 	if request.method == "POST":
-		stdQuiz = quizKey
+		stdQuiz = NamedTemporaryFile()
+		reset_quiz(quizKey.name, stdQuiz.name)
 
-		print(request.POST)
+		quizKey.seek(0)
+		stdQuiz.seek(0)
+
+		print(grade_quiz(stdQuiz.name, quizKey.name))
 
 	return render(request, 'quiz_page.html', context_dict)
 

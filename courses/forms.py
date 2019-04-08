@@ -1,10 +1,9 @@
 import csv
 
 from django import forms
-from django.core.files.storage import FileSystemStorage
-from google.cloud import storage
+
+from LMSLite.helpers import create_quiz
 from .models import Course, Quiz, Homework
-from accounts.models import Professor
 
 
 class CourseAdminCreationForm(forms.ModelForm):
@@ -27,96 +26,6 @@ class CourseAdminChangeForm(forms.ModelForm):
 	class Meta:
 		model = Course
 		fields = ('course_name', 'description')
-
-
-class Question:
-	type = 0
-	label = ''
-	answers = []
-	cAnswers = []
-
-	def __init__(self, pType, pLabel, pAnswers, cAns):
-		self.label = pLabel
-		self.answers = pAnswers
-		self.cAnswers = cAns
-		self.type = pType
-
-
-def reset_quiz(input, output):
-	qtype = []
-
-	with open(input, "rt") as fin:
-		reader = csv.reader(fin, delimiter='\t')  # parse by tab
-		reader = (line for line in reader if line)  # ignore blank lines
-		for questy in reader:
-			qtype.append(questy)
-
-		fin.close()
-
-	i = 0
-	j = 0
-	with open(output, "wt") as fout:
-		for line in qtype:
-			for ans in qtype[i]:
-				if j % 2 != 0 and qtype[i][j] == 'Correct':
-					qtype[i][j] = 'Incorrect'
-				j += 1
-			j = 0
-			fout.write('\t'.join(qtype[i]))
-			fout.write('\n')
-			i += 1
-		fout.close()
-	return qtype
-
-def create_quiz(input):
-
-	qtype = []
-	questions = []
-
-	with open(input, "r") as file:
-		reader = csv.reader(file, delimiter='\t')  # parse by tab
-		reader = (line for line in reader if line)  # ignore blank lines
-		for questy in reader:
-			qtype.append(questy)
-
-		i = 0  # initialize index
-		while i < len(qtype):
-
-			if qtype[i][0] == "MC":
-				questions.append(
-					Question(
-							pType=1,
-							pLabel=qtype[i][1],
-							pAnswers=qtype[i][::2],
-							cAns=qtype[i][qtype[i].index("Correct") - 1]))
-				questions[i].answers = 	questions[i].answers[1:]
-
-			if qtype[i][0] == "SR":  # Short Answer
-				questions.append(Question(pType=2, pLabel=qtype[i][1], pAnswers=qtype[i][2:], cAns=qtype[i][2]))
-
-			if qtype[i][0] == "MA":  # Multiple Select
-				cAns = []
-				for k in range(len(qtype[i])):
-					if qtype[i][k] == "Correct":
-						cAns.append(qtype[i][k - 1])
-				questions.append(Question(pType=3, pLabel=qtype[i][1], pAnswers=qtype[i][2::2], cAns=cAns))
-
-			if qtype[i][0] == "FIB":
-
-				cAns = []
-				j = 2
-				while j < len(qtype[i]):
-					cAns.append((qtype[i][j]))
-					j += 1
-				questions.append(Question(pType=4, pLabel=qtype[i][1], pAnswers=cAns[0:1], cAns=cAns))
-
-			if qtype[i][0] == "TF":  # True or False
-				questions.append(Question(pType=5, pLabel=qtype[i][1], pAnswers=qtype[i][2:], cAns=qtype[i][2]))
-			if qtype[i][0] == "ESS":  # Esaay Question
-				questions.append(Question(pType=6, pLabel=qtype[i][1], pAnswers=qtype[i][2:], cAns=qtype[i][2]))
-			i += 1
-
-	return questions
 
 
 class QuizEditForm(forms.ModelForm):
@@ -181,6 +90,7 @@ class QuizFileForm(forms.ModelForm):
 		quiz = super(QuizFileForm, self).save(commit=False)
 
 		return quiz.file.url
+
 
 class HomeworkCreationForm(forms.ModelForm):
 

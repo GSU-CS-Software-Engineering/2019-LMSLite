@@ -1,4 +1,6 @@
 - version: unreleased
+- exposed grading/reset bug(@Chino96)
+- added useful functions to new helpers Class(@Chino96)
 - Added reset quiz method set all incorrect (@kh06089)
 - Dynamically added file to cloud, create edit form from uploaded file(@Chino96)
 - Quiz form now displays list of quizes for course(Chino96)
