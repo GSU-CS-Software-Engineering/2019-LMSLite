@@ -331,9 +331,8 @@ function deleteElements(clicked_id) {
     var splitBtnName = deleteBtnContent.split(" ");
     var num2 = splitBtnName[2];
     var updateDeleteLabel = Number(num) + 1;
-    var deleteLength = document.querySelectorAll("button[id*='deleteBtn ']").length;
 
-    for (var i = updateDeleteLabel; i <= deleteLength; i++) {
+    for (var i = updateDeleteLabel; i < 100; i++) {
         if (document.getElementById("deleteBtn " + i)) {
             document.getElementById("deleteBtn " + i).innerHTML = 'Delete Question ' + num2;
             document.querySelector("label[for='id_Question " + i + "']").innerHTML = "Question " + num2 + ":";
