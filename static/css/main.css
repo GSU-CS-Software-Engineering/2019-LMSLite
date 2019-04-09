@@ -413,7 +413,7 @@ input[id*=id_EQuestion][type=checkbox], input[id*=id_EQuestion][type=radio] {
     vertical-align: 20px;
 }
 
-button#quizQuestionBtn {
+button#quizQuestionBtn, input#submitQuizUpload {
     padding: 4px;
     background: #7877c5;
     border-radius: 5px;
@@ -425,12 +425,11 @@ button[id*=id_removeAnswerBtn], button[id*=id_addAnswerBtn] {
     border-radius: 25px;
 }
 
-button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#quizQuestionBtn:hover, button[id*=deleteBtn]:hover {
+button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#quizQuestionBtn:hover, button[id*=deleteBtn]:hover, input#submitQuizUpload:hover {
     color: #eaeaea;
 }
 
-
-button {
+button, input {
     cursor: pointer;
     border: none;
 }
