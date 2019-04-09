@@ -14,7 +14,11 @@ function quizEditPageLoad() {
         var deleteBtn = document.createElement("button");
         deleteBtn.setAttribute("id", "deleteBtn " + count);
         deleteBtn.setAttribute("onclick", "deleteElements(this.id)");
-        var t = document.createTextNode("Delete Question " + count);
+        var icon = document.createElement("i");
+        icon.setAttribute("class","fa fa-trash");
+        icon.setAttribute("style","font-size:18px");
+        deleteBtn.appendChild(icon);
+        var t = document.createTextNode(" Delete Question " + count);
         deleteBtn.appendChild(t);
         var parentP = document.getElementById("id_Question" + (i + 1) + "type").parentNode;
         parentP.insertBefore(deleteBtn, document.getElementById("id_Question" + (i + 1) + "type"));
@@ -105,6 +109,10 @@ function newQuestion() {
     var deleteBtn = document.createElement("button");
     deleteBtn.setAttribute("id", "deleteBtn " + updateDeleteLabel);
     deleteBtn.setAttribute("onclick", "deleteElements(this.id)")
+    var icon = document.createElement("i");
+        icon.setAttribute("class","fa fa-trash");
+        icon.setAttribute("style","font-size:18px");
+        deleteBtn.appendChild(icon);
     var tx = document.createTextNode("Delete Question " + (i + 1));
     deleteBtn.appendChild(tx);
 
