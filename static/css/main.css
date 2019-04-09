@@ -437,3 +437,10 @@ button, input#submitQuizUpload {
 select[id*=type] {
     padding: 5px;
 }
+
+p#hellomessage img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin: 4px;
+}
