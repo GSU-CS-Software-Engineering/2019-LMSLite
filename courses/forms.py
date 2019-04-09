@@ -46,7 +46,7 @@ class QuizEditForm(forms.ModelForm):
 				initial=question.type,
 				label='')
 
-			self.fields['Question' + str(x)] = forms.CharField(
+			self.fields['Question ' + str(x)] = forms.CharField(
 				max_length=1000,
 				initial=question.label,
 				widget=forms.Textarea(attrs={'rows': 1,
@@ -72,6 +72,11 @@ class QuizFileForm(forms.ModelForm):
 	class Meta:
 		model = Quiz
 		fields = ('assignment_name', 'open_date', 'due_date', 'file', 'grade_viewable')
+		widgets = {
+			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
+		}
 
 	def save(self, commit=True, course=None, prof=None):
 		quiz = super(QuizFileForm, self).save(commit=False)
@@ -98,7 +103,8 @@ class HomeworkCreationForm(forms.ModelForm):
 		model = Homework
 		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
 		widgets = {
-			'open_date': forms.TextInput(attrs={'type': 'datetime-local'}),
-			'due_date': forms.TextInput(attrs={'type': 'datetime-local'})
+			'open_date': forms.TextInput(attrs={'type': 'datetime-local', 'autocomplete': 'off'}),
+			'due_date': forms.TextInput(attrs={'type': 'datetime-local', 'autocomplete': 'off'}),
+			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
 		}
 
