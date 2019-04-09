@@ -22,7 +22,7 @@
                   {% if user.role == 1 %}
                   <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
                   {% else %}
-                  <a href="{%  url 'quiz_list' cid=course.id %}" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  <a href="{%  url 'quiz_list' cid=course.id %}" id = "quizBtn">Quizzes</a>
                   {% endif %}
                   <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
                   <a href="#" id = "survBtn">Surveys</a>
@@ -66,6 +66,8 @@
               <button id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
               <input id = "submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
           </p>
+
+      <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
       </form>
 
     <form id ="hmwkForm" style="display: none;">

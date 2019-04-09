@@ -98,6 +98,7 @@ class HomeworkCreationForm(forms.ModelForm):
 		model = Homework
 		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
 		widgets = {
-			'open_date': forms.DateInput(),
+			'open_date': forms.TextInput(attrs={'type': 'datetime-local'}),
+			'due_date': forms.TextInput(attrs={'type': 'datetime-local'})
 		}
 
