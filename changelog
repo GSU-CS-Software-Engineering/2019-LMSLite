@@ -1,4 +1,9 @@
 - version: unreleased
+- exposed grading/reset bug(@Chino96)
+- added useful functions to new helpers Class(@Chino96)
+- Added reset quiz method set all incorrect (@kh06089)
+- Dynamically added file to cloud, create edit form from uploaded file(@Chino96)
+- Quiz form now displays list of quizes for course(Chino96)
 - Finished quiz edit form using read logic(@Chino96)
 - Changed course/quiz/homework forms also updated corresponding models(@Chino96)
 - added a basic profile page, added User authenticated link displays to base.html(@Chino96)
@@ -17,5 +22,6 @@
 - Added dropdown menu to Assignments tab in navigation on course page along with other small CSS changes (@as12660)
 - Added date and weather to home page (@as12660)
 - Added profile info and changed slight CSS (@as12660)
+- created quiz taking page and corresponding view (@kh06089)
 - Created student quiz page(@kh06089)
 - Javascript quiz dynamic creation (@cm09516/@as12660)

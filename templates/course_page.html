@@ -4,7 +4,6 @@
 {% block navbar %}
     {% block extra_js %}
         <!--<script type = "text/javascript" src="{% static '/js/iprestrict.js' %}"></script>-->
-        <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
 
         <noscript>
             <style>html{display:none;}</style>
@@ -20,10 +19,10 @@
                   <i class="fa fa-caret-down"></i>
               </button>
               <div class="dropdown-content">
-                  {% if user.role == 2 %}
-                      <a href="{% url 'quiz_page' id=1000 cid=50%}" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  {% if user.role == 1 %}
+                  <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
                   {% else %}
-                      <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  <a href="{%  url 'quiz_list' cid=course.id %}" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
                   {% endif %}
                   <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
                   <a href="#" id = "survBtn">Surveys</a>
@@ -45,6 +44,7 @@
 {% endblock navbar %}
 
 {% block content %}
+
     <div class="row">
   <div class="main w3-animate-opacity">
     <h2 id = "courseName" onclick="showHideCourse()">{{ course.course_name }}</h2>
@@ -54,15 +54,16 @@
             {{ course.description }}
       </div>
 
-      <form onload="quizEditPageLoad()" id = "quizForm" style="display: none;">
+      <form onload="quizEditPageLoad()" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Quiz Form</h3>
-                {% for quiz in course.quizes.all %}
+                {% for quiz in quizes %}
                     <a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
+            {% csrf_token %}
             {{ quizform.as_p }}
 
-      <p id="quizEditExtension"><button id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button></p>
-
+          <p id="quizEditExtension"><button id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button></p>
+          <input type="submit" value="Submit" name="quizSubmit">
       </form>
 
     <form id ="hmwkForm" style="display: none;">
@@ -74,7 +75,7 @@
       </form>
 
   </div>
-  <div class="side w3-center w3-animate-right sticky">
+  <div class="side w3-center w3-animate-right">
     <h2>TASK VIEW</h2>
     <h5>Title description, Dec 7, 2017</h5>
 

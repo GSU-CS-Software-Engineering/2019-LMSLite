@@ -50,6 +50,7 @@ class ProfessorAdminCreationForm(forms.ModelForm):
         # Save the provided password in hashed format
         user = super(ProfessorAdminCreationForm, self).save(commit=False)
         user.set_password(self.cleaned_data["password1"])
+        user.role = 1
         if commit:
             user.save()
         return user
@@ -94,6 +95,7 @@ class StudentAdminCreationForm(forms.ModelForm):
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super(StudentAdminCreationForm, self).save(commit=False)
+        user.role = 2
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
@@ -123,17 +125,7 @@ class ProfessorChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    password1 = forms.CharField(label='New Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm New Password', widget=forms.PasswordInput)
-
     class Meta:
         model = Professor
-        fields = ()
+        fields = ('profile_photo',)
 
-    def clean_password2(self):
-        # Check that the two password entries match
-        password1 = self.cleaned_data.get("password1")
-        password2 = self.cleaned_data.get("password2")
-        if password1 and password2 and password1 != password2:
-            raise forms.ValidationError("Passwords don't match")
-        return password2

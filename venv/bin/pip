@@ -1,4 +1,4 @@
-#!/home/chino/PycharmProjects/LMSLite/venv/bin/python
+#!/home/chino/PycharmProjects/2019-LMSLite/venv/bin/python
 # EASY-INSTALL-ENTRY-SCRIPT: 'pip==10.0.1','console_scripts','pip'
 __requires__ = 'pip==10.0.1'
 import re

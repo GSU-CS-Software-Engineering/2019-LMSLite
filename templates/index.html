@@ -3,11 +3,11 @@
 {% block content %}
 
     {% block extra_css %}
-        <link rel="stylesheet" type="text/css" href="{% static '/css/logo.css' %}">
+    <link rel="stylesheet" type = "text/css" href="{% static '/css/logo.css' %}">
     {% endblock %}
 
     {% block extra_js %}
-        <script type="text/javascript" src="{% static '/js/logo.js' %}"></script>
+    <script type = "text/javascript" src="{% static '/js/logo.js' %}"></script>
     {% endblock %}
 
     <div class="row">
@@ -71,21 +71,18 @@
             {% else %}
                 <h2>TODAY</h2><br>
 
-                <div class="w3-center" id="calendar">
-                    <p id="calendar-day"></p>
-                    <p id="calendar-date"></p>
-                    <p id="calendar-month-year"></p>
-                </div><br><br>
-                <div style="width: 100%;">
-                    <iframe style="display: block;" src="https://cdnres.willyweather.com/widget/loadView.html?id=105288"
-                            width="100%" height="228" frameborder="0" scrolling="no"></iframe>
-                    <a style="height: 20px;z-index: 1;margin: -20px 0 0 0;position: relative;display: block;text-indent: -9999em"
-                       href="https://www.willyweather.com/ga/bulloch-county/statesboro.html" rel="nofollow">local
-                        weather</a>
-                    <script type="text/javascript" src="{% static '/js/calendar.js' %}"></script>
-                </div>
+        <div class = "w3-center" id="calendar">
+                <p id="calendar-day"></p>
+                <p id="calendar-date"></p>
+                <p id="calendar-month-year"></p>
+        </div><br><br>
+          <div style="width: 100%;">
+              <iframe style="display: block;" src="https://cdnres.willyweather.com/widget/loadView.html?id=105288" width="100%" height="228" frameborder="0" scrolling="no"></iframe>
+              <a style="height: 20px;z-index: 1;margin: -20px 0 0 0;position: relative;display: block;text-indent: -9999em" href="https://www.willyweather.com/ga/bulloch-county/statesboro.html" rel="nofollow">local weather</a>
+          <script type = "text/javascript" src="{% static '/js/calendar.js' %}"></script>
+          </div>
 
-            {% endif %}
-        </div>
-    </div>
+      {% endif %}
+  </div>
+</div>
 {% endblock content %}

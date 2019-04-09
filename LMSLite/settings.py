@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+from google.oauth2 import service_account
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -36,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
     'accounts',
     'courses',
 ]
@@ -142,4 +142,7 @@ LOGOUT_REDIRECT_URL = 'index'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 GS_BUCKET_NAME = 'lms-lite-2019'
 
-GOOGLE_APPLICATION_CREDENTIALS = '/static/LMS-Lite-abc735752040.json'
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    'static/LMS-Lite-abc735752040.json'
+)
+
