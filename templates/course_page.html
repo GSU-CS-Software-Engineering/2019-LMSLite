@@ -1,10 +1,19 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block navbar %}
+    {% block extra_js %}
+        <!--<script type = "text/javascript" src="{% static '/js/iprestrict.js' %}"></script>-->
+
+        <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
+        </noscript>
+    {% endblock %}
 <nav>
       <div class="topnav" id="myTopnav">
-          <a href="{% url 'index' %}"><i class="fa fa-home"></i> Home</a>
-          <a href="{% url 'profile' %}">Profile</a>
+          <a href="{% url 'index' %}"><i class="fa fa-home" style="font-size:18px"></i> Home</a>
+          <a href="{% url 'profile' %}"><i class="fa fa-user" style="font-size:18px"></i> Profile</a>
           <div class = "dropdown">
               <button class="dropbtn">Assignments
                   <i class="fa fa-caret-down"></i>
@@ -21,9 +30,9 @@
           </div>
           <a href="#">Grades</a>
           {% if user.is_authenticated %}
-              <a href="{% url 'logout' %}">Logout</a>
+              <a href="{% url 'logout' %}"><i class="fa fa-sign-out" style="font-size:18px"></i> Logout</a>
           {% else %}
-            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'login' %}"><i class="fa fa-sign-in" style="font-size:18px"></i> Login</a>
           {% endif %}
           <a href="javascript:void(0);" class="icon" onclick="navBarFunction()">
               <i class="fa fa-bars"></i>
@@ -45,27 +54,25 @@
             {{ course.description }}
       </div>
 
-      <form id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
+      <form onload="quizEditPageLoad()" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Quiz Form</h3>
-           <ul>
                 {% for quiz in quizes %}
-                    <li><a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a> </li>
+                    <a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
-
-           </ul>
             {% csrf_token %}
             {{ quizform.as_p }}
-            <input type="submit" value="Submit" name="quizSubmit">
+
+          <p id="quizEditExtension">
+              <button id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
+              <input id = "submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
+          </p>
       </form>
 
     <form id ="hmwkForm" style="display: none;">
       <h3>Homework Form</h3>
-      <ul>
           {% for assignment in course.homeworks.all %}
-              <li><a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a> </li>
+              <a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a>
           {% endfor %}
-
-      </ul>
           {{ hwForm.as_p }}
       </form>
 

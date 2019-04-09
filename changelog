@@ -23,3 +23,5 @@
 - Added date and weather to home page (@as12660)
 - Added profile info and changed slight CSS (@as12660)
 - created quiz taking page and corresponding view (@kh06089)
+- Created student quiz page(@kh06089)
+- Javascript quiz dynamic creation (@cm09516/@as12660)
