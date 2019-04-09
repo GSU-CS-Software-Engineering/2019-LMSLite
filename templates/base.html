@@ -18,7 +18,7 @@
   <header id="titlebar">
 
   {% if user.is_authenticated and user.profile_photo.url %}
-    <p id="hellomessage"><img src="{{ user.profile_photo.url }}">{{ user.first_name }} {{ user.last_name }}</p>
+      <p id="hellomessage"><a href="{% url 'profile' %}"><img src="{{ user.profile_photo.url }}"></a>{{ user.first_name }} {{ user.last_name }}</p>
   {% endif %}
 
   	<a href={% url 'index' %}>

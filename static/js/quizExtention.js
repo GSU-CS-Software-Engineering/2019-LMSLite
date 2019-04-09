@@ -14,7 +14,7 @@ function quizEditPageLoad() {
         var deleteBtn = document.createElement("button");
         deleteBtn.setAttribute("id", "deleteBtn " + count);
         deleteBtn.setAttribute("onclick", "deleteElements(this.id)");
-        var t = document.createTextNode(" Delete Question " + count);
+        var t = document.createTextNode("Delete Question " + count);
         deleteBtn.appendChild(t);
         var parentP = document.getElementById("id_Question" + (i + 1) + "type").parentNode;
         parentP.insertBefore(deleteBtn, document.getElementById("id_Question" + (i + 1) + "type"));
@@ -327,7 +327,7 @@ function deleteElements(clicked_id) {
     var splitBtnName = btnName.split(" ");
     var num = splitBtnName[1];
 
-    var deleteBtnContent = document.getElementById(clicked_id).innerText;
+    var deleteBtnContent = document.getElementById(clicked_id).innerHTML;
     var splitBtnName = deleteBtnContent.split(" ");
     var num2 = splitBtnName[2];
     var updateDeleteLabel = Number(num) + 1;
