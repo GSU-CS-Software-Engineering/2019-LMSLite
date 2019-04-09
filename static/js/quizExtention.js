@@ -256,7 +256,7 @@ function newAnswer(ddid) {
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
 
-                if (j == 1 && i == 4) {
+                if (j == 1 && i == 4 && document.getElementById("id_removeAnswerBtn " + dropdownnum) ==null) {
                     arp.appendChild(adda);
                     arp.appendChild(removea);
                     ddpsPar.insertBefore(arp, ddParSibling);
@@ -292,7 +292,7 @@ function newAnswer(ddid) {
                 var ddpsPar = ddParSibling.parentNode;
                 ddpsPar.insertBefore(panswer, ddParSibling);
 
-                if (j == 1 && i == 4) {
+                if (j == 1 && i == 4 && document.getElementById("id_removeAnswerBtn " + dropdownnum) ==null) {
                     arp.appendChild(adda);
                     arp.appendChild(removea);
                     ddpsPar.insertBefore(arp, ddParSibling);
