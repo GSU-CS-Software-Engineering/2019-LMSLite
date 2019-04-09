@@ -429,7 +429,7 @@ button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#
     color: #eaeaea;
 }
 
-button, input {
+button, input#submitQuizUpload {
     cursor: pointer;
     border: none;
 }

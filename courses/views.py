@@ -30,7 +30,7 @@ def course_view(request, id):
 
 		downloaded_blob = blob.download_as_string()
 
-		quizKey = NamedTemporaryFile()
+		quizKey = NamedTemporaryFile(delete=False)
 		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
 		quizKey.seek(0)
 
@@ -62,7 +62,7 @@ def quiz_view(request, cid, id):
 	context_dict['questions'] = questions
 
 	if request.method == "POST":
-		stdQuiz = NamedTemporaryFile()
+		stdQuiz = NamedTemporaryFile(delete=False)
 		reset_quiz(quizKey.name, stdQuiz.name)
 
 		quizKey.seek(0)
@@ -72,8 +72,10 @@ def quiz_view(request, cid, id):
 
 	return render(request, 'quiz_page.html', context_dict)
 
+
 def quiz_list_view(request, cid):
 	context_dict = {}
 	quizzes = Course.objects.get(id=cid).quizes.all()
 	context_dict['quizzes'] = quizzes
 	return render(request, 'quiz_list_page.html', context_dict)
+
