@@ -1,6 +1,7 @@
 //This function creates the delete button for each question
 function quizEditPageLoad() {
     event.preventDefault();
+
     var x = document.querySelectorAll("select[id*=id_Question]").length;
     var count = 1;
 
@@ -78,6 +79,17 @@ function quizEditPageLoad() {
             parentnextQ.parentNode.insertBefore(arp, parentnextQ);
         }
         parentnextQ.parentNode.insertBefore(line, parentnextQ);
+    }
+
+    if (document.getElementById("deleteBtn 1")) {
+        var x = document.getElementById("quizForm");
+        x.style.display = "block";
+
+        var y = document.getElementById("courseDesc");
+        y.style.display = "none";
+
+        var z = document.getElementById("hmwkForm");
+        z.style.display = "none";
     }
 }
 
