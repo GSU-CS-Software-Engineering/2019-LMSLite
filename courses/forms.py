@@ -102,9 +102,21 @@ class HomeworkCreationForm(forms.ModelForm):
 	class Meta:
 		model = Homework
 		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
-		widgets = {
+		"""widgets = {
 			'open_date': forms.TextInput(attrs={'type': 'datetime-local', 'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'type': 'datetime-local', 'autocomplete': 'off'}),
 			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
-		}
+		}"""
 
+	def save(self, commit=True, course=None, prof=None):
+		homework = super(HomeworkCreationForm, self).save(commit=False)
+
+		if commit:
+			homework.prof = prof
+			homework.course_id = course
+			homework.type = 0
+			homework.save()
+			course.homeworks.add(Homework.objects.get(id=homework.id))
+			course.save()
+
+		return homework
