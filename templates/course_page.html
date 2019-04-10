@@ -70,13 +70,15 @@
       <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
       </form>
 
-    <form id ="hmwkForm" style="display: none;">
+    <form id ="hmwkForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Homework Form</h3>
           {% for assignment in course.homeworks.all %}
               <a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a>
           {% endfor %}
+          {% csrf_token %}
           {{ hwForm.as_p }}
-      </form>
+        <input type="submit" value="Submit" name="hmwkSubmit">
+    </form>
 
   </div>
   <div class="side w3-center w3-animate-right">

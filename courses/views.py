@@ -13,10 +13,10 @@ def course_view(request, id):
 	context_dict = {}
 	course = Course.objects.get(id=id)
 	quiz = QuizFileForm(request.POST, request.FILES)
-
+	homework = HomeworkCreationForm(request.POST, request.FILES)
 	context_dict['course'] = course
 	context_dict['quizform'] = quiz
-	context_dict['hwForm'] = HomeworkCreationForm
+	context_dict['hwForm'] = homework
 	context_dict['quizes'] = course.quizes.all()
 
 	if 'quizSubmit' in request.POST:
@@ -36,6 +36,9 @@ def course_view(request, id):
 
 		edit.file_address = quizKey.name
 		context_dict['quizform'] = edit
+
+	if 'hmwkSubmit' in request.POST:
+		homework.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
 	return render(request, 'course_page.html', context_dict)
 
@@ -63,7 +66,7 @@ def quiz_view(request, cid, id):
 
 	if request.method == "POST":
 		stdQuiz = NamedTemporaryFile(delete=False)
-		reset_quiz(quizKey.name, stdQuiz.name)
+		reset_quiz(quizKey.name, stdQuiz.name, request.POST)
 
 		quizKey.seek(0)
 		stdQuiz.seek(0)
