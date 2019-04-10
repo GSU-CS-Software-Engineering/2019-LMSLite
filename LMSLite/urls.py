@@ -32,6 +32,7 @@ urlpatterns = [
     path('courses/<int:id>/', courseView.course_view, name='course_page'),
     path('courses/<int:cid>/quizes/',courseView.quiz_list_view, name='quiz_list' ),
     path('courses/<int:cid>/quizes/<int:id>/', courseView.quiz_view, name='quiz_page'),
+    path('courses/Homework/files/<int:id>/', views.download, name='download')
 ]
 
 if settings.DEBUG:

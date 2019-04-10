@@ -27,10 +27,15 @@
             <br>
 
             {% elif Question.type == 5 %}
-            <input type="radio" value="{{ answer }}" name='Question {{forloop.parentloop.counter}} '> {{ 'True' }}
-                <br>
-            <input type="radio" value="{{ answer }}" name='Question {{forloop.parentloop.counter}} '> {{ 'False' }}
+                {% if answer == 'True' %}
+                    <input type="radio" value="{{ answer }}" name='Question {{forloop.parentloop.counter}} '> {{ 'True' }}
+                    <input type="radio" value="False" name='Question {{forloop.parentloop.counter}} '> {{ 'False' }}
 
+                {% else %}
+                    <br>
+                    <input type="radio" value="True" name='Question {{forloop.parentloop.counter}} '> {{ 'True' }}
+                    <input type="radio" value="{{ answer }}" name='Question {{forloop.parentloop.counter}} '> {{ 'False' }}
+                {% endif %}
             <br>
 
             {% elif Question.type == 6 %}
