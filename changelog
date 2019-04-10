@@ -1,4 +1,6 @@
 - version: unreleased
+- Homework can download file(@Chino96)
+- quiz grading is calculated(@Chino96)
 - exposed grading/reset bug(@Chino96)
 - added useful functions to new helpers Class(@Chino96)
 - Added reset quiz method set all incorrect (@kh06089)

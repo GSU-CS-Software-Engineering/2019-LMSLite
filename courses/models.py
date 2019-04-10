@@ -32,7 +32,6 @@ class Quiz(Assignment):
 
 
 class Survey(Assignment):
-	grade = None
 	file = models.FileField(upload_to='surveys', blank=True)
 
 	def __str__(self):
@@ -40,7 +39,6 @@ class Survey(Assignment):
 
 
 class Homework(Assignment):
-	type = 2
 	file = models.FileField(upload_to='homework', blank=True)
 
 	def __str__(self):
