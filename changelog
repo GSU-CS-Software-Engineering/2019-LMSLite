@@ -1,4 +1,5 @@
 - version: unreleased
+- Created Grade model(@Chino96)
 - Homework can download file(@Chino96)
 - quiz grading is calculated(@Chino96)
 - exposed grading/reset bug(@Chino96)

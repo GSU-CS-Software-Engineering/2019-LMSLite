@@ -100,6 +100,8 @@ class User(AbstractBaseUser):
 
 class Student(User):
 
+    grades = models.ManyToManyField('courses.Grade', blank=True)
+
     def __str__(self):
         return self.email
 
