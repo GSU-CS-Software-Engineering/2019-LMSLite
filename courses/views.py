@@ -48,6 +48,7 @@ def quiz_view(request, cid, id):
 	quiz = Quiz.objects.get(id=id)
 	cid = quiz.course_id
 	context_dict['quiz'] = quiz
+	context_dict['course'] = cid
 
 	client = storage.Client()
 	bucket = client.get_bucket('lms-lite-2019')
@@ -70,8 +71,9 @@ def quiz_view(request, cid, id):
 
 		quizKey.seek(0)
 		stdQuiz.seek(0)
-
 		print(grade_quiz(stdQuiz.name, quizKey.name))
+		#context_dict['grade'] = grade_quiz(stdQuiz.name, quizKey.name)
+		return render(request, 'post_quiz_page.html', context_dict)
 
 	return render(request, 'quiz_page.html', context_dict)
 
@@ -82,3 +84,13 @@ def quiz_list_view(request, cid):
 	context_dict['quizzes'] = quizzes
 	return render(request, 'quiz_list_page.html', context_dict)
 
+def pre_quiz_view(request):
+	context_dict = {}
+
+	return render(request, context_dict)
+
+def post_quiz_view(request):
+	context_dict = {}
+
+
+	return render(request,'post_quiz_page.html', context_dict)

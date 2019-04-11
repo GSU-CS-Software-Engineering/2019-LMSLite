@@ -1,4 +1,5 @@
 - version: unreleased
+- Submit button takes you to the quiz result page(@kh06089)
 - Homework can download file(@Chino96)
 - quiz grading is calculated(@Chino96)
 - exposed grading/reset bug(@Chino96)

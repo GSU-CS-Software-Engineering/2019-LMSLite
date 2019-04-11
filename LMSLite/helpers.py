@@ -152,4 +152,5 @@ def grade_quiz(input, key):
 				j += 2
 		i += 1
 
-	return correct
+	return round(100 *(correct/len(first)),2)
+
