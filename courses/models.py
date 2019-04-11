@@ -8,7 +8,6 @@ class Assignment(models.Model):
 	due_date		= models.DateTimeField(blank=True)
 	prof			= models.ForeignKey('accounts.Professor', on_delete=models.CASCADE)
 	course_id		= models.ForeignKey('courses.Course', on_delete=models.CASCADE)
-	grade			= models.BigIntegerField(blank=True, default=0)
 
 	TYPE_CHOICES = (
 		(2, 'homework'),
@@ -45,6 +44,10 @@ class Homework(Assignment):
 		return self.assignment_name
 # Create your models here.
 
+
+class Grade(models.Model):
+	assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
+	grade_value = models.FloatField()
 
 class Course(models.Model):
 
