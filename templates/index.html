@@ -68,6 +68,11 @@
         <div class="side w3-center w3- w3-animate-right">
             {% if user.is_authenticated %}
                 <h2>TASK VIEW</h2>
+                {% for quiz in quizzes %}
+
+                     <a>{{ quiz.assignment_name }}</a>
+                {% endfor %}
+
             {% else %}
                 <h2>TODAY</h2><br>
 
