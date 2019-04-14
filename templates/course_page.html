@@ -57,7 +57,7 @@
       <form onload="quizEditPageLoad()" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Quiz Form</h3>
                 {% for quiz in quizes %}
-                    <a href="{{quiz.file.url}}">{{ quiz.assignment_name }}</a>
+                    <a href="{% url 'download' id=quiz.id %}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
             {% csrf_token %}
             {{ quizform.as_p }}
@@ -73,7 +73,7 @@
     <form id ="hmwkForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Homework Form</h3>
           {% for assignment in course.homeworks.all %}
-              <a href="{{assignment.file.url}}">{{ assignment.assignment_name }}</a>
+              <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
           {% endfor %}
           {% csrf_token %}
           {{ hwForm.as_p }}

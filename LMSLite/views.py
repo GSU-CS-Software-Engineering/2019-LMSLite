@@ -1,8 +1,12 @@
 import datetime
+
+from django.http import HttpResponse
 from django.shortcuts import render
+from django.utils.encoding import smart_str
+
 from accounts.models import Professor
-from courses.models import Course, Quiz,Assignment
-from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm
+from courses.models import Assignment
+
 
 def index(request):
     context_dict = {}
@@ -23,11 +27,11 @@ def index(request):
         context_dict['quizzes'] = quizzes
         context_dict['courses'] = courses
 
-
     return render(request, 'index.html', context_dict)
+
 
 def download(request, id):
     response = HttpResponse(content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(Homework.objects.get(id=id))
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(Assignment.objects.get(id=id))
 
     return response

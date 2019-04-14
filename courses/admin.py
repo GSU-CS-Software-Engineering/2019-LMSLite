@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from courses.models import Course
+from courses.models import Course, Assignment
 
 from .forms import CourseAdminCreationForm, CourseAdminChangeForm
 
@@ -25,6 +25,6 @@ class CourseAdmin(UserAdmin):
 	ordering = ('course_name',)
 	filter_horizontal = ()
 
-
+admin.site.register(Assignment)
 admin.site.register(Course, CourseAdmin)
 

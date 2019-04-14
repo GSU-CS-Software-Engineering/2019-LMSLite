@@ -26,7 +26,7 @@ def course_view(request, id):
 
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		blob = bucket.get_blob('quiz/' + request.FILES['file'].name)
+		blob = bucket.get_blob(course.course_name + '/Quizzes/' + request.POST['assignment_name'] +'_key')
 
 		downloaded_blob = blob.download_as_string()
 
@@ -84,13 +84,14 @@ def quiz_list_view(request, cid):
 	context_dict['quizzes'] = quizzes
 	return render(request, 'quiz_list_page.html', context_dict)
 
+
 def pre_quiz_view(request):
 	context_dict = {}
 
 	return render(request, context_dict)
 
+
 def post_quiz_view(request):
 	context_dict = {}
-
 
 	return render(request,'post_quiz_page.html', context_dict)
