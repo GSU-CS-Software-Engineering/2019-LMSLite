@@ -1,9 +1,33 @@
 from django.db import models
 
 
+def quiz_upload_address(instance, filename):
+	name, ext = filename.split('.')
+	filename = instance.assignment_name
+	file_path = '{account_id}/Quizzes/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, filename=filename+'_key', ext=ext)
+	return file_path
+
+
+def survey_upload_address(instance, filename):
+	name, ext = filename.split('.')
+	filename = instance.assignment_name
+	file_path = '{account_id}/Survey/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, filename=filename + '_key', ext=ext)
+	return file_path
+
+
+def homework_upload_address(instance, filename):
+	name, ext = filename.split('.')
+	filename = instance.assignment_name
+	file_path = '{account_id}/Homework/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, filename=filename + '_key', ext=ext)
+	return file_path
+
+
 class Assignment(models.Model):
 
-	assignment_name = models.CharField(max_length=255, blank=True)
+	assignment_name	= models.CharField(max_length=255, blank=True)
 	open_date		= models.DateTimeField(blank=True)
 	due_date		= models.DateTimeField(blank=True)
 	prof			= models.ForeignKey('accounts.Professor', on_delete=models.CASCADE)
@@ -24,30 +48,30 @@ class Assignment(models.Model):
 class Quiz(Assignment):
 
 	grade_viewable = models.BooleanField()
-	file = models.FileField(upload_to='quiz', blank=True)
+	file = models.FileField(upload_to=quiz_upload_address, blank=True)
 
 	def __str__(self):
 		return self.assignment_name
 
 
 class Survey(Assignment):
-	file = models.FileField(upload_to='surveys', blank=True)
+	file = models.FileField(upload_to=survey_upload_address, blank=True)
 
 	def __str__(self):
 		return self.assignment_name
 
 
 class Homework(Assignment):
-	file = models.FileField(upload_to='homework', blank=True)
+	file = models.FileField(upload_to=homework_upload_address, blank=True)
 
 	def __str__(self):
 		return self.assignment_name
-# Create your models here.
 
 
 class Grade(models.Model):
 	assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
 	grade_value = models.FloatField()
+
 
 class Course(models.Model):
 
