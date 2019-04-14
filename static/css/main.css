@@ -68,8 +68,12 @@ footer {
 }
 
 #titlebar {
-    background-color: #703092;
+    background: url("https://www.swri.org/sites/default/files/styles/client_services_banner/public/industries/AdobeStock_106164892.jpeg?itok=t3UGqR2_&c=88eac5d80ac8dd87327fa8bcd49967f7");
     text-align: center;
+}
+
+#titlebar,"/courses/1/"{
+
 }
 
 .logo a:link, .logo a:visited {
@@ -113,7 +117,7 @@ footer {
 
 .copyright {
     text-align: center;
-    background-color: #703092;
+    background-color: #a4520d;
     height: 25px;
     line-height: 25px;
     position: fixed;
@@ -169,7 +173,7 @@ form #submit {
 
 .classList a {
     border-radius: 4px;
-    background-color: #800080;
+    background: linear-gradient(black,darkorange);
     border: none;
     color: #FFFFFF;
     text-align: center;
@@ -238,7 +242,7 @@ ul.errorlist.nonfield {
 
 .dropdown-content a {
     float: none;
-    color: #703092;
+    background-color: #444444;
     padding: 12px 16px;
     text-decoration: none;
     display: block;
@@ -292,7 +296,7 @@ ul.errorlist.nonfield {
 
 #calendar {
     width: 100%;
-    background-color: #770ced;
+    background-color: #444444;
     color: #fff;
     border-radius: 5%;
     box-shadow: 0 4px 4px 0 rgba(50, 50, 50, 0.4);
@@ -325,7 +329,8 @@ ul.errorlist.nonfield {
 }
 
 #courseName:hover {
-    color: #9c27b0;
+    background-color: #444444;
+
 }
 
 #proEmail, #proFName, #proLName, #proInfo {
