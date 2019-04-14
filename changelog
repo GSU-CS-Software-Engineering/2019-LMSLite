@@ -1,5 +1,5 @@
 - version: unreleased
-- Finished download link, added urls to templates(@Chino96)
+
 - Created Grade model(@Chino96)
 - Homework can download file(@Chino96)
 - quiz grading is calculated(@Chino96)

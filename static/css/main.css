@@ -72,11 +72,11 @@ footer {
     text-align: center;
 }
 
-.logo a:link, a:visited {
+.logo a:link, .logo a:visited {
     color: #eaeaea;
 }
 
-#titlebar a:hover, a:active {
+#titlebar a:hover, #titlebar a:active {
     color: #3d3d3d;
 }
 
@@ -438,9 +438,21 @@ select[id*=type] {
     padding: 5px;
 }
 
-p#hellomessage img {
+p#hellomessage img, p#hellomessage i {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     margin: 4px;
+}
+
+.cQuizList {
+    width: 33vw;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.cStartDate, .cDueDate {
+    width: 15vw;
+    text-align: center;
+    padding-top: 10px;
 }

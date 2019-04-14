@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.encoding import smart_str
 
-from courses.models import Homework, Quiz, Assignment
+from courses.models import Homework
 
 
 def index(request):
@@ -12,6 +12,6 @@ def index(request):
 
 def download(request, id):
     response = HttpResponse(content_type='application/force-download')
-    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(Assignment.objects.get(id=id))
+    response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(Homework.objects.get(id=id))
 
     return response
