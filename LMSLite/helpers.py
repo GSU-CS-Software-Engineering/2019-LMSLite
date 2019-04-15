@@ -151,6 +151,5 @@ def grade_quiz(input, key):
 					correct += (1 / ((len(first[i][2:]) / 2)))
 				j += 2
 		i += 1
-
 	return round(100 *(correct/len(first)),2)
 

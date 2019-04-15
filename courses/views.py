@@ -26,10 +26,9 @@ def course_view(request, id):
 
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		blob = bucket.get_blob(course.course_name + '/Quizzes/' + request.POST['assignment_name'] +'_key')
+		blob = bucket.get_blob(course.course_name + '/Quizzes/' + request.POST['assignment_name'] +'_key.txt')
 
 		downloaded_blob = blob.download_as_string()
-
 		quizKey = NamedTemporaryFile(delete=False)
 		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
 		quizKey.seek(0)
@@ -65,14 +64,17 @@ def quiz_view(request, cid, id):
 
 	context_dict['questions'] = questions
 
+	if 'btn_done' in request.POST:
+		return redirect(course_view(request, cid.id))
+
 	if request.method == "POST":
 		stdQuiz = NamedTemporaryFile(delete=False)
 		reset_quiz(quizKey.name, stdQuiz.name, request.POST)
 
 		quizKey.seek(0)
 		stdQuiz.seek(0)
-		print(grade_quiz(stdQuiz.name, quizKey.name))
-		#context_dict['grade'] = grade_quiz(stdQuiz.name, quizKey.name)
+		#print(grade_quiz(stdQuiz.name, quizKey.name))
+		context_dict['grade'] = grade_quiz(stdQuiz.name, quizKey.name)
 		return render(request, 'post_quiz_page.html', context_dict)
 
 	return render(request, 'quiz_page.html', context_dict)
@@ -85,13 +87,9 @@ def quiz_list_view(request, cid):
 	return render(request, 'quiz_list_page.html', context_dict)
 
 
-def pre_quiz_view(request):
+def pre_quiz_view(request,id, cid):
 	context_dict = {}
+	quiz = Quiz.objects.get(id=id)
+	context_dict['quiz'] = quiz
 
-	return render(request, context_dict)
-
-
-def post_quiz_view(request):
-	context_dict = {}
-
-	return render(request,'post_quiz_page.html', context_dict)
+	return render(request,'pre_quiz_page.html', context_dict)
