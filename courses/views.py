@@ -93,3 +93,21 @@ def pre_quiz_view(request,id, cid):
 	context_dict['quiz'] = quiz
 
 	return render(request,'pre_quiz_page.html', context_dict)
+
+def grade_view(request,id):
+	context_dict = {}
+	#quiz_grades = []
+
+	course = Course.objects.get(id=id)
+
+	quizzes = course.quizes.all()
+	homeworks = course.homeworks.all()
+	surveys = course.surveys.all()
+
+	context_dict ['quizzes'] = quizzes
+	context_dict ['homeworks'] = homeworks
+	context_dict ['surveys'] = surveys
+
+	return render(request, 'assignement_list', context_dict)
+	"""for quiz in Course.objects.get(id=id).quizes:
+		quiz_grades.append(Grade.objects.get(assignment=quiz))"""

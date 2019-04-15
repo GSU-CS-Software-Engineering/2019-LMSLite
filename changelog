@@ -1,6 +1,6 @@
 - version: unreleased
-
-- Created buffer page for student side quiz
+- created grade assignment list view (@kh06089)
+- Created buffer page for student side quiz (@kh06089)
 - Created Grade model(@Chino96)
 - Homework can download file(@Chino96)
 - quiz grading is calculated(@Chino96)
