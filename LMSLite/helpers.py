@@ -1,5 +1,7 @@
 import csv
 
+from django.core.files.storage import default_storage
+
 
 class Question:
 	type = 0
@@ -28,7 +30,7 @@ def reset_quiz(input, output, post):
 	i = 0
 	j = 0
 	string = 'Question '
-	with open(output, "wt") as fout:
+	with default_storage.open(output, "wt") as fout:
 		for line in qtype:
 			for ans in qtype[i]:
 				string += str(i+1)
@@ -66,6 +68,7 @@ def reset_quiz(input, output, post):
 			fout.write('\n')
 			i += 1
 		fout.close()
+		return fout
 
 
 def create_quiz(input):
@@ -128,6 +131,7 @@ def grade_quiz(input, key):
 		read1 = (line for line in read1 if line)  # ignore blank lines
 		for ques in read1:
 			first.append(ques)
+
 	with open(input, "r") as f2:
 		read2 = csv.reader(f2, delimiter='\t')  # parse by tab
 		read2 = (line for line in read2 if line)  # ignore blank lines

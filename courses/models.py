@@ -25,6 +25,14 @@ def homework_upload_address(instance, filename):
 	return file_path
 
 
+def response_upload_address(instance, filename):
+	name, ext = filename.split('.')
+	filename = instance.assignment.assignment_name
+	file_path = '{account_id}/Responses/{filename}.{ext}'.format(
+		account_id=instance.assignment.course_id.course_name, filename=filename + '_' + instance.stdnt.email.split('@')[0], ext=ext)
+	return file_path
+
+
 class Assignment(models.Model):
 
 	assignment_name	= models.CharField(max_length=255, blank=True)
@@ -69,8 +77,10 @@ class Homework(Assignment):
 
 
 class Grade(models.Model):
-	assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
-	grade_value = models.FloatField()
+	assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, blank=True, default=None)
+	grade_value = models.FloatField(blank=True, default=None)
+	stdnt = models.ForeignKey('accounts.Student', on_delete=models.CASCADE, blank=True, default=None)
+	file = models.FileField(blank=True, default=None)
 
 
 class Course(models.Model):

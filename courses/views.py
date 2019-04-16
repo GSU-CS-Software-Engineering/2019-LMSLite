@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from tempfile import NamedTemporaryFile
 
 from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz
-from accounts.models import Professor
-from courses.models import Course, Quiz
+from accounts.models import Professor, Student
+from courses.models import Course, Quiz, Grade
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm
 from google.cloud import storage
 
@@ -39,7 +39,7 @@ def course_view(request, id):
 	if 'hmwkSubmit' in request.POST:
 		homework.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
-	return render(request, 'course_page.html', context_dict)
+	return render(request,  'course_page.html', context_dict)
 
 
 def quiz_view(request, cid, id):
@@ -51,9 +51,9 @@ def quiz_view(request, cid, id):
 
 	client = storage.Client()
 	bucket = client.get_bucket('lms-lite-2019')
-	blob = bucket.get_blob(quiz.file.name)
+	key_blob = bucket.get_blob(quiz.file.name)
 
-	downloaded_blob = blob.download_as_string()
+	downloaded_blob = key_blob.download_as_string()
 
 	quizKey = NamedTemporaryFile(delete=False)
 	quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
@@ -69,12 +69,32 @@ def quiz_view(request, cid, id):
 
 	if request.method == "POST":
 		stdQuiz = NamedTemporaryFile(delete=False)
-		reset_quiz(quizKey.name, stdQuiz.name, request.POST)
+
+		response_loc = '/'.join((cid.course_name, 'Quizzes', quiz.assignment_name, 'Responses', request.user.email.split('@')[0]+'_response.txt'))
+
+		response_file = reset_quiz(quizKey.name, response_loc, request.POST)
+
+
+		std_quiz_blob = bucket.get_blob(response_loc)
+
+		download = std_quiz_blob.download_as_string()
+		stdQuiz.write(bytes(download.decode('utf8'), 'UTF-8'))
+
 
 		quizKey.seek(0)
 		stdQuiz.seek(0)
-		#print(grade_quiz(stdQuiz.name, quizKey.name))
-		context_dict['grade'] = grade_quiz(stdQuiz.name, quizKey.name)
+
+		score = grade_quiz(stdQuiz.name, quizKey.name)
+
+		context_dict['grade'] = score
+
+		grade = Grade()
+		grade.assignment = quiz
+		grade.file = response_file.name
+		grade.grade_value = score
+		grade.stdnt = Student.objects.get(id=request.user.id)
+		grade.save()
+
 		return render(request, 'post_quiz_page.html', context_dict)
 
 	return render(request, 'quiz_page.html', context_dict)

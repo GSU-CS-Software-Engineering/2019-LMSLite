@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from courses.models import Course, Assignment
+from courses.models import Course, Assignment, Grade
 
 from .forms import CourseAdminCreationForm, CourseAdminChangeForm
 
 
-class CourseAdmin(UserAdmin):
+class CourseAdmin(admin.ModelAdmin):
 
 	form = CourseAdminCreationForm
 	add_form = CourseAdminChangeForm
@@ -26,5 +26,6 @@ class CourseAdmin(UserAdmin):
 	filter_horizontal = ()
 
 admin.site.register(Assignment)
+admin.site.register(Grade)
 admin.site.register(Course, CourseAdmin)
 
