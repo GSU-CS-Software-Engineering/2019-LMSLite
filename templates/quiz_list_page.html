@@ -11,7 +11,7 @@
     </tr>
     {% for Quiz in quizzes %}
         <tr>
-            <td class="cQuizList"><a href="{%  url 'quiz_page' cid=Quiz.course_id.id id=Quiz.id %} ">{{ Quiz.assignment_name }}</a></td>
+            <td class="cQuizList"><a href="{%  url 'quiz_start' cid=Quiz.course_id.id id=Quiz.id %} ">{{ Quiz.assignment_name }}</a></td>
             <td class="cStartDate"></td>
             <td class="cDueDate"></td>
         </tr>
