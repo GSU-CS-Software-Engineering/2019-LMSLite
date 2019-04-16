@@ -1,4 +1,6 @@
 - version: unreleased
+
+- Added and populated grade pages(@kh06089)
 - created grade assignment list view (@kh06089)
 - Created buffer page for student side quiz (@kh06089)
 - Created Grade model(@Chino96)

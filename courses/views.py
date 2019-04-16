@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from tempfile import NamedTemporaryFile
 
 from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz
@@ -94,20 +94,32 @@ def pre_quiz_view(request,id, cid):
 
 	return render(request,'pre_quiz_page.html', context_dict)
 
-def grade_view(request,id):
+def grade_view(request,cid):
 	context_dict = {}
 	#quiz_grades = []
 
-	course = Course.objects.get(id=id)
+	course = Course.objects.get(id=cid)
 
 	quizzes = course.quizes.all()
 	homeworks = course.homeworks.all()
 	surveys = course.surveys.all()
 
-	context_dict ['quizzes'] = quizzes
-	context_dict ['homeworks'] = homeworks
-	context_dict ['surveys'] = surveys
+	context_dict['course'] = course
+	context_dict['quizzes'] = quizzes
+	context_dict['homeworks'] = homeworks
+	context_dict['surveys'] = surveys
 
-	return render(request, 'assignement_list', context_dict)
+	return render(request, 'assignment_list.html', context_dict)
+
+def submission_view(request, id, cid):
+	context_dict = {}
+
+	course = Course.objects.get(id=cid)
+
+	context_dict['course'] = course
+
+
+	return render(request,'submission_view.html',context_dict)
+
 	"""for quiz in Course.objects.get(id=id).quizes:
 		quiz_grades.append(Grade.objects.get(assignment=quiz))"""
