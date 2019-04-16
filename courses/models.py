@@ -4,24 +4,24 @@ from django.db import models
 def quiz_upload_address(instance, filename):
 	name, ext = filename.split('.')
 	filename = instance.assignment_name
-	file_path = '{account_id}/Quizzes/{filename}.{ext}'.format(
-		account_id=instance.course_id.course_name, filename=filename+'_key', ext=ext)
+	file_path = '{account_id}/Quizzes/{Assignment}/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, Assignment=instance.assignment_name, filename=filename+'_key', ext=ext)
 	return file_path
 
 
 def survey_upload_address(instance, filename):
 	name, ext = filename.split('.')
 	filename = instance.assignment_name
-	file_path = '{account_id}/Survey/{filename}.{ext}'.format(
-		account_id=instance.course_id.course_name, filename=filename + '_key', ext=ext)
+	file_path = '{account_id}/Surveys/{Assignment}/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, Assignment=instance.assignment_name, filename=filename + '_key', ext=ext)
 	return file_path
 
 
 def homework_upload_address(instance, filename):
 	name, ext = filename.split('.')
 	filename = instance.assignment_name
-	file_path = '{account_id}/Homework/{filename}.{ext}'.format(
-		account_id=instance.course_id.course_name, filename=filename + '_key', ext=ext)
+	file_path = '{account_id}/Homework/{Assignment}/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, Assignment=instance.assignment_name, filename=filename + '_key', ext=ext)
 	return file_path
 
 
@@ -85,6 +85,8 @@ class Grade(models.Model):
 
 class Course(models.Model):
 
+	prof			= models.ForeignKey('accounts.Professor', on_delete=models.CASCADE, blank=True, default=None)
+	students		= models.ManyToManyField('accounts.Student')
 	course_name 	= models.CharField(max_length=255, unique=True)
 	description		= models.TextField(blank=True)
 	quizes			= models.ManyToManyField(Quiz)

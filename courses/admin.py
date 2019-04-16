@@ -14,11 +14,11 @@ class CourseAdmin(admin.ModelAdmin):
 	list_filter = ('course_name',)
 
 	fieldsets = (
-		(None, {'fields': ('course_name', 'description')}),
+		(None, {'fields': ('prof', 'course_name', 'description', 'students')}),
 	)
 
 	add_fieldsets = (
-		(None, {'fields': ('course_name', 'description')}),
+		(None, {'fields': ('prof', 'course_name', 'description', 'students')}),
 	)
 
 	search_fields = ('course_name',)

@@ -16,6 +16,11 @@ class CourseAdminCreationForm(forms.ModelForm):
 		# Save the provided password in hashed format
 		course = super(CourseAdminCreationForm, self).save(commit=False)
 
+		for student in course.students.all():
+			student.courses.add(course)
+
+		course.prof.courses.add(course)
+
 		if commit:
 			course.save()
 		return course

@@ -5,8 +5,15 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from courses.models import Course
 
 
-class UserManager(BaseUserManager):
+def photo_upload_address(instance, filename):
+	name, ext = filename.split('.')
+	filename = instance.assignment_name
+	file_path = 'user-profile-photos/{username}/{filename}.{ext}'.format(
+		username=instance.email.split('@')[0], filename=filename, ext=ext)
+	return file_path
 
+
+class UserManager(BaseUserManager):
     def create_user(self, email, password=None, is_active=True, is_staff=False, is_admin=False, role=None):
 
         if not email:
@@ -54,7 +61,7 @@ class User(AbstractBaseUser):
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
     courses = models.ManyToManyField('courses.Course')
-    profile_photo = models.ImageField(upload_to='user-profile-photos', blank=True)
+    profile_photo = models.ImageField(upload_to=photo_upload_address, blank=True)
 
     USER_TYPE_CHOICES = (
         (2, 'student'),
