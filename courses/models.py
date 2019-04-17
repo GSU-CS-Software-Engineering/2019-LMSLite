@@ -4,24 +4,32 @@ from django.db import models
 def quiz_upload_address(instance, filename):
 	name, ext = filename.split('.')
 	filename = instance.assignment_name
-	file_path = '{account_id}/Quizzes/{filename}.{ext}'.format(
-		account_id=instance.course_id.course_name, filename=filename+'_key', ext=ext)
+	file_path = '{account_id}/Quizzes/{Assignment}/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, Assignment=instance.assignment_name, filename=filename+'_key', ext=ext)
 	return file_path
 
 
 def survey_upload_address(instance, filename):
 	name, ext = filename.split('.')
 	filename = instance.assignment_name
-	file_path = '{account_id}/Survey/{filename}.{ext}'.format(
-		account_id=instance.course_id.course_name, filename=filename + '_key', ext=ext)
+	file_path = '{account_id}/Surveys/{Assignment}/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, Assignment=instance.assignment_name, filename=filename + '_key', ext=ext)
 	return file_path
 
 
 def homework_upload_address(instance, filename):
 	name, ext = filename.split('.')
 	filename = instance.assignment_name
-	file_path = '{account_id}/Homework/{filename}.{ext}'.format(
-		account_id=instance.course_id.course_name, filename=filename + '_key', ext=ext)
+	file_path = '{account_id}/Homework/{Assignment}/{filename}.{ext}'.format(
+		account_id=instance.course_id.course_name, Assignment=instance.assignment_name, filename=filename + '_key', ext=ext)
+	return file_path
+
+
+def response_upload_address(instance, filename):
+	name, ext = filename.split('.')
+	filename = instance.assignment.assignment_name
+	file_path = '{account_id}/Responses/{filename}.{ext}'.format(
+		account_id=instance.assignment.course_id.course_name, filename=filename + '_' + instance.stdnt.email.split('@')[0], ext=ext)
 	return file_path
 
 
@@ -69,12 +77,16 @@ class Homework(Assignment):
 
 
 class Grade(models.Model):
-	assignment = models.OneToOneField(Assignment, on_delete=models.CASCADE)
-	grade_value = models.FloatField()
+	assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, blank=True, default=None)
+	grade_value = models.FloatField(blank=True, default=None)
+	stdnt = models.ForeignKey('accounts.Student', on_delete=models.CASCADE, blank=True, default=None)
+	file = models.FileField(blank=True, default=None)
 
 
 class Course(models.Model):
 
+	prof			= models.ForeignKey('accounts.Professor', on_delete=models.CASCADE, blank=True, default=None)
+	students		= models.ManyToManyField('accounts.Student')
 	course_name 	= models.CharField(max_length=255, unique=True)
 	description		= models.TextField(blank=True)
 	quizes			= models.ManyToManyField(Quiz)

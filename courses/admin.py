@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from courses.models import Course, Assignment
+from courses.models import Course, Assignment, Grade
 
 from .forms import CourseAdminCreationForm, CourseAdminChangeForm
 
 
-class CourseAdmin(UserAdmin):
+class CourseAdmin(admin.ModelAdmin):
 
 	form = CourseAdminCreationForm
 	add_form = CourseAdminChangeForm
@@ -14,11 +14,11 @@ class CourseAdmin(UserAdmin):
 	list_filter = ('course_name',)
 
 	fieldsets = (
-		(None, {'fields': ('course_name', 'description')}),
+		(None, {'fields': ('prof', 'course_name', 'description', 'students')}),
 	)
 
 	add_fieldsets = (
-		(None, {'fields': ('course_name', 'description')}),
+		(None, {'fields': ('prof', 'course_name', 'description', 'students')}),
 	)
 
 	search_fields = ('course_name',)
@@ -26,5 +26,6 @@ class CourseAdmin(UserAdmin):
 	filter_horizontal = ()
 
 admin.site.register(Assignment)
+admin.site.register(Grade)
 admin.site.register(Course, CourseAdmin)
 

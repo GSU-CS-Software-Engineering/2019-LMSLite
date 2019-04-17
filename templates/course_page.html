@@ -28,7 +28,7 @@
                   <a href="#" id = "survBtn">Surveys</a>
               </div>
           </div>
-          <a href="#">Grades</a>
+          <a href={% url 'assignment_list' cid=course.id %}>Grades</a>
           {% if user.is_authenticated %}
               <a href="{% url 'logout' %}"><i class="fa fa-sign-out" style="font-size:18px"></i> Logout</a>
           {% else %}
