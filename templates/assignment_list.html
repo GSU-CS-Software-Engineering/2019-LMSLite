@@ -10,13 +10,15 @@
             <th class="tablerowheader">Quizzes</th>
             <th class="tablerowheader">Grade</th>
         </tr>
-        {% for Quiz in quizzes %}
+         {% for Grade in quiz_grades %}
 
             <tr>
                 <td class="cQuizList"><a
-                        href="{% url 'submission_view' cid=Quiz.course_id.id id=Quiz.id %} ">{{ Quiz.assignment_name }}</a>
+                        href="{% url 'submission_view' cid=Grade.assignment.course_id.id id=Grade.assignment.id %} ">{{ Grade.assignment.assignment_name }}</a>
                 </td>
+                <td>{{ Grade.grade_value }}</td>
             </tr>
+
         {% endfor %}
 
         <tr class="quiztablerow w3-dark-gray">

@@ -139,21 +139,25 @@ def grade_quiz(input, key):
 			second.append(questy)
 	i = 0
 	correct = 0
+	gradeable=0
 	while i < len(first):
 		if first[i][0] == "MC":
+			gradeable += 1
 			if first[i] == second[i]:
 				correct += 1
 
 		if first[i][0] == "TF":
+			gradeable += 1
 			if first[i] == second[i]:
 				correct += 1
 
 		if first[i][0] == "MA":
 			j = 3
+			gradeable += 1
 			while j < len(first[i]):
 				if first[i][j] == second[i][j]:
 					correct += (1 / ((len(first[i][2:]) / 2)))
 				j += 2
 		i += 1
-	return round(100 *(correct/len(first)),2)
+	return round(100 *(correct/gradeable),2)
 

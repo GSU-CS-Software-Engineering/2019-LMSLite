@@ -456,3 +456,8 @@ p#hellomessage img, p#hellomessage i {
     text-align: center;
     padding-top: 10px;
 }
+
+a.disable {
+    pointer-events: none;
+    cursor: default;
+}

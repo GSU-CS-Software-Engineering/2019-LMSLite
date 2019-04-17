@@ -9,6 +9,6 @@
     be taken between<br> {{ quiz.open_date }} - {{ quiz.due_date }}. Once the quiz is open, <br>
     you will only be allowed to submit it.<br><br>YOU WILL NOT BE ABLE TO SAVE AND CONTINUE THE QUIZ AT A LATER TIME!</p>
 
-    <a href={% url 'quiz_page' cid=quiz.course_id.id id=quiz.id %}> <input type="submit" value="Begin Quiz"></a>
+    <a href={% url 'quiz_page' cid=quiz.course_id.id id=quiz.id %}> <input id="bgnQuizBtn" type="submit" value="Begin Quiz"></a>
 
 {% endblock content %}
