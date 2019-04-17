@@ -96,11 +96,6 @@ class QuizFileForm(forms.ModelForm):
 
 		return quiz
 
-	def quiz_url(self):
-		quiz = super(QuizFileForm, self).save(commit=False)
-
-		return quiz.file.url
-
 
 class HomeworkCreationForm(forms.ModelForm):
 

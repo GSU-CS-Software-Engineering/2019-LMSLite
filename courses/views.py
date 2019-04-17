@@ -26,7 +26,7 @@ def course_view(request, id):
 
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		blob = bucket.get_blob(course.course_name + '/Quizzes/' +request.POST['assignment_name']+ '/'+request.POST['assignment_name'] +'_key.txt')
+		blob = bucket.get_blob(course.course_name + '/Quizzes/' + request.POST['assignment_name'] +'_key.txt')
 
 		downloaded_blob = blob.download_as_string()
 		quizKey = NamedTemporaryFile(delete=False)
@@ -116,26 +116,18 @@ def pre_quiz_view(request,id, cid):
 
 def grade_view(request,cid):
 	context_dict = {}
-	quiz_grades = []
+	#quiz_grades = []
 
 	course = Course.objects.get(id=cid)
+
 	quizzes = course.quizes.all()
 	homeworks = course.homeworks.all()
 	surveys = course.surveys.all()
-
-	for quiz in quizzes:
-		try:
-			quiz_grades.append(Grade.objects.get(assignment=quiz))
-			pass
-		except:
-			pass
 
 	context_dict['course'] = course
 	context_dict['quizzes'] = quizzes
 	context_dict['homeworks'] = homeworks
 	context_dict['surveys'] = surveys
-	context_dict['quiz_grades'] = quiz_grades
-
 
 	return render(request, 'assignment_list.html', context_dict)
 
@@ -143,6 +135,7 @@ def submission_view(request, id, cid):
 	context_dict = {}
 
 	course = Course.objects.get(id=cid)
+
 	context_dict['course'] = course
 
 
