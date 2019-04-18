@@ -84,15 +84,24 @@ def create_quiz(input):
 
 		i = 0  # initialize index
 		while i < len(qtype):
-
 			if qtype[i][0] == "MC":
-				questions.append(
-					Question(
+				if 'Correct' in qtype[i]:
+
+					questions.append(
+						Question(
+								pType=1,
+								pLabel=qtype[i][1],
+								pAnswers=qtype[i][::2],
+								cAns=qtype[i][qtype[i].index("Correct") - 1]))
+					questions[i].answers = 	questions[i].answers[1:]
+				else:
+					questions.append(
+						Question(
 							pType=1,
 							pLabel=qtype[i][1],
 							pAnswers=qtype[i][::2],
-							cAns=qtype[i][qtype[i].index("Correct") - 1]))
-				questions[i].answers = 	questions[i].answers[1:]
+							cAns=[]))
+					questions[i].answers = questions[i].answers[1:]
 
 			if qtype[i][0] == "SR":  # Short Answer
 				questions.append(Question(pType=2, pLabel=qtype[i][1], pAnswers=qtype[i][2:], cAns=qtype[i][2]))

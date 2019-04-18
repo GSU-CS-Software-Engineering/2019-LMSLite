@@ -5,8 +5,7 @@ from django.shortcuts import render
 from django.utils.encoding import smart_str
 
 from accounts.models import Professor
-from courses.models import Course, Quiz, Assignment, Homework, Survey
-from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm
+from courses.models import Quiz, Assignment, Homework, Survey
 
 def index(request):
     context_dict = {}
@@ -31,16 +30,24 @@ def index(request):
     return render(request, 'index.html', context_dict)
 
 def download(request, id):
-    response = HttpResponse(content_type='application/force-download')
     assignment = Assignment.objects.get(id=id)
 
     if assignment.type == 0:
-        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(Quiz.objects.get(id=id).file.name)
+        quiz = Quiz.objects.get(id=id)
+        fName = quiz.file.name.split('/')[-1]
+        response = HttpResponse(quiz.file, content_type='text/plain')
+        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(fName)
 
     elif assignment.type == 2:
-        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(Homework.objects.get(id=id).file.name)
+        hw = Homework.objects.get(id=id)
+        fName = hw.file.name.split('/')[-1]
+        response = HttpResponse(hw.file, content_type='text/plain')
+        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(fName)
 
     elif assignment.type == 1:
-        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(Survey.objects.get(id=id).file.name)
+        survey = Survey.objects.get(id=id)
+        fName = survey.file.name.split('/')[-1]
+        response = HttpResponse(survey.file, content_type='text/plain')
+        response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(fName)
 
     return response

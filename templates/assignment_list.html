@@ -13,8 +13,10 @@
          {% for Grade in quiz_grades %}
 
             <tr>
-                <td class="cQuizList"><a
-                        href="{% url 'submission_view' cid=Grade.assignment.course_id.id id=Grade.assignment.id %} ">{{ Grade.assignment.assignment_name }}</a>
+                <td class="cQuizList">
+                    <a href="{% url 'submission_view' cid=Grade.assignment.course_id.id id=Grade.id %} ">
+                        {{ Grade.assignment.assignment_name }}
+                    </a>
                 </td>
                 <td>{{ Grade.grade_value }}</td>
             </tr>

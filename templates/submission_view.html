@@ -1,5 +1,29 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <a href="{% url 'assignment_list' cid=course.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i>Grades</a>
+    <a href="{% url 'assignment_list' cid=grade.assignment.course_id.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i>Grades</a>
+
+    <form method="post">
+    {% if user.role == 1 %}
+        {% csrf_token %}
+        {{ grade_form }}
+    {% endif %}
+    {% for question in questions %}
+
+        <h3>{{ question.label }}</h3>
+        {% for answer in question.answers %}
+
+            {% if answer in question.cAnswers %}
+                <input type="radio"checked="checked">{{ answer }}
+
+            {% else %}
+                <input type="radio">{{ answer }}
+            {% endif %}
+            <br>
+        {% endfor %}
+
+    {% endfor %}
+
+        <input type="submit" name="Update" value="update">
+    </form>
 {% endblock content %}

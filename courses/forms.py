@@ -3,7 +3,7 @@ import csv
 from django import forms
 
 from LMSLite.helpers import create_quiz
-from .models import Course, Quiz, Homework
+from .models import Course, Quiz, Homework, Grade
 
 
 class CourseAdminCreationForm(forms.ModelForm):
@@ -102,11 +102,7 @@ class HomeworkCreationForm(forms.ModelForm):
 	class Meta:
 		model = Homework
 		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
-		"""widgets = {
-			'open_date': forms.TextInput(attrs={'type': 'datetime-local', 'autocomplete': 'off'}),
-			'due_date': forms.TextInput(attrs={'type': 'datetime-local', 'autocomplete': 'off'}),
-			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
-		}"""
+
 
 	def save(self, commit=True, course=None, prof=None):
 		homework = super(HomeworkCreationForm, self).save(commit=False)
@@ -120,3 +116,10 @@ class HomeworkCreationForm(forms.ModelForm):
 			course.save()
 
 		return homework
+
+
+class GradeEditForm(forms.ModelForm):
+
+	class Meta:
+		model = Grade
+		fields = ('grade_value', )
