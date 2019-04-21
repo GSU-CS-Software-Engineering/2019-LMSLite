@@ -80,6 +80,16 @@
         <input type="submit" value="Submit" name="hmwkSubmit">
     </form>
 
+  <form id ="surveyForm" style="display: none;" method="POST" enctype="multipart/form-data">
+      <h3>Survey Form</h3>
+          {% for assignment in course.surveys.all %}
+              <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
+          {% endfor %}
+          {% csrf_token %}
+          {{ surveyForm.as_p }}
+        <input type="submit" value="Submit" name="surveySubmit">
+    </form>
+
   </div>
   <div class="side w3-center w3-animate-right">
     <h2>TASK VIEW</h2>
