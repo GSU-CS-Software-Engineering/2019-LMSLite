@@ -57,7 +57,7 @@
       <form onload="quizEditPageLoad()" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Quiz Form</h3>
                 {% for quiz in quizes %}
-                    <a href="{% url 'download' id=quiz.id %}">{{ quiz.assignment_name }}</a>
+                    <a href="{% url 'download' id=quiz.id%}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
             {% csrf_token %}
             {{ quizform.as_p }}

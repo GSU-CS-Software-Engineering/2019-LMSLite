@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz
 from accounts.models import Professor, Student
 from courses.models import Course, Quiz, Grade
-from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm
+from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm
 from google.cloud import storage
 
 
@@ -114,9 +114,9 @@ def pre_quiz_view(request,id, cid):
 
 	return render(request,'pre_quiz_page.html', context_dict)
 
-def grade_view(request,cid):
+def grade_view(request, cid):
 	context_dict = {}
-	#quiz_grades = []
+	quiz_grades = []
 
 	course = Course.objects.get(id=cid)
 
@@ -124,22 +124,46 @@ def grade_view(request,cid):
 	homeworks = course.homeworks.all()
 	surveys = course.surveys.all()
 
+	for quiz in quizzes:
+		try:
+			quiz_grades.append(Grade.objects.get(assignment=quiz))
+		except:
+			pass
+
 	context_dict['course'] = course
 	context_dict['quizzes'] = quizzes
 	context_dict['homeworks'] = homeworks
 	context_dict['surveys'] = surveys
+	context_dict['quiz_grades'] = quiz_grades
+
 
 	return render(request, 'assignment_list.html', context_dict)
 
-def submission_view(request, id, cid):
+
+def submission_view(request, cid, id):
 	context_dict = {}
 
-	course = Course.objects.get(id=cid)
+	grade = Grade.objects.get(id=id)
+	grade_form = GradeEditForm(request.POST, instance=grade)
+	context_dict['grade'] = grade
+	context_dict['grade_form'] = grade_form
 
-	context_dict['course'] = course
+	client = storage.Client()
+	bucket = client.get_bucket('lms-lite-2019')
+	blob = bucket.get_blob(grade.file.name)
+
+	downloaded_blob = blob.download_as_string()
+	response = NamedTemporaryFile(delete=False)
+	response.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
+	response.seek(0)
+
+	questions = create_quiz(response.name)
+
+	context_dict['questions'] = questions
+
+	if request.method == 'POST':
+		grade_form.save()
 
 
 	return render(request,'submission_view.html',context_dict)
 
-	"""for quiz in Course.objects.get(id=id).quizes:
-		quiz_grades.append(Grade.objects.get(assignment=quiz))"""
