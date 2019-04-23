@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz
 from accounts.models import Professor, Student
 from courses.models import Course, Quiz, Grade
-from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm
+from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm
 from google.cloud import storage
 
 
@@ -14,9 +14,11 @@ def course_view(request, id):
 	course = Course.objects.get(id=id)
 	quiz = QuizFileForm(request.POST, request.FILES)
 	homework = HomeworkCreationForm(request.POST, request.FILES)
+	survey = SurveyFileForm(request.POST, request.FILES)
 	context_dict['course'] = course
 	context_dict['quizform'] = quiz
 	context_dict['hwForm'] = homework
+	context_dict['surveyForm'] = survey
 	context_dict['quizes'] = course.quizes.all()
 
 	if 'quizSubmit' in request.POST:

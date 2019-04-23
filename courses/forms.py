@@ -3,7 +3,7 @@ import csv
 from django import forms
 
 from LMSLite.helpers import create_quiz
-from .models import Course, Quiz, Homework, Grade
+from .models import Course, Quiz, Homework, Grade, Survey
 
 
 class CourseAdminCreationForm(forms.ModelForm):
@@ -31,6 +31,70 @@ class CourseAdminChangeForm(forms.ModelForm):
 	class Meta:
 		model = Course
 		fields = ('course_name', 'description')
+
+
+class SurveyEditForm(forms.ModelForm):
+
+	file_address = ''
+
+	class Meta:
+		model = Survey
+		fields = ()
+
+	def generate_survey_form(self, input):
+		questions = create_quiz(input)
+
+		for x, question in enumerate(questions, start=1):
+
+			self.fields['Question' + str(x) + 'type'] = forms.ChoiceField(
+				choices={(1, 'MC'), (2, 'SR'), (3, 'MA'), (4, 'FIB'), (5, 'TF'), (6, 'ESS')},
+				initial=question.type,
+				label='')
+
+			self.fields['Question ' + str(x)] = forms.CharField(
+				max_length=1000,
+				initial=question.label,
+				widget=forms.Textarea(attrs={'rows': 1,
+											 'cols': 40,
+											 'style': 'height: 5rem;'}))
+
+			for y, answer in enumerate(question.answers, start=1):
+				self.fields['Question' + str(x) + 'Answer' + str(y)] = forms.CharField(
+					label='Answer ' + str(y),
+					max_length=1000,
+					initial=answer,
+					widget=forms.Textarea(attrs={'rows': 1,
+												 'cols': 40,
+												 'style': 'height: 2rem;'}))
+
+	def __init__(self, *args, **kwargs):
+		super(SurveyEditForm, self).__init__(*args, **kwargs)
+		self.generate_survey_form(self.file_address)
+
+
+class SurveyFileForm(forms.ModelForm):
+
+	class Meta:
+		model = Survey
+		fields = ('assignment_name', 'open_date', 'due_date', 'file')
+		widgets = {
+			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
+		}
+
+	def save(self, commit=True, course=None, prof=None):
+		survey = super(SurveyFileForm, self).save(commit=False)
+
+		if commit:
+			survey.prof = prof
+			survey.course_id = course
+			survey.type = 0
+			survey.save()
+			course.surveys.add(Survey.objects.get(id=survey.id))
+			course.save()
+
+		return survey
 
 
 class QuizEditForm(forms.ModelForm):

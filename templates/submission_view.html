@@ -12,18 +12,59 @@
 
         <h3>{{ question.label }}</h3>
         {% for answer in question.answers %}
+            {% if question.type == 1 %}
+                {% if answer in question.cAnswers %}
+                    <input type="radio"checked="checked" disabled>{{ answer }}
 
-            {% if answer in question.cAnswers %}
-                <input type="radio"checked="checked">{{ answer }}
+                {% else %}
+                    <input type="radio" disabled>{{ answer }}
+                {% endif %}
+                <br>
 
-            {% else %}
-                <input type="radio">{{ answer }}
+            {% elif question.type == 2 %}
+                {% if answer in question.cAnswers %}
+                    <input type="text" value="{{ answer }}" readonly>
+                {% endif %}
+                <br>
+
+
+            {% elif question.type == 3 %}
+                {% if answer in question.cAnswers %}
+                    <input type="checkbox" checked="checked" disabled>{{ answer }}
+
+                {% else %}
+                    <input type="checkbox" disabled>{{ answer }}
+                {% endif %}
+                <br>
+
+            {% elif question.type == 4 %}
+                {% if answer in question.cAnswers %}
+                    <input type="text" value="{{ answer }}" readonly>
+                {% endif %}
+                <br>
+
+            {% elif question.type == 5 %}
+                {% if answer in question.cAnswers and answer == 'True' %}
+                    <input type="radio" value="{{ answer }}" checked="checked" disabled> {{ 'True' }}
+                    <input type="radio" value="False" disabled> {{ 'False' }}
+
+                {% elif answer in question.cAnswers and answer == 'False' %}
+                    <br>
+                    <input type="radio" value="True" disabled> {{ 'True' }}
+                    <input type="radio" value="{{ answer }}" checked="checked" disabled> {{ 'False' }}
+                {% endif %}
+
+            {% elif question.type == 6 %}
+                <textarea cols="50" rows="1" style="height: 5rem" maxlength="1000" readonly>{{ answer }}</textarea>
+
             {% endif %}
-            <br>
+
         {% endfor %}
 
     {% endfor %}
-
-        <input type="submit" name="Update" value="update">
+        <br>
+        {% if user.role == 1 %}
+            <input type="submit" name="Update" value="update">
+        {% endif %}
     </form>
 {% endblock content %}

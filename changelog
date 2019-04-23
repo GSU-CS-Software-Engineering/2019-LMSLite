@@ -1,5 +1,6 @@
 - version: unreleased
-- Student can view grades
+- Created Survey forms(@Chino96)
+- Student can view grades(@Chino96)
 - Fixed course admin creation form(@Chino96)
 - grades upload resopnses to Google Cloud(@Chino96)
 - Finished grade model(@Chino96)
