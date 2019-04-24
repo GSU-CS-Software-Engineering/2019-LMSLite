@@ -15,6 +15,7 @@ def course_view(request, id):
 	quiz = QuizFileForm(request.POST, request.FILES)
 	homework = HomeworkCreationForm(request.POST, request.FILES)
 	survey = SurveyFileForm(request.POST, request.FILES)
+
 	context_dict['course'] = course
 	context_dict['quizform'] = quiz
 	context_dict['hwForm'] = homework
@@ -28,7 +29,7 @@ def course_view(request, id):
 
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		blob = bucket.get_blob(course.course_name + '/Quizzes/' + request.POST['assignment_name'] +'_key.txt')
+		blob = bucket.get_blob(course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt')
 
 		downloaded_blob = blob.download_as_string()
 		quizKey = NamedTemporaryFile(delete=False)
@@ -48,6 +49,7 @@ def quiz_view(request, cid, id):
 	context_dict = {}
 	quiz = Quiz.objects.get(id=id)
 	cid = quiz.course_id
+	student = Student.objects.get(id=request.user.id)
 	context_dict['quiz'] = quiz
 	context_dict['course'] = cid
 
@@ -94,8 +96,9 @@ def quiz_view(request, cid, id):
 		grade.assignment = quiz
 		grade.file = response_file.name
 		grade.grade_value = score
-		grade.stdnt = Student.objects.get(id=request.user.id)
+		grade.stdnt = student
 		grade.save()
+		student.quizes.remove(quiz)
 
 		return render(request, 'post_quiz_page.html', context_dict)
 
@@ -104,8 +107,10 @@ def quiz_view(request, cid, id):
 
 def quiz_list_view(request, cid):
 	context_dict = {}
-	quizzes = Course.objects.get(id=cid).quizes.all()
+	course = Course.objects.get(id=cid)
+	quizzes = Student.objects.get(id=request.user.id).quizes.all()
 	context_dict['quizzes'] = quizzes
+	context_dict['course'] = course
 	return render(request, 'quiz_list_page.html', context_dict)
 
 

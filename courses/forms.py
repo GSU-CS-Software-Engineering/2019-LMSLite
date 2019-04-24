@@ -156,6 +156,11 @@ class QuizFileForm(forms.ModelForm):
 			quiz.type = 0
 			quiz.save()
 			course.quizes.add(Quiz.objects.get(id=quiz.id))
+
+			for student in course.students.all():
+				student.quizes.add(Quiz.objects.get(id=quiz.id))
+				student.save()
+
 			course.save()
 
 		return quiz

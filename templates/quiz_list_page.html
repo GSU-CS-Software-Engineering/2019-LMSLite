@@ -10,11 +10,13 @@
         <th class="tablerowheader">Due Date</th>
     </tr>
     {% for Quiz in quizzes %}
-        <tr>
-            <td class="cQuizList"><a id = '{{ Quiz.id }}' href="{%  url 'quiz_start' cid=Quiz.course_id.id id=Quiz.id %} ">{{ Quiz.assignment_name }}</a></td>
-            <td class="cStartDate"></td>
-            <td class="cDueDate"></td>
-        </tr>
+        {% if Quiz in course.quizes.all %}
+            <tr>
+                <td class="cQuizList"><a id = '{{ Quiz.id }}' href="{%  url 'quiz_start' cid=Quiz.course_id.id id=Quiz.id %} ">{{ Quiz.assignment_name }}</a></td>
+                <td class="cStartDate">{{ Quiz.open_date }}</td>
+                <td class="cDueDate">{{ Quiz.due_date }}</td>
+            </tr>
+        {% endif %}
     {% endfor %}
     <tr class="quiztablerow w3-dark-gray">
         <th class="tablerowheader">Future Quizzes</th>
