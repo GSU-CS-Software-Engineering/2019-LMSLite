@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+{% if user.role == 2 %}
+    <a href="{% url 'course_page' id=course.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i> {{ course.course_name }}</a>
+    <h1>Homework</h1>
+
+    <table class="w3-table-all w3-centered">
+        <tbody>
+
+        <tr class="quiztablerow w3-dark-gray">
+            <th class="tablerowheader">Homeworks</th>
+            <th class="tablerowheader">Start Date</th>
+            <th class="tablerowheader">Due Date</th>
+            <th class="tablerowheader">Submit Homework</th>
+        </tr>
+        <tr>
+          {% for Homework in homework %}
+          {% if Homework in course.homeworks.all %}
+            <td  class="cHomeworkList"><a id='{{ Homework.id }}' href="{% url 'download' id=Homework.id %}">{{ Homework.assignment_name }}</a></td>
+            <td class="cStartDate">{{ Homework.open_date }}</td>
+            <td class="cDueDate">{{ Homework.due_date }}</td>
+            <td class="cUpload"><a id="upload" href="{% url 'submit_assign' cid=Homework.course_id.id id=Homework.id %}"> <input id="UploadAssign" type="submit" value="Upload"></a></td>
+          {% endif %}
+          {% endfor %}
+        </tr>
+        </tbody>
+    </table>
+
+
+{% endif %}
+{% endblock content %}
