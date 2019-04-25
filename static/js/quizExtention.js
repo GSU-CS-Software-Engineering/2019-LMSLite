@@ -6,6 +6,7 @@ function updateMAcheckbox(updatedid) {
 
 function quizEditPageLoad() {
     event.preventDefault();
+    document.getElementById("quizQuestionBtn").style.display = "inline-block";
 
     var x = document.querySelectorAll("select[id*=id_Question]").length;
     var count = 1;
