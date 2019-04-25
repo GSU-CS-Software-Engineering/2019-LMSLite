@@ -1,4 +1,9 @@
 //This function creates the delete button for each question
+function updateMAcheckbox(updatedid) {
+    var x = document.getElementById(updatedid).value;
+    document.getElementById(updatedid).previousElementSibling.value = x;
+}
+
 function quizEditPageLoad() {
     event.preventDefault();
 
@@ -67,7 +72,7 @@ function quizEditPageLoad() {
                 var checkbox = document.createElement('input');
                 checkbox.type = "checkbox";
                 checkbox.name = "Question" + (i + 1) + "CheckboxGrp"
-                checkbox.value = "value";
+                checkbox.value = document.getElementById("id_Question" + (i + 1) + "Answer" + j).innerText;
                 checkbox.id = "id_EQuestion" + (i + 1) + "Checkbox" + j;
 
                 var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
@@ -277,6 +282,7 @@ function newAnswer(ddid) {
 
             var qanswer = document.createElement("textarea");
             qanswer.setAttribute("id", "id_Question" + dropdownnum + "Answer" + i);
+            qanswer.setAttribute("onchange","updateMAcheckbox(this.id)");
 
             var checkbox = document.createElement('input');
             checkbox.type = "checkbox";
@@ -418,6 +424,7 @@ function addLastAnswer(clicked_id) {
 
         var qanswer = document.createElement("textarea");
         qanswer.setAttribute("id", "id_Question" + aNum + "Answer" + (count + 1));
+        qanswer.setAttribute("onchange","updateMAcheckbox(this.id)");
 
         var radio = document.createElement('input');
         radio.type = "radio";

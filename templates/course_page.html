@@ -20,12 +20,12 @@
               </button>
               <div class="dropdown-content">
                   {% if user.role == 1 %}
-                  <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
+                  <a href="#" onclick= "showHideQuiz()" id = "quizBtn">Quizzes</a>
                   {% else %}
                   <a href="{%  url 'quiz_list' cid=course.id %}" id = "quizBtn">Quizzes</a>
                   {% endif %}
                   <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
-                  <a href="#" id = "survBtn">Surveys</a>
+                  <a href="#" onclick= "showHideSurvey()" id = "survBtn">Surveys</a>
               </div>
           </div>
           <a href={% url 'assignment_list' cid=course.id %}>Grades</a>
@@ -88,7 +88,7 @@
           {% csrf_token %}
           {{ surveyForm.as_p }}
         <input type="submit" value="Submit" name="surveySubmit">
-    </form>
+  </form>
 
   </div>
   <div class="side w3-center w3-animate-right">
