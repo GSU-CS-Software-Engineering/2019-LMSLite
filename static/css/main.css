@@ -6,7 +6,27 @@
     font-size: 100%;
     vertical-align: baseline;
     background: transparent;
+
+
 }
+
+#quizForm2 label {
+    font-weight: 700;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+
+}
+
+ input[id*=bgnQuizBtn]{
+    background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+}
+
 
 body {
     margin: 0;
@@ -129,9 +149,9 @@ form #submit {
     display: block;
     margin: 0 auto;
     width: 25%;
-    background-color: #333333;
+    background-color: #717171;
     border: none;
-    color: white;
+    color: black;
     padding: 15px 32px;
     text-align: center;
     font-size: 16px;
@@ -139,8 +159,7 @@ form #submit {
 }
 
 #submit:hover {
-    background-color: #cfb9f2;
-    color: #333333;
+    color: #eaeaea;
 }
 
 #id_username, #id_password, #id_password1, #id_password2 {
@@ -398,8 +417,9 @@ textarea {
     margin: -20vw;
 }
 
+
 hr {
-    border-top: 1px solid rgb(162, 162, 162);
+    border-top: 1px solid transparent;
 }
 
 #id_File, #id_file {
@@ -407,7 +427,7 @@ hr {
 }
 
 button[id*=deleteBtn] {
-    background-color: #7877c5;
+    background-color: #717171;
     color: black;
     padding: 5px;
     border-radius: 10px;
@@ -419,13 +439,13 @@ input[id*=id_EQuestion][type=checkbox], input[id*=id_EQuestion][type=radio] {
 
 button#quizQuestionBtn, input#submitQuizUpload {
     padding: 4px;
-    background: #7877c5;
+    background: #717171;
     border-radius: 5px;
 }
 
 button[id*=id_removeAnswerBtn], button[id*=id_addAnswerBtn] {
     padding: 7px;
-    background: #7877c5;
+    background: #717171;
     border-radius: 25px;
 }
 
@@ -437,6 +457,26 @@ button, input#submitQuizUpload {
     cursor: pointer;
     border: none;
 }
+
+input[name =quiz_submit]{
+    background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+}
+
+ input[id*=btn_done]{
+     background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+ }
+
+  input[id*=bgnQuizBtn]:hover, input[id*=btn_done]:hover, input[id*=quiz_submit]:hover {
+      color: #eaeaea;
+  }
 
 select[id*=type] {
     padding: 5px;

@@ -3,12 +3,33 @@
 {% block content %}
     <h1>{{ quiz.course_id.course_name }}</h1>
     <h2>{{ quiz.assignment_name }}</h2>
-    <h3>{{ quiz.open_date }} - {{ quiz.due_date }}</h3>
 
-    <p>The following quiz is for the {{ quiz.course_id.course_name }} course. It shall
-    be taken between<br> {{ quiz.open_date }} - {{ quiz.due_date }}. Once the quiz is open, <br>
-    you will only be allowed to submit it.<br><br>YOU WILL NOT BE ABLE TO SAVE AND CONTINUE THE QUIZ AT A LATER TIME!</p>
 
-    <a href={% url 'quiz_page' cid=quiz.course_id.id id=quiz.id %}> <input id="bgnQuizBtn" type="submit" value="Begin Quiz"></a>
 
+        <td style="text-align:left;">
+        <h3>{{ quiz.open_date }} - {{ quiz.due_date }}</h3>
+        </td>
+
+        <td style="text-align:left;">
+            <p>The following quiz is for the {{ quiz.course_id.course_name }} course. It shall
+    be taken between<br> {{ quiz.open_date }} - {{ quiz.due_date }}. </p>
+        </td>
+
+
+        <td style="text-align: left;">
+            <p>Once the quiz is open, you will only be allowed to submit it.<br><br>YOU WILL NOT BE ABLE TO SAVE AND CONTINUE THE QUIZ AT A LATER TIME!</p>
+        </td>
+
+
+
+    <tr>
+        <td style="text-align: left;">
+            <a href={% url 'quiz_page' cid=quiz.course_id.id id=quiz.id %}> <input id="bgnQuizBtn" type="submit" value="Begin Quiz"></a><td></td>
+        </td>
+
+    </tr>
+
+
+     </tbody>
+    </table>
 {% endblock content %}

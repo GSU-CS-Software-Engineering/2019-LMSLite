@@ -7,6 +7,6 @@
         <h3>Your Grade is : {{ grade }}%</h3>
     {% endif %}
 
-    <a href="{% url 'course_page' id=course.id %}"><input type = "submit" value="Done" name="btn_done"></a>
+    <a href="{% url 'course_page' id=course.id %}"><input id = "btn_done" type = "submit" value="Done" name="btn_done"></a>
 
 {% endblock content %}
