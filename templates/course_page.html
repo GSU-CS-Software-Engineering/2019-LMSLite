@@ -55,7 +55,7 @@
             {{ course.description }}
       </div>
 
-      <form onload="quizEditPageLoad()" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
+      <form  onload="quizEditPageLoad()" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Quiz Form</h3>
                 {% for quiz in quizes %}
                     <a href="{% url 'download' id=quiz.id%}">{{ quiz.assignment_name }}</a>
@@ -64,11 +64,13 @@
             {{ quizform.as_p }}
 
           <p id="quizEditExtension">
-              <button id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
+              <button style="display: none" id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
               <input id = "submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
           </p>
 
-      <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+      {% if quizform.has_changed %}
+        <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+      {% endif %}
       </form>
 
     <form id ="hmwkForm" style="display: none;" method="POST" enctype="multipart/form-data">
