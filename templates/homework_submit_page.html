@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+        <a href="{% url 'homework_list' id=homework.course_id.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i> Homework</a>
+        <h1>{{ homework.assignment_name }}</h1>
+        <h2>{{ homework.open_date }} - {{ homework.due_date }}</h2>
+
+        <form id = "hmwkSubmit" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" value="Upload" name="upload">
+            <input type="submit" value="Submit" name="Submit">
+        </form>
+
+
+{% endblock content %}

@@ -1,9 +1,10 @@
+from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
 from tempfile import NamedTemporaryFile
 
 from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz
 from accounts.models import Professor, Student
-from courses.models import Course, Quiz, Grade
+from courses.models import Course, Quiz, Grade, Homework
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm
 from google.cloud import storage
 
@@ -173,4 +174,40 @@ def submission_view(request, cid, id):
 
 
 	return render(request,'submission_view.html',context_dict)
+
+def homework_view(request,id):
+	context_dict = {}
+
+	course = Course.objects.get(id=id)
+	homework = Course.objects.get(id=id).homeworks.all()
+
+	context_dict['homework'] = homework
+	context_dict['course'] = course
+
+
+
+
+	return render(request,'homework_list.html',context_dict)
+
+def homework_submit_view(request,id,cid):
+	context_dict = {}
+
+	homework = Homework.objects.get(id=id)
+	student = Student.objects.get(id=request.user.id)
+
+	context_dict['homework'] = homework
+
+	if request.method == 'POST':
+		sub_addr = homework.course_id.course_name + '/Homework/' + homework.assignment_name + '/Submissions/' + \
+				   Student.objects.get(id=request.user.id).email.split('@')[0] + '/' + request.FILES['upload'].name
+		default_storage.save(sub_addr, request.FILES['upload'])
+		grade = Grade()
+		grade.assignment = homework
+		grade.grade_value = 0
+		grade.file = sub_addr
+		grade.stdnt = student
+		grade.save()
+
+
+	return render(request,'homework_submit_page.html',context_dict)
 

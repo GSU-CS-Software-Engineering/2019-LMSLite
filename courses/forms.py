@@ -179,7 +179,7 @@ class HomeworkCreationForm(forms.ModelForm):
 		if commit:
 			homework.prof = prof
 			homework.course_id = course
-			homework.type = 0
+			homework.type = 2
 			homework.save()
 			course.homeworks.add(Homework.objects.get(id=homework.id))
 			course.save()
