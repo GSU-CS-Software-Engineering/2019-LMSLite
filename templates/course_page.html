@@ -90,7 +90,11 @@
           {% endfor %}
           {% csrf_token %}
           {{ surveyForm.as_p }}
-        <input type="submit" value="Submit" name="surveySubmit">
+
+        <p>
+            <input id = "submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
+        </p>
+
     </form>
 
   </div>

@@ -27,6 +27,14 @@
     border-radius: 10px;
 }
 
+ input[id*=submitSurveyUpload]{
+     background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+ }
+
 
 body {
     margin: 0;
@@ -443,13 +451,19 @@ button#quizQuestionBtn, input#submitQuizUpload {
     border-radius: 5px;
 }
 
+button#surveyQuestionBtn, input#submitSurveyUpload {
+    padding: 4px;
+    background: #717171;
+    border-radius: 5px;
+}
+
 button[id*=id_removeAnswerBtn], button[id*=id_addAnswerBtn] {
     padding: 7px;
     background: #717171;
     border-radius: 25px;
 }
 
-button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#quizQuestionBtn:hover, button[id*=deleteBtn]:hover, input#submitQuizUpload:hover {
+button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#quizQuestionBtn:hover, button[id*=deleteBtn]:hover, input#submitQuizUpload:hover, button#surveyQuestionBtn:hover, input#submitSurveyUpload:hover {
     color: #eaeaea;
 }
 
@@ -504,4 +518,13 @@ p#hellomessage img, p#hellomessage i {
 a.disable {
     pointer-events: none;
     cursor: default;
+}
+
+td[id*= availability] {
+    padding-bottom: 1.5rem;
+
+}
+
+td[id*=instructions]{
+    padding-bottom: 1.5rem;
 }
