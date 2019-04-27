@@ -97,13 +97,10 @@ class SurveyFileForm(forms.ModelForm):
 		return survey
 
 
-class QuizEditForm(forms.ModelForm):
+class QuizEditForm(forms.Form):
 
 	file_address = ''
 
-	class Meta:
-		model = Quiz
-		fields = ()
 
 	def generate_quiz_form(self, input):
 		questions = create_quiz(input)

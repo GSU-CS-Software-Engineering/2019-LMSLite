@@ -2,7 +2,7 @@ from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
 from tempfile import NamedTemporaryFile
 
-from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz
+from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz
 from accounts.models import Professor, Student
 from courses.models import Course, Quiz, Grade, Homework
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm
@@ -23,6 +23,12 @@ def course_view(request, id):
 	context_dict['surveyForm'] = survey
 	context_dict['quizes'] = course.quizes.all()
 
+	if 'quizFileUpdate' in request.POST:
+		post = request.POST.copy()
+		update_quiz(Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1].file.name, post)
+		return redirect('index')
+
+
 	if 'quizSubmit' in request.POST:
 		quiz.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
@@ -31,14 +37,15 @@ def course_view(request, id):
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
 		blob = bucket.get_blob(course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt')
-
 		downloaded_blob = blob.download_as_string()
+
 		quizKey = NamedTemporaryFile(delete=False)
 		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
 		quizKey.seek(0)
 
 		edit.file_address = quizKey.name
 		context_dict['quizform'] = edit
+		context_dict['fileAddr'] = course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
 
 	if 'hmwkSubmit' in request.POST:
 		homework.save(course=course, prof=Professor.objects.get(id=request.user.id))

@@ -1,4 +1,5 @@
 - version: unreleased
+- Edit Survey Page edits file(@Chino96)
 - Created Homework view pages and student upload assignment(@kh06089)
 - Created Survey forms(@Chino96)
 - Student can view grades(@Chino96)
