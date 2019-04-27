@@ -63,13 +63,17 @@
             {% csrf_token %}
             {{ quizform.as_p }}
 
-          <p id="quizEditExtension">
-              <button style="display: none" id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
-              <input id = "submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
-          </p>
-
       {% if quizform.has_changed %}
         <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+
+        <p id="quizEditExtension">
+              <button style="display: none" id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
+              <input id = "submitQuizUpload" type="submit" value="Submit" name="quizFileUpdate">
+          </p>
+      {% else %}
+          <p id="quizEditExtension">
+              <input id="submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
+          </p>
       {% endif %}
       </form>
 

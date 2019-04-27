@@ -1,6 +1,7 @@
 import csv
 
 from django.core.files.storage import default_storage
+import smtplib
 
 
 class Question:
@@ -170,3 +171,86 @@ def grade_quiz(input, key):
 		i += 1
 	return round(100 *(correct/gradeable),2)
 
+def send_email(students, assignment):
+
+	emails = []
+
+	for student in students:
+		emails.append(student.email)
+
+
+	for i in range(len(emails)):
+		s = smtplib.SMTP('smtp.gmail.com', 587)
+		s.starttls()
+		s.login("chino.s.ugwumadu@gmail.com", "busybee1")
+		message = "{prof} has posted a new {type}.\n" \
+				  "Course:{course} Assignment:{name} Due Date:{date}".format(
+			prof=assignment.prof,
+			type=assignment.type,
+			course=assignment.course_id.couurse_name,
+			name=assignment.assignment_name,
+			date=assignment.due_date)
+
+		s.sendmail("chino.s.ugwumadu@gmail.com", emails[i], message)
+		s.quit()
+
+
+def update_quiz(input, post):
+	n = 1
+	for key, value in post.items():
+		if key.startswith("Question "):
+			n = n + 1
+
+	# prints out each question with answers
+	with default_storage.open(input, 'w+b') as file:
+		for i in range(1, n):
+			for key, value in post.items():
+				if ('Question%stype' % i) in post:
+					if post['Question%stype' % i] == '1':
+						post['Question%stype' % i] = 'MC'
+						file.write("%s\t%s\t" % (post['Question%stype' % i], post['Question %s' % i]))
+						bool = False
+						for key, value in post.items():
+							if key == ('Question%sRadioGrp' % i):
+								bool = True
+
+							if key.startswith("Question%sAnswer" % i):
+								if bool:
+									file.write("{value}\t{val}\t".format(value=value, val='Correct'))
+									bool = False
+
+								else:
+									file.write("{value}\t{val}\t".format(value=value, val='Incorrect'))
+						file.write("\n")
+
+					if post['Question%stype' % i] == '2':
+						post['Question%stype' % i] = 'SR'
+						file.write("%s\t%s\t%s\n" % (
+						post['Question%stype' % i], post['Question %s' % i], post['Question%sAnswer1' % i]))
+
+					if post['Question%stype' % i] == '3':
+						post['Question%stype' % i] = 'MA'
+						file.write("%s\t%s\t" % (post['Question%stype' % i], post['Question %s' % i]))
+						for key, value in post.items():
+							if key.startswith("Question%sAnswer" % i):
+								if value[0] in post['Question%sCheckboxGrp' % i]:
+									file.write("{value}\t{bool}\t".format(value=(value), bool='Correct'))
+								else:
+									file.write("{value}\t{bool}\t".format(value=(value), bool='Incorrect'))
+						file.write("\n")
+
+					if post['Question%stype' % i] == '4':
+						post['Question%stype' % i] = 'FIB'
+						file.write("%s\t%s\t%s\n" % (
+						post['Question%stype' % i], post['Question %s' % i], post['Question%sAnswer1' % i]))
+
+					if post['Question%stype' % i] == '5':
+						post['Question%stype' % i] = 'TF'
+						file.write("%s\t%s\t%s\n" % (
+						post['Question%stype' % i], post['Question %s' % i], post['Question%sAnswer1' % i]))
+
+					if post['Question%stype' % i] == '6':
+						post['Question%stype' % i] = 'ESS'
+						file.write("%s\t%s\t%s\n" % (
+						post['Question%stype' % i], post['Question %s' % i], post['Question%sAnswer1' % i]))
+		file.close()
