@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
+        </noscript>
+    <h1>{{ survey.course_id.course_name }}</h1>
+    <h2>{{ survey.assignment_name }}</h2>
+    <h3>{{ survey.open_date }} - {{ quiz.due_date }}</h3>
+
+    <p>The following survey is for the {{ survey.course_id.course_name }} course. It shall
+    be completed between<br> {{ survey.open_date }} - {{ survey.due_date }}. Once the survey is open, <br>
+    you will only be allowed to submit it.<br><br>YOU WILL NOT BE ABLE TO SAVE AND CONTINUE THE SURVEY AT A LATER TIME!</p>
+
+    <a href="#"> <input id="bgnSurveyBtn" type="submit" value="Begin Survey"></a>
+
+{% endblock content %}

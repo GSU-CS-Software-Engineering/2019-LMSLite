@@ -4,7 +4,7 @@ from tempfile import NamedTemporaryFile
 
 from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz
 from accounts.models import Professor, Student
-from courses.models import Course, Quiz, Grade, Homework
+from courses.models import Course, Quiz, Grade, Homework, Survey
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm
 from google.cloud import storage
 
@@ -229,3 +229,10 @@ def survey_list_view(request,cid):
 	context_dict['survey'] = survey
 
 	return render(request, 'survey_list_view.html', context_dict)
+
+def pre_survey_view(request,id, cid):
+	context_dict = {}
+	survey = Survey.objects.get(id=id)
+	context_dict['survey'] = survey
+
+	return render(request,'pre_survey_page.html', context_dict)

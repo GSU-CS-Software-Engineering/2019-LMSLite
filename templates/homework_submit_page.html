@@ -2,6 +2,11 @@
 {% load static %}
 {% block content %}
 
+    <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
+        </noscript>
+
         <a href="{% url 'homework_list' id=homework.course_id.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i> Homework</a>
         <h1>{{ homework.assignment_name }}</h1>
         <h2>{{ homework.open_date }} - {{ homework.due_date }}</h2>

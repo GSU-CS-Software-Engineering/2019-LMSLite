@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+    <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
+        </noscript>
     <h1>{{ quiz.course_id.course_name }}</h1>
     <h2>{{ quiz.assignment_name }}</h2>
     <h3>{{ quiz.open_date }} - {{ quiz.due_date }}</h3>

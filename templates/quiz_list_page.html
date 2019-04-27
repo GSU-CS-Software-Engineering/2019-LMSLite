@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
+        </noscript>
     <h1>Quiz List</h1><br>
     <table class="w3-table-all w3-centered">
     <tbody>
