@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    {% if user.role == 2 %}
+    <h1>Survey List</h1><br>
+    <table class="w3-table-all w3-centered">
+    <tbody>
+    <tr class="quiztablerow w3-dark-gray">
+        <th class="tablerowheader">Current Surveys</th>
+        <th class="tablerowheader">Start Date</th>
+        <th class="tablerowheader">Due Date</th>
+    </tr>
+    {% for Survey in survey %}
+        {% if Survey in course.surveys.all %}
+            <tr>
+                <td class="cSurveyList"><a id = '{{ Survey.id }}' href="{% url 'survey_list' cid=course.id %}">{{ Survey.assignment_name}}</a></td>
+                <td class="cStartDate">{{ Survey.open_date }}</td>
+                <td class="cDueDate">{{ Survey.due_date }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+
+    </tbody>
+    </table>
+    {% endif %}
+{% endblock content %}

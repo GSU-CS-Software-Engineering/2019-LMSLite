@@ -218,3 +218,14 @@ def homework_submit_view(request,id,cid):
 
 	return render(request,'homework_submit_page.html',context_dict)
 
+
+def survey_list_view(request,cid):
+	context_dict = {}
+
+	course = Course.objects.get(id=cid)
+	survey = Course.objects.get(id=cid).surveys.all()
+
+	context_dict['course'] = course
+	context_dict['survey'] = survey
+
+	return render(request, 'survey_list_view.html', context_dict)

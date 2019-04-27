@@ -33,6 +33,7 @@ urlpatterns = [
     path('courses/<int:cid>/quizzes/',courseView.quiz_list_view, name='quiz_list'),
     path('courses/<int:cid>/quizzes/<int:id>/', courseView.quiz_view, name='quiz_page'),
     path('courses/<int:cid>/quizzes/<int:id>/start', courseView.pre_quiz_view, name='quiz_start'),
+    path('courses/<int:cid>/surveys/',courseView.survey_list_view, name='survey_list'),
     path('courses/Assignments/files/<int:id>/', views.download, name='download'),
     path('courses/<int:id>/Homework/', courseView.homework_view, name='homework_list'),
     path('courses/<int:cid>/Homework/<int:id>/', courseView.homework_submit_view, name='submit_assign'),

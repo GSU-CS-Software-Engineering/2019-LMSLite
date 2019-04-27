@@ -22,12 +22,15 @@
                   {% if user.role == 1 %}
                      <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
                      <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
+                     <a href="#" onclick= "showHideSurvey()" id = "survBtn">Surveys</a>
                   {% else %}
                   <a href="{%  url 'quiz_list' cid=course.id %}" id = "quizBtn">Quizzes</a>
                   <a href="{% url 'homework_list' id=course.id %}"  id = "hmwkBtn">Homeworks</a>
+                  <a href="{% url 'survey_list' cid=course.id %}"  id = "survBtn">Surveys</a>
                   {% endif %}
-                  <a href="#" onclick= "showHideSurvey()" id = "survBtn">Surveys</a>
+
               </div>
+
           </div>
           <a href={% url 'assignment_list' cid=course.id %}>Grades</a>
           {% if user.is_authenticated %}
