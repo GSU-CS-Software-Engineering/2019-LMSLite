@@ -33,13 +33,10 @@ class CourseAdminChangeForm(forms.ModelForm):
 		fields = ('course_name', 'description')
 
 
-class SurveyEditForm(forms.ModelForm):
+class SurveyEditForm(forms.Form):
 
 	file_address = ''
 
-	class Meta:
-		model = Survey
-		fields = ()
 
 	def generate_survey_form(self, input):
 		questions = create_quiz(input)

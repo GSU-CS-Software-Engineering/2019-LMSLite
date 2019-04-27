@@ -90,14 +90,26 @@
         <input type="submit" value="Submit" name="hmwkSubmit">
     </form>
 
-  <form id ="surveyForm" style="display: none;" method="POST" enctype="multipart/form-data">
+  <form id ="surveyForm"  style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Survey Form</h3>
           {% for assignment in course.surveys.all %}
               <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
           {% endfor %}
           {% csrf_token %}
           {{ surveyForm.as_p }}
-        <input type="submit" value="Submit" name="surveySubmit">
+
+          {% if surveyForm.has_changed %}
+            <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+
+            <p id="surveyEditExtension">
+                  <button style="display: none" id ="surveyQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
+                  <input id="submitSurveyUpload" type="submit" value="Submit" name="surveyFileUpdate">
+            </p>
+          {% else %}
+            <p id="surveyEditExtension">
+                <input id = "submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
+            </p>
+      {% endif %}
     </form>
 
   </div>
