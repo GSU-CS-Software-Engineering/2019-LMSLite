@@ -10,7 +10,7 @@
 
 }
 
-#quizForm2 label {
+label[id*=questionLabel] {
     font-weight: 700;
     position: relative;
     top: 50%;
