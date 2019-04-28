@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
+        </noscript>
+    <h2>Survey has been sucessfully submitted</h2>
+
+
+    <a href="{% url 'course_page' id=course.id %}"><input type = "submit" value="Done" name="btn_done"></a>
+
+{% endblock content %}
