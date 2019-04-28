@@ -21,7 +21,7 @@
                         <div id="Question '{{ forloop.counter }}'">
                             <div style="text-align: left; margin-bottom:0.9em "></div>
 
-                            <label>Question {{ forloop.counter }}</label>
+                            <label id="questionLabel">Question {{ forloop.counter }}</label>
 
                             <h3>{{ Question.label }}</h3>
                             {% for answer in Question.answers %}
