@@ -2,56 +2,86 @@
 {% load static %}
 {% block content %}
     <noscript>
-            <style>html{display:none;}</style>
-            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
-        </noscript>
+        <style>html {
+            display: none;
+        }</style>
+        <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
+    </noscript>
     <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {% for Question in questions %}
-         <div id = "Question '{{ forloop.counter }}'">
-        <label>Question {{ forloop.counter }}</label>
-        <h3>{{ Question.label }}</h3>
-        {% for answer in Question.answers %}
-            {% if Question.type == 1 %}
-            <input type="radio" value="{{ answer }}" name="Question {{ forloop.parentloop.counter }}" > {{ answer }}
-            <br>
+        <div class="row">
+            <div class="main w3-animate-opacity">
+                <form id="quizForm2" ; method="POST" enctype="multipart/form-data" ; style="display: block">
+                    {% csrf_token %}
+                    <h2>{{ quiz.assignment_name }}</h2>
+                    <h3>Due {{ quiz.due_date }}</h3>
+
+                    <hr class="separator" style="margin-top: 5px; margin-bottom: 5px; ">
+                    {% for Question in questions %}
+
+                        <div id="Question '{{ forloop.counter }}'">
+                            <div style="text-align: left; margin-bottom:0.9em "></div>
+
+                            <label>Question {{ forloop.counter }}</label>
+
+                            <h3>{{ Question.label }}</h3>
+                            {% for answer in Question.answers %}
+                                {% if Question.type == 1 %}
+                                    <input type="radio" value="{{ answer }}"
+                                           name="Question {{ forloop.parentloop.counter }}"> {{ answer }}
+                                    <div style="text-align: left; margin-bottom:0.9em "></div>
+                                    <br>
 
 
-            {% elif Question.type == 2 %}
-            <input type="text" name='Question {{forloop.parentloop.counter}} '>
-            <br>
+                                {% elif Question.type == 2 %}
+                                    <input type="text" name='Question {{ forloop.parentloop.counter }} '>
+                                    <div style="text-align: left; margin-bottom:0.9em "></div>
+                                    <br>
 
 
-            {% elif Question.type == 3 %}
-            <input type="checkbox" value="{{ answer }}"  name='Question {{forloop.parentloop.counter}}'> {{ answer }}
-            <br>
+                                {% elif Question.type == 3 %}
+                                    <input type="checkbox" value="{{ answer }}"
+                                           name='Question {{ forloop.parentloop.counter }}'> {{ answer }}
+                                    <div style="text-align: left; margin-bottom:0.9em "></div>
+                                    <br>
 
-             {% elif Question.type == 4 %}
-            <input type="text" name='Question {{forloop.parentloop.counter}}'>
-            <br>
+                                {% elif Question.type == 4 %}
+                                    <input type="text" name='Question {{ forloop.parentloop.counter }}'>
+                                    <div style="text-align: left; margin-bottom:0.9em "></div>
+                                    <br>
 
-            {% elif Question.type == 5 %}
-                {% if answer == 'True' %}
-                    <input type="radio" value="{{ answer }}" name='Question {{forloop.parentloop.counter}} '> {{ 'True' }}
-                    <input type="radio" value="False" name='Question {{forloop.parentloop.counter}} '> {{ 'False' }}
+                                {% elif Question.type == 5 %}
+                                    {% if answer == 'True' %}
+                                        <input type="radio" value="{{ answer }}"
+                                               name='Question {{ forloop.parentloop.counter }} '> {{ 'True' }}
+                                        <input type="radio" value="False"
+                                               name='Question {{ forloop.parentloop.counter }} '> {{ 'False' }}
 
-                {% else %}
-                    <br>
-                    <input type="radio" value="True" name='Question {{forloop.parentloop.counter}} '> {{ 'True' }}
-                    <input type="radio" value="{{ answer }}" name='Question {{forloop.parentloop.counter}} '> {{ 'False' }}
-                {% endif %}
-            <br>
+                                    {% else %}
+                                        <br>
+                                        <input type="radio" value="True"
+                                               name='Question {{ forloop.parentloop.counter }} '> {{ 'True' }}
+                                        <input type="radio" value="{{ answer }}"
+                                               name='Question {{ forloop.parentloop.counter }} '> {{ 'False' }}
+                                    {% endif %}
+                                    <div style="text-align: left; margin-bottom:0.9em "></div>
+                                    <br>
 
-            {% elif Question.type == 6 %}
-                <textarea name ='Question {{forloop.parentloop.counter}} ' cols="50" rows="1" style="height: 5rem" maxlength="1000" id = '{{ Question.label }}'></textarea>
-            <br>
-            {% endif %}
+                                {% elif Question.type == 6 %}
+                                    <textarea name='Question {{ forloop.parentloop.counter }} ' cols="50" rows="1"
+                                              style="height: 5rem" maxlength="1000"
+                                              id='{{ Question.label }}'></textarea>
+                                    <div style="text-align: left; margin-bottom:0.9em "></div>
+                                    <br>
+                                {% endif %}
 
-        {% endfor %}
+                            {% endfor %}
+                        </div>
+                        <hr>
+                    {% endfor %}
+                    <input id="quiz_submit" type="submit" value="Submit" name="quiz_submit">
+                    <script type="text/javascript" src="{% static '/js/disableBack.js' %}"></script>
+                </form>
+            </div>
         </div>
-        <hr>
-    {% endfor %}
-    <input type="submit" value="Submit" name="quiz_submit">
-    <script type = "text/javascript" src="{% static '/js/disableBack.js' %}"></script>
     </form>
 {% endblock content %}
