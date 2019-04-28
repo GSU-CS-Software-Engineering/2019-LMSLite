@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
+        </noscript>
     <h2>Quiz has been sucessfully submitted</h2>
 
     {% if quiz.grade_viewable %}

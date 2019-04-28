@@ -22,12 +22,15 @@
                   {% if user.role == 1 %}
                      <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
                      <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
+                     <a href="#" onclick= "showHideSurvey()" id = "survBtn">Surveys</a>
                   {% else %}
                   <a href="{%  url 'quiz_list' cid=course.id %}" id = "quizBtn">Quizzes</a>
                   <a href="{% url 'homework_list' id=course.id %}"  id = "hmwkBtn">Homeworks</a>
+                  <a href="{% url 'survey_list' cid=course.id %}"  id = "survBtn">Surveys</a>
                   {% endif %}
-                  <a href="#" onclick= "showHideSurvey()" id = "survBtn">Surveys</a>
+
               </div>
+
           </div>
           <a href={% url 'assignment_list' cid=course.id %}>Grades</a>
           {% if user.is_authenticated %}
@@ -63,13 +66,17 @@
             {% csrf_token %}
             {{ quizform.as_p }}
 
-          <p id="quizEditExtension">
-              <button style="display: none" id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
-              <input id = "submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
-          </p>
-
       {% if quizform.has_changed %}
         <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+
+        <p id="quizEditExtension">
+              <button style="display: none" id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
+              <input id = "submitQuizUpload" type="submit" value="Submit" name="quizFileUpdate">
+          </p>
+      {% else %}
+          <p id="quizEditExtension">
+              <input id="submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
+          </p>
       {% endif %}
       </form>
 
@@ -83,13 +90,26 @@
         <input type="submit" value="Submit" name="hmwkSubmit">
     </form>
 
-  <form id ="surveyForm" style="display: none;" method="POST" enctype="multipart/form-data">
+  <form id ="surveyForm"  style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Survey Form</h3>
           {% for assignment in course.surveys.all %}
               <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
           {% endfor %}
           {% csrf_token %}
           {{ surveyForm.as_p }}
+
+          {% if surveyForm.has_changed %}
+            <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+
+            <p id="surveyEditExtension">
+                  <button style="display: none" id ="surveyQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
+                  <input id="submitSurveyUpload" type="submit" value="Submit" name="surveyFileUpdate">
+            </p>
+          {% else %}
+            <p id="surveyEditExtension">
+                <input id = "submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
+            </p>
+      {% endif %}
 
         <p>
             <input id = "submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">

@@ -2,9 +2,9 @@ from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
 from tempfile import NamedTemporaryFile
 
-from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz
+from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz
 from accounts.models import Professor, Student
-from courses.models import Course, Quiz, Grade, Homework
+from courses.models import Course, Quiz, Grade, Homework, Survey
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm
 from google.cloud import storage
 
@@ -23,6 +23,35 @@ def course_view(request, id):
 	context_dict['surveyForm'] = survey
 	context_dict['quizes'] = course.quizes.all()
 
+	if 'quizFileUpdate' in request.POST:
+		post = request.POST.copy()
+		update_quiz(Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1].file.name, post)
+		return redirect('index')
+
+	if 'surveyFileUpdate' in request.POST:
+		post = request.POST.copy()
+		update_quiz(Survey.objects.order_by('id')[len(Survey.objects.all()) - 1].file.name, post)
+		return redirect('index')
+
+
+	if 'surveySubmit' in request.POST:
+		survey.save(course=course, prof=Professor.objects.get(id=request.user.id))
+
+		edit = SurveyEditForm
+
+		client = storage.Client()
+		bucket = client.get_bucket('lms-lite-2019')
+		blob = bucket.get_blob(course.course_name + '/Surveys/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt')
+		downloaded_blob = blob.download_as_string()
+
+		quizKey = NamedTemporaryFile(delete=False)
+		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
+		quizKey.seek(0)
+
+		edit.file_address = quizKey.name
+		context_dict['surveyForm'] = edit
+
+
 	if 'quizSubmit' in request.POST:
 		quiz.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
@@ -31,14 +60,15 @@ def course_view(request, id):
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
 		blob = bucket.get_blob(course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt')
-
 		downloaded_blob = blob.download_as_string()
+
 		quizKey = NamedTemporaryFile(delete=False)
 		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
 		quizKey.seek(0)
 
 		edit.file_address = quizKey.name
 		context_dict['quizform'] = edit
+		context_dict['fileAddr'] = course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
 
 	if 'hmwkSubmit' in request.POST:
 		homework.save(course=course, prof=Professor.objects.get(id=request.user.id))
@@ -112,6 +142,7 @@ def quiz_list_view(request, cid):
 	quizzes = Student.objects.get(id=request.user.id).quizes.all()
 	context_dict['quizzes'] = quizzes
 	context_dict['course'] = course
+
 	return render(request, 'quiz_list_page.html', context_dict)
 
 
@@ -121,6 +152,7 @@ def pre_quiz_view(request,id, cid):
 	context_dict['quiz'] = quiz
 
 	return render(request,'pre_quiz_page.html', context_dict)
+
 
 def grade_view(request, cid):
 	context_dict = {}
@@ -172,8 +204,8 @@ def submission_view(request, cid, id):
 	if request.method == 'POST':
 		grade_form.save()
 
-
 	return render(request,'submission_view.html',context_dict)
+
 
 def homework_view(request,id):
 	context_dict = {}
@@ -184,10 +216,8 @@ def homework_view(request,id):
 	context_dict['homework'] = homework
 	context_dict['course'] = course
 
-
-
-
 	return render(request,'homework_list.html',context_dict)
+
 
 def homework_submit_view(request,id,cid):
 	context_dict = {}
@@ -211,3 +241,21 @@ def homework_submit_view(request,id,cid):
 
 	return render(request,'homework_submit_page.html',context_dict)
 
+
+def survey_list_view(request,cid):
+	context_dict = {}
+
+	course = Course.objects.get(id=cid)
+	survey = Course.objects.get(id=cid).surveys.all()
+
+	context_dict['course'] = course
+	context_dict['survey'] = survey
+
+	return render(request, 'survey_list_view.html', context_dict)
+
+def pre_survey_view(request,id, cid):
+	context_dict = {}
+	survey = Survey.objects.get(id=id)
+	context_dict['survey'] = survey
+
+	return render(request,'pre_survey_page.html', context_dict)

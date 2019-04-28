@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
+    <noscript>
+            <style>html{display:none;}</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
+        </noscript>
+    <form method="post" enctype="multipart/form-data">
     <div class="row">
     <div class="main w3-animate-opacity">
     <form id = "quizForm2"; method="POST" enctype="multipart/form-data"; style="display: block">
@@ -64,6 +69,8 @@
         <hr>
     {% endfor %}
     <input id = "quiz_submit" type="submit" value="Submit" name="quiz_submit">
+    <input type="submit" value="Submit" name="quiz_submit">
+    <script type = "text/javascript" src="{% static '/js/disableBack.js' %}"></script>
     </form>
     </div>
     </div >
