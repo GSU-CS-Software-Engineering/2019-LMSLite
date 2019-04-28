@@ -12,5 +12,5 @@
     {% endif %}
 
     <a href="{% url 'course_page' id=course.id %}"><input type = "submit" value="Done" name="btn_done"></a>
-
+    <script type = "text/javascript" src="{% static '/js/disableBack.js' %}"></script>
 {% endblock content %}
