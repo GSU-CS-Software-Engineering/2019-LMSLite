@@ -27,6 +27,14 @@
     border-radius: 10px;
 }
 
+ input[id*=bgnSurveyBtn]{
+      background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+ }
+
  input[id*=submitSurveyUpload]{
      background-color: #717171;
     border-style: solid;
@@ -480,6 +488,13 @@ input[name =quiz_submit]{
     border-radius: 10px;
 }
 
+input[name =survey_submit]{
+    background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+}
  input[id*=btn_done]{
      background-color: #717171;
     border-style: solid;

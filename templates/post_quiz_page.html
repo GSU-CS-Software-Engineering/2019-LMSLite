@@ -2,15 +2,17 @@
 
 {% block content %}
     <noscript>
-            <style>html{display:none;}</style>
-            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
-        </noscript>
+        <style>html {
+            display: none;
+        }</style>
+        <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
+    </noscript>
     <h2>Quiz has been sucessfully submitted</h2>
 
     {% if quiz.grade_viewable %}
         <h3>Your Grade is : {{ grade }}%</h3>
     {% endif %}
 
-    <a href="{% url 'course_page' id=course.id %}"><input id = "btn_done" type = "submit" value="Done" name="btn_done"></a>
+    <a href="{% url 'course_page' id=course.id %}"><input id="btn_done" type="submit" value="Done" name="btn_done"></a>
 
 {% endblock content %}
