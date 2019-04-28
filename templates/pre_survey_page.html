@@ -14,6 +14,6 @@
     be completed between<br> {{ survey.open_date }} - {{ survey.due_date }}. Once the survey is open, <br>
     you will only be allowed to submit it.<br><br>YOU WILL NOT BE ABLE TO SAVE AND CONTINUE THE SURVEY AT A LATER TIME!</p>
 
-    <a href="#"> <input id="bgnSurveyBtn" type="submit" value="Begin Survey"></a>
+    <a href="{% url 'survey_page' cid=survey.course_id.id id=survey.id %}"> <input id="bgnSurveyBtn" type="submit" value="Begin Survey"></a>
 
 {% endblock content %}

@@ -5,7 +5,7 @@ from tempfile import NamedTemporaryFile
 from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz
 from accounts.models import Professor, Student
 from courses.models import Course, Quiz, Grade, Homework, Survey
-from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm
+from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm, SurveyEditForm
 from google.cloud import storage
 
 
@@ -259,3 +259,29 @@ def pre_survey_view(request,id, cid):
 	context_dict['survey'] = survey
 
 	return render(request,'pre_survey_page.html', context_dict)
+
+def take_survey_view(request,id,cid):
+	context_dict = {}
+	survey = Survey.objects.get(id=id)
+	cid = survey.course_id
+	student = Student.objects.get(id=request.user.id)
+	context_dict['survey'] = survey
+	context_dict['course'] = cid
+
+	client = storage.Client()
+	bucket = client.get_bucket('lms-lite-2019')
+	key_blob = bucket.get_blob(survey.file.name)
+
+	downloaded_blob = key_blob.download_as_string()
+
+	surveyKey = NamedTemporaryFile(delete=False)
+	surveyKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
+	surveyKey.seek(0)
+
+	questions = create_quiz(input=surveyKey.name)
+	surveyKey.seek(0)
+
+	context_dict['questions'] = questions
+	if request.method=='POST':
+		return render(request, 'post_survey_page.html', context_dict)
+	return render(request,'survey_page.html',context_dict)
