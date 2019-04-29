@@ -2,7 +2,7 @@ import csv
 
 from django import forms
 
-from LMSLite.helpers import create_quiz
+from LMSLite.helpers import create_quiz, send_email
 from .models import Course, Quiz, Homework, Grade, Survey
 
 
@@ -16,13 +16,14 @@ class CourseAdminCreationForm(forms.ModelForm):
 		# Save the provided password in hashed format
 		course = super(CourseAdminCreationForm, self).save(commit=False)
 
-		for student in course.students.all():
-			student.courses.add(course)
-
-		course.prof.courses.add(course)
 
 		if commit:
 			course.save()
+
+		course.prof.courses.add(course)
+		for student in course.students.all():
+			student.courses.add(course)
+
 		return course
 
 
@@ -30,7 +31,8 @@ class CourseAdminChangeForm(forms.ModelForm):
 
 	class Meta:
 		model = Course
-		fields = ('course_name', 'description')
+		fields = ('course_name', 'description', 'students')
+
 
 
 class SurveyEditForm(forms.Form):
@@ -86,10 +88,11 @@ class SurveyFileForm(forms.ModelForm):
 		if commit:
 			survey.prof = prof
 			survey.course_id = course
-			survey.type = 0
+			survey.type = 1
 			survey.save()
 			course.surveys.add(Survey.objects.get(id=survey.id))
 			course.save()
+			send_email(course.students.all(), survey)
 
 		return survey
 

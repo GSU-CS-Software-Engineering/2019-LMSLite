@@ -18,7 +18,7 @@ class CourseAdmin(admin.ModelAdmin):
 	)
 
 	add_fieldsets = (
-		(None, {'fields': ('prof', 'course_name', 'description', 'students')}),
+		(None, {'fields': ('prof', 'course_name', 'description')}),
 	)
 
 	search_fields = ('course_name',)
