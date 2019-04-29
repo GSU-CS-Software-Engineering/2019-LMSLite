@@ -20,16 +20,18 @@
             <th class="tablerowheader">Due Date</th>
             <th class="tablerowheader">Submit Homework</th>
         </tr>
-        <tr>
+
           {% for Homework in homework %}
+              <tr>
           {% if Homework in course.homeworks.all %}
             <td  class="cHomeworkList"><a id='{{ Homework.id }}' href="{% url 'download' id=Homework.id %}">{{ Homework.assignment_name }}</a></td>
             <td class="cStartDate">{{ Homework.open_date }}</td>
             <td class="cDueDate">{{ Homework.due_date }}</td>
             <td class="cUpload"><a id="upload" href="{% url 'submit_assign' cid=Homework.course_id.id id=Homework.id %}"> <input id="UploadAssign" type="submit" value="Upload"></a></td>
           {% endif %}
+              </tr>
           {% endfor %}
-        </tr>
+
         </tbody>
     </table>
 

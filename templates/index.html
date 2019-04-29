@@ -72,6 +72,14 @@
 
                      <a>{{ quiz.assignment_name }}</a>
                 {% endfor %}
+                {% for homework in homeworks %}
+
+                     <a>{{ homework.assignment_name }}</a>
+                {% endfor %}
+                {% for survey in surveys %}
+
+                     <a>{{ survey.assignment_name }}</a>
+                {% endfor %}
 
             {% else %}
                 <h2>TODAY</h2><br>

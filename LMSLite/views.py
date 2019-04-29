@@ -15,14 +15,29 @@ def index(request):
         prof = Professor.objects.get(id=request.user.id)
         courses = prof.courses.all()
         quizzes = []
+        homeworks = []
+        surveys = []
 
         x = 0
         for course in courses:
+
             for quiz in course.quizes.all():
                 if quiz.due_date.replace(tzinfo=None) > d and x < 5:
                     quizzes.append(quiz)
                     x+=1
+            x = 0
+            for homework in course.homeworks.all():
+                if homework.due_date.replace(tzinfo=None) > d and x < 5:
+                    homeworks.append(homework)
+                    x+=1
+            x = 0
+            for survey in course.surveys.all():
+                if survey.due_date.replace(tzinfo=None) > d and x < 5:
+                    surveys.append(survey)
+                    x+=1
 
+        context_dict['homeworks'] = homeworks
+        context_dict['surveys'] = surveys
         context_dict['quizzes'] = quizzes
         context_dict['courses'] = courses
 

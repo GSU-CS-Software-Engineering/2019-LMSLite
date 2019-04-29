@@ -87,12 +87,41 @@ function quizEditPageLoad() {
         parentnextQ.parentNode.insertBefore(line, parentnextQ);
     }
 
-    if (document.getElementById("deleteBtn 1")) {
+    if (formid == "quizForm") {
         var x = document.getElementById("quizForm");
         x.style.display = "block";
 
         var y = document.getElementById("courseDesc");
         y.style.display = "none";
+
+        var z = document.getElementById("hmwkForm");
+        z.style.display = "none";
+
+        var t = document.getElementById("surveyForm");
+        t.style.display = "none";
+    }
+    else if (formid == "surveyForm") {
+        var t = document.getElementById("surveyForm");
+        t.style.display = "block";
+
+        var x = document.getElementById("quizForm");
+        x.style.display = "none";
+
+        var y = document.getElementById("courseDesc");
+        y.style.display = "none";
+
+        var z = document.getElementById("hmwkForm");
+        z.style.display = "none";
+    }
+    else {
+         var t = document.getElementById("surveyForm");
+        t.style.display = "none";
+
+        var x = document.getElementById("quizForm");
+        x.style.display = "none";
+
+        var y = document.getElementById("courseDesc");
+        y.style.display = "block";
 
         var z = document.getElementById("hmwkForm");
         z.style.display = "none";

@@ -58,7 +58,11 @@
             {{ course.description }}
       </div>
 
-      <form  onload="quizEditPageLoad()" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="{% static '/js/liveSurveyMC.js' %}"></script>
+<div id="piechart" style="width: 900px; height: 500px;"></div>
+
+      <form  onload="quizEditPageLoad(this.id)" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Quiz Form</h3>
                 {% for quiz in quizes %}
                     <a href="{% url 'download' id=quiz.id%}">{{ quiz.assignment_name }}</a>
@@ -87,10 +91,11 @@
           {% endfor %}
           {% csrf_token %}
           {{ hwForm.as_p }}
-        <input type="submit" value="Submit" name="hmwkSubmit">
+    <p><input type="submit" value="Submit" name="hmwkSubmit"></p>
+
     </form>
 
-  <form id ="surveyForm"  style="display: none;" method="POST" enctype="multipart/form-data">
+  <form onload="quizEditPageLoad(this.id)" id ="surveyForm"  style="display: none;" method="POST" enctype="multipart/form-data">
       <h3>Survey Form</h3>
           {% for assignment in course.surveys.all %}
               <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
@@ -105,18 +110,11 @@
                   <button style="display: none" id ="surveyQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
                   <input id="submitSurveyUpload" type="submit" value="Submit" name="surveyFileUpdate">
             </p>
+
           {% else %}
-            <p id="surveyEditExtension">
-                <input id = "submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
-            </p>
-      {% endif %}
-
-        <p>
-            <input id = "submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
-        </p>
-
+                <input id="submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
+          {% endif %}
     </form>
-
   </div>
   <div class="side w3-center w3-animate-right">
     <h2>TASK VIEW</h2>
