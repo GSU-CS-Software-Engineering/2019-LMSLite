@@ -131,6 +131,7 @@ def quiz_view(request, cid, id):
 		grade.stdnt = student
 		grade.save()
 		student.quizes.remove(quiz)
+		student.grades.add(grade)
 
 		return render(request, 'post_quiz_page.html', context_dict)
 
@@ -158,6 +159,7 @@ def pre_quiz_view(request,id, cid):
 def grade_view(request, cid):
 	context_dict = {}
 	quiz_grades = []
+	hw_grades = []
 
 
 	course = Course.objects.get(id=cid)
@@ -169,16 +171,31 @@ def grade_view(request, cid):
 	quiz_average = 0
 	k = 0
 	for quiz in quizzes:
-		try:
-			grade = Grade.objects.get(assignment=quiz)
-			quiz_average += grade.grade_value
-			quiz_grades.append(grade)
-			k+=1
-		except:
-			pass
+		for student in course.students.all():
+			try:
+				grade = student.grades.get(assignment=quiz)
+				quiz_average += grade.grade_value
+				quiz_grades.append(grade)
+				k += 1
+			except:
+				pass
+		if k > 0:
+			quiz_average /= k
+			quiz_average = round(quiz_average, 2)
+			quiz.average = quiz_average
+			k = 0
 
-	quiz_average /= k
-	quiz_average = round(quiz_average*100, 2)
+
+	for homework in homeworks:
+		for student in course.students.all():
+			try:
+				grade = student.grades.get(assignment=homework)
+				hw_grades.append(grade)
+			except:
+				pass
+
+
+
 
 	context_dict['quiz_average'] = quiz_average
 	context_dict['course'] = course
@@ -186,6 +203,7 @@ def grade_view(request, cid):
 	context_dict['homeworks'] = homeworks
 	context_dict['surveys'] = surveys
 	context_dict['quiz_grades'] = quiz_grades
+	context_dict['hw_grades'] = hw_grades
 
 
 	return render(request, 'assignment_list.html', context_dict)
@@ -214,6 +232,8 @@ def submission_view(request, cid, id):
 
 	if request.method == 'POST':
 		grade_form.save()
+		grade.stdnt.grades.add(grade)
+		return redirect('/courses/'+str(grade.assignment.course_id.id) +'/grades')
 
 	return render(request,'submission_view.html',context_dict)
 

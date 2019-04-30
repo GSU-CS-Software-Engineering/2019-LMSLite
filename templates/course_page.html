@@ -3,8 +3,6 @@
 
 {% block navbar %}
     {% block extra_js %}
-        <!--<script type = "text/javascript" src="{% static '/js/iprestrict.js' %}"></script>-->
-
         <noscript>
             <style>html{display:none;}</style>
             <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
@@ -104,8 +102,9 @@
           {{ surveyForm.as_p }}
 
           {% if surveyForm.has_changed %}
-              <input id="submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
-
+              <p id="surveyEditExtension">
+                <input id="submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
+              </p>
           {% else %}
                <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
 

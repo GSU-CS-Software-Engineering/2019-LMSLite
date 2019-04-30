@@ -68,7 +68,7 @@
     {% endfor %}
         <br>
         {% if user.role == 1 %}
-            <input type="submit" name="Update" value="update">
+            <a href="{% url 'assignment_list' cid=grade.assignment.course_id.id %}"><input type="submit" name="Update" value="update"></a>
         {% endif %}
     </form>
 {% endblock content %}

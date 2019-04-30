@@ -13,23 +13,70 @@
         <tbody>
         <tr class="quiztablerow w3-dark-gray">
             <th class="tablerowheader">Quizzes</th>
-            <th class="tablerowheader">Grade</th>
+            <th class="tablerowheader">Average</th>
         </tr>
          {% for quiz in quizzes %}
 
-            <tr>
+            <tr class="quiztablerow w3-deep-orange">
                 <td class="cQuizList">
-                        {{ quiz.assignment_name }}
+                    {{ quiz.assignment_name }}
                 </td>
-                <td>{{ quiz_average }}</td>
+                {% if quiz_average %}
+                    <td>{{ quiz.average}}</td>
+                {% else %}
+                    <td>0</td>
+                {% endif %}
+             {% for grade in quiz_grades %}
+                 {% if grade.assignment.id == quiz.id %}
+             <tr>
+
+                 <td><a href="{% url 'submission_view' cid=course.id id=grade.id %}">
+                    {{ grade.stdnt.first_name }} {{ grade.stdnt.last_name }}
+                     </a>
+                 </td>
+                 <td>
+                     {{ grade.grade_value }}
+                 </td>
+
+             </tr>
+                 {% endif %}
+            {% endfor %}
+
             </tr>
 
         {% endfor %}
 
         <tr class="quiztablerow w3-dark-gray">
             <th class="tablerowheader">Homeworks</th>
-            <th class="tablerowheader">Grade</th>
+            <th class="tablerowheader">Average</th>
         </tr>
+        {% for homework in homeworks %}
+
+            <tr class="quiztablerow w3-deep-orange">
+                <td class="cQuizList">
+                    {{ homework.assignment_name }}
+                </td>
+            <td class="cQuizList"></td>
+
+             {% for grade in hw_grades %}
+                 {% if grade.assignment.id == homework.id %}
+             <tr>
+
+                 <td><a href="{% url 'submission_view' cid=course.id id=grade.id %}">
+                    {{ grade.stdnt.first_name }} {{ grade.stdnt.last_name }}
+                     </a>
+                 </td>
+                 <td>
+                     {{ grade.grade_value }}
+                 </td>
+
+             </tr>
+                 {% endif %}
+            {% endfor %}
+
+        <tr class="quiztablerow w3-dark-gray">
+
+        {% endfor %}
         </tbody>
     </table>
 {% endblock content %}
