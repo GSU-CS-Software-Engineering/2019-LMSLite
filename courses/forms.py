@@ -75,7 +75,7 @@ class SurveyFileForm(forms.ModelForm):
 
 	class Meta:
 		model = Survey
-		fields = ('assignment_name', 'open_date', 'due_date', 'file')
+		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'file')
 		widgets = {
 			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
@@ -91,6 +91,11 @@ class SurveyFileForm(forms.ModelForm):
 			survey.type = 1
 			survey.save()
 			course.surveys.add(Survey.objects.get(id=survey.id))
+
+			for student in course.students.all():
+				student.surveys.add(Survey.objects.get(id=survey.id))
+				student.save()
+
 			course.save()
 			send_email(course.students.all(), survey)
 
@@ -137,10 +142,11 @@ class QuizFileForm(forms.ModelForm):
 
 	class Meta:
 		model = Quiz
-		fields = ('assignment_name', 'open_date', 'due_date', 'file', 'grade_viewable')
+		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'quiz_code', 'file', 'grade_viewable', 'restricted', )
 		widgets = {
 			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'quiz_code': forms.PasswordInput(),
 			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
 		}
 
@@ -159,6 +165,7 @@ class QuizFileForm(forms.ModelForm):
 				student.save()
 
 			course.save()
+			send_email(course.students.all(), quiz)
 
 		return quiz
 
@@ -167,7 +174,7 @@ class HomeworkCreationForm(forms.ModelForm):
 
 	class Meta:
 		model = Homework
-		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
+		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'file',)
 
 
 	def save(self, commit=True, course=None, prof=None):
@@ -179,7 +186,14 @@ class HomeworkCreationForm(forms.ModelForm):
 			homework.type = 2
 			homework.save()
 			course.homeworks.add(Homework.objects.get(id=homework.id))
+
+			for student in course.students.all():
+				student.homeworks.add(Homework.objects.get(id=homework.id))
+				student.save()
+
 			course.save()
+			send_email(course.students.all(), homework)
+
 
 		return homework
 
