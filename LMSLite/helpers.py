@@ -1,4 +1,6 @@
 import csv
+from accounts.models import Professor, Student
+from courses.models import Course, Quiz, Grade, Homework, Survey, Assignment
 
 from django.core.files.storage import default_storage
 import smtplib
@@ -254,3 +256,34 @@ def update_quiz(input, post):
 						file.write("%s\t%s\t%s\n" % (
 						post['Question%stype' % i], post['Question %s' % i], post['Question%sAnswer1' % i]))
 		file.close()
+
+
+def print_grades(id):
+	sum = 0
+	average = 0
+	student_grades = {}
+
+	row_count = 0
+
+	with open('grade_report.csv', 'w') as report:
+		w = csv.writer(report)
+		x = csv.writer(report)
+		for student in Course.objects.get(id=id).students.all():
+			w.writerow(["Student", "Assignment Name", "Grade"])
+
+			for grade in student.grade_set.all():
+				std_grade = [student.get_full_name(), grade.assignment, round(grade.grade_value, 2)]
+				x.writerow(std_grade)
+
+				sum = sum + std_grade[2]
+				row_count = row_count + 1
+
+			average = sum / row_count
+			w.writerow(["Student", "Average"])
+			x.writerows(zip([std_grade[0]], [round(average,2)]))
+			row_count = 0
+			sum = 0
+
+
+
+

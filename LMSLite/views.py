@@ -4,12 +4,13 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.encoding import smart_str
 
+from LMSLite.helpers import print_grades
 from accounts.models import Professor
 from courses.models import Quiz, Assignment, Homework, Survey
 
 def index(request):
     context_dict = {}
-
+    print_grades(1)
     if request.user.is_authenticated and request.user.role == 1:
         d = datetime.datetime.today()
         prof = Professor.objects.get(id=request.user.id)
