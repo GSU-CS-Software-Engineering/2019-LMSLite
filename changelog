@@ -1,4 +1,5 @@
 - version: unreleased
+- Fixed form bugs(@kh06089)
 - Able to take survey(@kh06089)
 - Survey editing for professors updates file(@Chino96)
 - created pre survey page(@kh06089)

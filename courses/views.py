@@ -159,18 +159,28 @@ def grade_view(request, cid):
 	context_dict = {}
 	quiz_grades = []
 
+
 	course = Course.objects.get(id=cid)
 
 	quizzes = course.quizes.all()
 	homeworks = course.homeworks.all()
 	surveys = course.surveys.all()
 
+	quiz_average = 0
+	k = 0
 	for quiz in quizzes:
 		try:
-			quiz_grades.append(Grade.objects.get(assignment=quiz))
+			grade = Grade.objects.get(assignment=quiz)
+			quiz_average += grade.grade_value
+			quiz_grades.append(grade)
+			k+=1
 		except:
 			pass
 
+	quiz_average /= k
+	quiz_average = round(quiz_average*100, 2)
+
+	context_dict['quiz_average'] = quiz_average
 	context_dict['course'] = course
 	context_dict['quizzes'] = quizzes
 	context_dict['homeworks'] = homeworks

@@ -6,126 +6,128 @@ function updateMAcheckbox(updatedid) {
 
 function quizEditPageLoad() {
     event.preventDefault();
-    document.getElementById("quizQuestionBtn").style.display = "inline-block";
+         document.getElementById("quizQuestionBtn").style.display = "inline-block";
+         var x = document.querySelectorAll("select[id*=id_Question]").length;
+         var count = 1;
 
-    var x = document.querySelectorAll("select[id*=id_Question]").length;
-    var count = 1;
+         var z = document.querySelectorAll("select[id*=type]");
 
-    var z = document.querySelectorAll("select[id*=type]");
+         for (var i = 0; i < z.length; i++) {
+             z[i].setAttribute("onchange", "newAnswer(this.id)");
+         }
 
-    for (var i = 0; i < z.length; i++) {
-        z[i].setAttribute("onchange", "newAnswer(this.id)");
-    }
+         for (var i = 0; i < x; i++) {
+             var deleteBtn = document.createElement("button");
+             deleteBtn.setAttribute("id", "deleteBtn " + count);
+             deleteBtn.setAttribute("onclick", "deleteElements(this.id)");
+             var t = document.createTextNode("Delete Question " + count);
+             deleteBtn.appendChild(t);
+             var parentP = document.getElementById("id_Question" + (i + 1) + "type").parentNode;
+             parentP.insertBefore(deleteBtn, document.getElementById("id_Question" + (i + 1) + "type"));
+             count++;
 
-    for (var i = 0; i < x; i++) {
-        var deleteBtn = document.createElement("button");
-        deleteBtn.setAttribute("id", "deleteBtn " + count);
-        deleteBtn.setAttribute("onclick", "deleteElements(this.id)");
-        var t = document.createTextNode("Delete Question " + count);
-        deleteBtn.appendChild(t);
-        var parentP = document.getElementById("id_Question" + (i + 1) + "type").parentNode;
-        parentP.insertBefore(deleteBtn, document.getElementById("id_Question" + (i + 1) + "type"));
-        count++;
+             var e = document.getElementById("id_Question" + (i + 1) + "type");
+             var countanswers = document.querySelectorAll("label[for*=id_Question" + (i + 1) + "Answer]").length;
 
-        var e = document.getElementById("id_Question" + (i + 1) + "type");
-        var countanswers = document.querySelectorAll("label[for*=id_Question" + (i + 1) + "Answer]").length;
+             var arp = document.createElement("p");
 
-        var arp = document.createElement("p");
+             var adda = document.createElement("Button");
+             var a = document.createTextNode("+ Answer");
+             adda.appendChild(a);
+             adda.setAttribute("id", "id_addAnswerBtn " + (i + 1));
+             adda.setAttribute("onclick", "addLastAnswer(this.id)");
 
-        var adda = document.createElement("Button");
-        var a = document.createTextNode("+ Answer");
-        adda.appendChild(a);
-        adda.setAttribute("id", "id_addAnswerBtn " + (i + 1));
-        adda.setAttribute("onclick", "addLastAnswer(this.id)");
+             var removea = document.createElement("Button");
+             var r = document.createTextNode("- Answer");
+             removea.appendChild(r);
+             removea.setAttribute("id", "id_removeAnswerBtn " + (i + 1));
+             removea.setAttribute("onclick", "deleteLastAnswer(this.id)");
 
-        var removea = document.createElement("Button");
-        var r = document.createTextNode("- Answer");
-        removea.appendChild(r);
-        removea.setAttribute("id", "id_removeAnswerBtn " + (i + 1));
-        removea.setAttribute("onclick", "deleteLastAnswer(this.id)");
+             var line = document.createElement("hr");
 
-        var line = document.createElement("hr");
+             if (i < (x - 1)) {
+                 var parentnextQ = document.getElementById("id_Question" + (i + 2) + "type").parentNode;
+             } else if (i == x - 1) {
+                 var parentnextQ = document.getElementById("quizQuestionBtn").parentNode;
+             }
 
-        if (i < (x - 1)) {
-            var parentnextQ = document.getElementById("id_Question" + (i + 2) + "type").parentNode;
-        } else if (i == x - 1) {
-            var parentnextQ = document.getElementById("quizQuestionBtn").parentNode;
-        }
+             if (e.options[e.selectedIndex].text == "MC") {
+                 for (var j = 1; j <= countanswers; j++) {
+                     var radio = document.createElement('input');
+                     radio.type = "radio";
+                     radio.name = "Question" + (i + 1) + "RadioGrp";
+                     radio.value = "radio";
+                     radio.id = "id_EQuestion" + (i + 1) + "Radio" + j;
 
-        if (e.options[e.selectedIndex].text == "MC") {
-            for (var j = 1; j <= countanswers; j++) {
-                var radio = document.createElement('input');
-                radio.type = "radio";
-                radio.name = "Question" + (i + 1) + "RadioGrp";
-                radio.value = "radio";
-                radio.id = "id_EQuestion" + (i + 1) + "Radio" + j;
-
-                var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
-                answerBx.parentNode.insertBefore(radio, answerBx);
-            }
+                     var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
+                     answerBx.parentNode.insertBefore(radio, answerBx);
+                 }
 
 
-            arp.appendChild(adda);
-            arp.appendChild(removea);
-            parentnextQ.parentNode.insertBefore(arp, parentnextQ);
-        } else if (e.options[e.selectedIndex].text == "MA") {
-            for (var j = 1; j <= countanswers; j++) {
-                var checkbox = document.createElement('input');
-                checkbox.type = "checkbox";
-                checkbox.name = "Question" + (i + 1) + "CheckboxGrp"
-                checkbox.value = document.getElementById("id_Question" + (i + 1) + "Answer" + j).innerText;
-                checkbox.id = "id_EQuestion" + (i + 1) + "Checkbox" + j;
+                 arp.appendChild(adda);
+                 arp.appendChild(removea);
+                 parentnextQ.parentNode.insertBefore(arp, parentnextQ);
+             } else if (e.options[e.selectedIndex].text == "MA") {
+                 for (var j = 1; j <= countanswers; j++) {
+                     var checkbox = document.createElement('input');
+                     checkbox.type = "checkbox";
+                     checkbox.name = "Question" + (i + 1) + "CheckboxGrp"
+                     checkbox.value = document.getElementById("id_Question" + (i + 1) + "Answer" + j).innerText;
+                     checkbox.id = "id_EQuestion" + (i + 1) + "Checkbox" + j;
 
-                var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
-                answerBx.parentNode.insertBefore(checkbox, answerBx);
-            }
+                     var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
+                     answerBx.parentNode.insertBefore(checkbox, answerBx);
+                 }
 
-            arp.appendChild(adda);
-            arp.appendChild(removea);
-            parentnextQ.parentNode.insertBefore(arp, parentnextQ);
-        }
-        parentnextQ.parentNode.insertBefore(line, parentnextQ);
-    }
+                 arp.appendChild(adda);
+                 arp.appendChild(removea);
+                 parentnextQ.parentNode.insertBefore(arp, parentnextQ);
+             }
+             parentnextQ.parentNode.insertBefore(line, parentnextQ);
+         }
 
-    if (formid == "quizForm") {
-        var x = document.getElementById("quizForm");
-        x.style.display = "block";
+         var quizformlength = document.getElementById("quizForm").length;
+         var surveyformlength = document.getElementById("surveyForm").length;
+         var courseformlength = document.getElementById("courseDesc").length;
 
-        var y = document.getElementById("courseDesc");
-        y.style.display = "none";
+         if (quizformlength > surveyformlength) {
+             var x = document.getElementById("quizForm");
+             x.style.display = "block";
 
-        var z = document.getElementById("hmwkForm");
-        z.style.display = "none";
+             var y = document.getElementById("courseDesc");
+             y.style.display = "none";
 
-        var t = document.getElementById("surveyForm");
-        t.style.display = "none";
-    }
-    else if (formid == "surveyForm") {
-        var t = document.getElementById("surveyForm");
-        t.style.display = "block";
+             var z = document.getElementById("hmwkForm");
+             z.style.display = "none";
 
-        var x = document.getElementById("quizForm");
-        x.style.display = "none";
+             var t = document.getElementById("surveyForm");
+             t.style.display = "none";
+         }
+         else if (surveyformlength > quizformlength) {
+             var t = document.getElementById("surveyForm");
+             t.style.display = "block";
 
-        var y = document.getElementById("courseDesc");
-        y.style.display = "none";
+             var x = document.getElementById("quizForm");
+             x.style.display = "none";
 
-        var z = document.getElementById("hmwkForm");
-        z.style.display = "none";
-    }
-    else {
-         var t = document.getElementById("surveyForm");
-        t.style.display = "none";
+             var y = document.getElementById("courseDesc");
+             y.style.display = "none";
 
-        var x = document.getElementById("quizForm");
-        x.style.display = "none";
+             var z = document.getElementById("hmwkForm");
+             z.style.display = "none";
+         } else {
+             var t = document.getElementById("surveyForm");
+             t.style.display = "none";
 
-        var y = document.getElementById("courseDesc");
-        y.style.display = "block";
+             var x = document.getElementById("quizForm");
+             x.style.display = "none";
 
-        var z = document.getElementById("hmwkForm");
-        z.style.display = "none";
-    }
+             var y = document.getElementById("courseDesc");
+             y.style.display = "block";
+
+             var z = document.getElementById("hmwkForm");
+             z.style.display = "none";
+         }
 }
 
 //adds new questions including delete button and dropdown box
@@ -494,4 +496,4 @@ function addLastAnswer(clicked_id) {
     window.scrollBy(0, 118);
 }
 
-window.onload = quizEditPageLoad;
+    window.onload = quizEditPageLoad;

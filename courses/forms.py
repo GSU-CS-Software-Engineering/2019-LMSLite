@@ -77,7 +77,7 @@ class SurveyFileForm(forms.ModelForm):
 		widgets = {
 			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
-			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off', 'lobael':'NAME'}),
 		}
 
 	def save(self, commit=True, course=None, prof=None):

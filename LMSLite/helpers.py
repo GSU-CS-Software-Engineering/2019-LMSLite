@@ -164,10 +164,23 @@ def grade_quiz(input, key):
 		if first[i][0] == "MA":
 			j = 3
 			gradeable += 1
+			correctCounter = 0
+			incorrectCounter = 0
+			studentCorrectCounter = 0
 			while j < len(first[i]):
-				if first[i][j] == second[i][j]:
-					correct += (1 / ((len(first[i][2:]) / 2)))
+				if first[i][j] == "Correct":
+					correctCounter += 1
+				if first[i][j] == second[i][j] and first[i][j] == "Correct":
+					studentCorrectCounter += 1 # (1 / ((len(first[i][2:]) / 2)))
+				elif first[i][j] == "Incorrect" and second[i][j] == "Correct":
+					incorrectCounter += 1
+				elif second[i][j] == "Incorrect" and first[i][j] == "Correct":
+					incorrectCounter += 0
 				j += 2
+			if ((1/correctCounter*studentCorrectCounter)-(1/correctCounter*incorrectCounter)) >= 0:
+				correct += (1/correctCounter*studentCorrectCounter)-(1/correctCounter*incorrectCounter)
+			else:
+				correct += 0
 		i += 1
 	return round(100 *(correct/gradeable),2)
 
