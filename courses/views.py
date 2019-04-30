@@ -1,3 +1,5 @@
+import datetime
+
 from django.core.files.storage import default_storage
 from django.shortcuts import render, redirect
 from tempfile import NamedTemporaryFile
@@ -142,8 +144,15 @@ def quiz_list_view(request, cid):
 	context_dict = {}
 	course = Course.objects.get(id=cid)
 	quizzes = Student.objects.get(id=request.user.id).quizes.all()
+	student = Student.objects.get(request.user.id)
+
+
 	context_dict['quizzes'] = quizzes
 	context_dict['course'] = course
+
+	for quiz in quizzes:
+		if quiz.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+			student.quiz.remove(quiz)
 
 	return render(request, 'quiz_list_page.html', context_dict)
 
@@ -152,6 +161,10 @@ def pre_quiz_view(request,id, cid):
 	context_dict = {}
 	quiz = Quiz.objects.get(id=id)
 	context_dict['quiz'] = quiz
+	student = Student.objects.get(request.user.id)
+
+	if request.method == 'POST':
+		student.quizes.remove(quiz)
 
 	return render(request,'pre_quiz_page.html', context_dict)
 
@@ -242,7 +255,7 @@ def homework_view(request,id):
 	context_dict = {}
 
 	course = Course.objects.get(id=id)
-	homework = Course.objects.get(id=id).homeworks.all()
+	homework = Student.objects.get(id=request.user.id).homeworks.all()
 
 	context_dict['homework'] = homework
 	context_dict['course'] = course
@@ -256,6 +269,9 @@ def homework_submit_view(request,id,cid):
 	homework = Homework.objects.get(id=id)
 	student = Student.objects.get(id=request.user.id)
 
+	if homework.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+		student.homeworks.remove(homework)
+
 	context_dict['homework'] = homework
 
 	if request.method == 'POST':
@@ -268,6 +284,10 @@ def homework_submit_view(request,id,cid):
 		grade.file = sub_addr
 		grade.stdnt = student
 		grade.save()
+
+		if request.method == 'POST':
+			student.homeworks.remove(homework)
+
 		return redirect('index')
 
 
@@ -278,10 +298,16 @@ def survey_list_view(request,cid):
 	context_dict = {}
 
 	course = Course.objects.get(id=cid)
-	survey = Course.objects.get(id=cid).surveys.all()
+	surveys = Student.objects.get(id=request.user.id).surveys.all()
+	student = Student.objects.get(id=request.user.id)
 
 	context_dict['course'] = course
-	context_dict['survey'] = survey
+	context_dict['survey'] = surveys
+
+
+	for survey in surveys:
+		if survey.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+			student.surveys.remove(survey)
 
 	return render(request, 'survey_list_view.html', context_dict)
 
@@ -289,6 +315,11 @@ def pre_survey_view(request,id, cid):
 	context_dict = {}
 	survey = Survey.objects.get(id=id)
 	context_dict['survey'] = survey
+
+	student = Student.objects.get(request.user.id)
+
+	if request.method == 'POST':
+		student.surveys.remove(survey)
 
 	return render(request,'pre_survey_page.html', context_dict)
 

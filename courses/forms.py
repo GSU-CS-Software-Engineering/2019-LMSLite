@@ -2,7 +2,7 @@ import csv
 
 from django import forms
 
-from LMSLite.helpers import create_quiz
+from LMSLite.helpers import create_quiz, send_email
 from .models import Course, Quiz, Homework, Grade, Survey
 
 
@@ -16,13 +16,14 @@ class CourseAdminCreationForm(forms.ModelForm):
 		# Save the provided password in hashed format
 		course = super(CourseAdminCreationForm, self).save(commit=False)
 
-		for student in course.students.all():
-			student.courses.add(course)
-
-		course.prof.courses.add(course)
 
 		if commit:
 			course.save()
+
+		course.prof.courses.add(course)
+		for student in course.students.all():
+			student.courses.add(course)
+
 		return course
 
 
@@ -30,7 +31,8 @@ class CourseAdminChangeForm(forms.ModelForm):
 
 	class Meta:
 		model = Course
-		fields = ('course_name', 'description')
+		fields = ('course_name', 'description', 'students')
+
 
 
 class SurveyEditForm(forms.Form):
@@ -73,7 +75,7 @@ class SurveyFileForm(forms.ModelForm):
 
 	class Meta:
 		model = Survey
-		fields = ('assignment_name', 'open_date', 'due_date', 'file')
+		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'file')
 		widgets = {
 			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
@@ -86,10 +88,16 @@ class SurveyFileForm(forms.ModelForm):
 		if commit:
 			survey.prof = prof
 			survey.course_id = course
-			survey.type = 0
+			survey.type = 1
 			survey.save()
 			course.surveys.add(Survey.objects.get(id=survey.id))
+
+			for student in course.students.all():
+				student.surveys.add(Survey.objects.get(id=survey.id))
+				student.save()
+
 			course.save()
+			send_email(course.students.all(), survey)
 
 		return survey
 
@@ -134,10 +142,11 @@ class QuizFileForm(forms.ModelForm):
 
 	class Meta:
 		model = Quiz
-		fields = ('assignment_name', 'open_date', 'due_date', 'file', 'grade_viewable')
+		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'quiz_code', 'file', 'grade_viewable', 'restricted', )
 		widgets = {
 			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'quiz_code': forms.PasswordInput(),
 			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
 		}
 
@@ -156,6 +165,7 @@ class QuizFileForm(forms.ModelForm):
 				student.save()
 
 			course.save()
+			send_email(course.students.all(), quiz)
 
 		return quiz
 
@@ -164,7 +174,7 @@ class HomeworkCreationForm(forms.ModelForm):
 
 	class Meta:
 		model = Homework
-		fields = ('assignment_name', 'open_date', 'due_date', 'file',)
+		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'file',)
 
 
 	def save(self, commit=True, course=None, prof=None):
@@ -176,7 +186,14 @@ class HomeworkCreationForm(forms.ModelForm):
 			homework.type = 2
 			homework.save()
 			course.homeworks.add(Homework.objects.get(id=homework.id))
+
+			for student in course.students.all():
+				student.homeworks.add(Homework.objects.get(id=homework.id))
+				student.save()
+
 			course.save()
+			send_email(course.students.all(), homework)
+
 
 		return homework
 

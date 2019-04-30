@@ -1,4 +1,6 @@
 - version: unreleased
+- Quizzes can be verified with quiz codes(@Chino96)
+- Assignments restricted by date(@Chino96)
 - Fixed form bugs(@kh06089)
 - Able to take survey(@kh06089)
 - Survey editing for professors updates file(@Chino96)

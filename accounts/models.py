@@ -109,6 +109,9 @@ class Student(User):
 
     grades = models.ManyToManyField('courses.Grade', blank=True)
     quizes = models.ManyToManyField('courses.Quiz', blank=True, default=None)
+    homeworks = models.ManyToManyField('courses.Homework', blank=True, default=None)
+    surveys = models.ManyToManyField('courses.Survey', blank=True, default=None)
+
 
     def __str__(self):
         return self.email
