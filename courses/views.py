@@ -72,6 +72,7 @@ def course_view(request, id):
 
 	if 'hmwkSubmit' in request.POST:
 		homework.save(course=course, prof=Professor.objects.get(id=request.user.id))
+		return redirect('index')
 
 	return render(request,  'course_page.html', context_dict)
 
@@ -237,6 +238,7 @@ def homework_submit_view(request,id,cid):
 		grade.file = sub_addr
 		grade.stdnt = student
 		grade.save()
+		return redirect('index')
 
 
 	return render(request,'homework_submit_page.html',context_dict)

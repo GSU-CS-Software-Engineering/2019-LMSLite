@@ -3,17 +3,49 @@
 {% block content %}
 
     <noscript>
-            <style>html{display:none;}</style>
-            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
-        </noscript>
+        <style>html {
+            display: none;
+        }</style>
+        <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
+    </noscript>
     <h1>{{ quiz.course_id.course_name }}</h1>
-    <h2>{{ quiz.assignment_name }}</h2>
-    <h3>{{ quiz.open_date }} - {{ quiz.due_date }}</h3>
+    <hr>
+    <h1>{{ quiz.assignment_name }}</h1>
 
-    <p>The following quiz is for the {{ quiz.course_id.course_name }} course. It shall
-    be taken between<br> {{ quiz.open_date }} - {{ quiz.due_date }}. Once the quiz is open, <br>
-    you will only be allowed to submit it.<br><br>YOU WILL NOT BE ABLE TO SAVE AND CONTINUE THE QUIZ AT A LATER TIME!</p>
+    <table id="preQuizTable">
+        <tbody>
+        <tr>
+            <td id="availability" style="text-align:left;" colspan="2">
+                <strong>Availability</strong>
+                <br>
+                <label>{{ quiz.open_date }} - {{ quiz.due_date }}</label>
+            </td>
+        </tr>
 
-    <a href={% url 'quiz_page' cid=quiz.course_id.id id=quiz.id %}> <input id="bgnQuizBtn" type="submit" value="Begin Quiz"></a>
+        <tr>
+            <td id="instructions" style="text-align:left;" colspan="2">
+                <strong>Instructions</strong>
+                <br>
+                <label>The following quiz is for the {{ quiz.course_id.course_name }} course. It shall
+                    be taken between<br> {{ quiz.open_date }} - {{ quiz.due_date }}.
+                    Once the quiz is open, you will only be allowed to submit it.<br><br>YOU WILL NOT BE ABLE TO SAVE
+                    AND CONTINUE THE QUIZ AT A LATER TIME!</label>
+            <td></td>
+            </td>
 
+        </tr>
+
+
+        <tr>
+            <td style="text-align: left;" colspan="2">
+                <a href={% url 'quiz_page' cid=quiz.course_id.id id=quiz.id %}> <input id="bgnQuizBtn" type="submit"
+                                                                                       value="Begin Quiz"></a>
+            <td></td>
+            </td>
+
+        </tr>
+
+
+        </tbody>
+    </table>
 {% endblock content %}
