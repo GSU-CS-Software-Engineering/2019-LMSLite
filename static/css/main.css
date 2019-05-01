@@ -450,7 +450,7 @@ button[id*=deleteBtn] {
 }
 
 input[id*=id_EQuestion][type=checkbox], input[id*=id_EQuestion][type=radio] {
-    vertical-align: 20px;
+    vertical-align: 10px;
 }
 
 button#quizQuestionBtn, input#submitQuizUpload {

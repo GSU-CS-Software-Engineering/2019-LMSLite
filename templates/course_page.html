@@ -103,14 +103,14 @@
 
           {% if surveyForm.has_changed %}
               <p id="surveyEditExtension">
-                <input id="submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
+                  <input id="submitSurveyUpload" type="submit" value="Submit" name="surveyFileUpdate">
               </p>
           {% else %}
                <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
 
             <p id="surveyEditExtension">
+                <input id="submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
                   <button style="display: none" id ="surveyQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
-                  <input id="submitSurveyUpload" type="submit" value="Submit" name="surveyFileUpdate">
             </p>
 
           {% endif %}
