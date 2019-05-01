@@ -6,6 +6,50 @@ function updateMAcheckbox(updatedid) {
 
 function quizEditPageLoad() {
     event.preventDefault();
+
+    var quizformlength = document.getElementById("quizForm").length;
+    var surveyformlength = document.getElementById("surveyForm").length;
+    var courseformlength = document.getElementById("courseDesc").length;
+
+    if (quizformlength > surveyformlength) {
+             var x = document.getElementById("quizForm");
+             x.style.display = "block";
+
+             var y = document.getElementById("courseDesc");
+             y.style.display = "none";
+
+             var z = document.getElementById("hmwkForm");
+             z.style.display = "none";
+
+             var t = document.getElementById("surveyForm");
+             t.style.display = "none";
+         }
+         else if (surveyformlength > quizformlength) {
+             var t = document.getElementById("surveyForm");
+             t.style.display = "block";
+
+             var x = document.getElementById("quizForm");
+             x.style.display = "none";
+
+             var y = document.getElementById("courseDesc");
+             y.style.display = "none";
+
+             var z = document.getElementById("hmwkForm");
+             z.style.display = "none";
+         } else {
+             var t = document.getElementById("surveyForm");
+             t.style.display = "none";
+
+             var x = document.getElementById("quizForm");
+             x.style.display = "none";
+
+             var y = document.getElementById("courseDesc");
+             y.style.display = "block";
+
+             var z = document.getElementById("hmwkForm");
+             z.style.display = "none";
+         }
+
          document.getElementById("quizQuestionBtn").style.display = "inline-block";
          var x = document.querySelectorAll("select[id*=id_Question]").length;
          var count = 1;
@@ -28,6 +72,7 @@ function quizEditPageLoad() {
 
              var e = document.getElementById("id_Question" + (i + 1) + "type");
              var countanswers = document.querySelectorAll("label[for*=id_Question" + (i + 1) + "Answer]").length;
+             countanswers += document.querySelectorAll("label[for*=Question" + (i + 1) + "Answer][for$=correct").length;
 
              var arp = document.createElement("p");
 
@@ -82,12 +127,12 @@ function quizEditPageLoad() {
                      checkbox.id = "id_EQuestion" + (i + 1) + "Checkbox" + j;
 
                      if(document.getElementById("id_Question" + (i + 1) + "Answer" + j)) {
-                         checkbox.checked = true;
                          checkbox.value = document.getElementById("id_Question" + (i + 1) + "Answer" + j).innerText;
                          var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
                          answerBx.parentNode.insertBefore(checkbox, answerBx);
                      }
                      else {
+                         checkbox.checked = true;
                          checkbox.value = document.getElementById("Question" + (i + 1) + "Answer" + j + "correct").innerText;
                          var answerBx = document.getElementById("Question" + (i + 1) + "Answer" + j + "correct");
                          answerBx.parentNode.insertBefore(checkbox, answerBx);
@@ -101,48 +146,6 @@ function quizEditPageLoad() {
              parentnextQ.parentNode.insertBefore(line, parentnextQ);
          }
 
-         var quizformlength = document.getElementById("quizForm").length;
-         var surveyformlength = document.getElementById("surveyForm").length;
-         var courseformlength = document.getElementById("courseDesc").length;
-
-         if (quizformlength > surveyformlength) {
-             var x = document.getElementById("quizForm");
-             x.style.display = "block";
-
-             var y = document.getElementById("courseDesc");
-             y.style.display = "none";
-
-             var z = document.getElementById("hmwkForm");
-             z.style.display = "none";
-
-             var t = document.getElementById("surveyForm");
-             t.style.display = "none";
-         }
-         else if (surveyformlength > quizformlength) {
-             var t = document.getElementById("surveyForm");
-             t.style.display = "block";
-
-             var x = document.getElementById("quizForm");
-             x.style.display = "none";
-
-             var y = document.getElementById("courseDesc");
-             y.style.display = "none";
-
-             var z = document.getElementById("hmwkForm");
-             z.style.display = "none";
-         } else {
-             var t = document.getElementById("surveyForm");
-             t.style.display = "none";
-
-             var x = document.getElementById("quizForm");
-             x.style.display = "none";
-
-             var y = document.getElementById("courseDesc");
-             y.style.display = "block";
-
-             var z = document.getElementById("hmwkForm");
-             z.style.display = "none";
-         }
 }
 
 //adds new questions including delete button and dropdown box
