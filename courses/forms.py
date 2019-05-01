@@ -77,6 +77,7 @@ class SurveyFileForm(forms.ModelForm):
 		model = Survey
 		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'file')
 		widgets = {
+			'restrict_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off', 'lobael':'NAME'}),
@@ -144,9 +145,10 @@ class QuizFileForm(forms.ModelForm):
 		model = Quiz
 		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'quiz_code', 'file', 'grade_viewable', 'restricted', )
 		widgets = {
+			'restrict_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
-			'quiz_code': forms.PasswordInput(),
+			'quiz_code': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
 		}
 
@@ -175,6 +177,12 @@ class HomeworkCreationForm(forms.ModelForm):
 	class Meta:
 		model = Homework
 		fields = ('assignment_name', 'open_date', 'due_date', 'restrict_date', 'file',)
+		widgets = {
+			'restrict_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
+			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
+		}
 
 
 	def save(self, commit=True, course=None, prof=None):

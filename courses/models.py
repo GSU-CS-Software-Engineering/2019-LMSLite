@@ -57,7 +57,7 @@ class Assignment(models.Model):
 class Quiz(Assignment):
 
 	average = models.FloatField(blank=True,default=0, null=True)
-	quiz_code = models.CharField(max_length=8, blank=True, default=None)
+	quiz_code = models.CharField(max_length=8, blank=True, default=None, null=True)
 	restricted = models.BooleanField()
 	grade_viewable = models.BooleanField()
 	file = models.FileField(upload_to=quiz_upload_address, blank=True)

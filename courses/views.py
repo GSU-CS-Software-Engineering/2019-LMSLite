@@ -144,7 +144,7 @@ def quiz_list_view(request, cid):
 	context_dict = {}
 	course = Course.objects.get(id=cid)
 	quizzes = Student.objects.get(id=request.user.id).quizes.all()
-	student = Student.objects.get(request.user.id)
+	student = Student.objects.get(id=request.user.id)
 
 
 	context_dict['quizzes'] = quizzes
@@ -152,7 +152,7 @@ def quiz_list_view(request, cid):
 
 	for quiz in quizzes:
 		if quiz.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
-			student.quiz.remove(quiz)
+			student.quizes.remove(quiz)
 
 	return render(request, 'quiz_list_page.html', context_dict)
 
@@ -161,10 +161,11 @@ def pre_quiz_view(request,id, cid):
 	context_dict = {}
 	quiz = Quiz.objects.get(id=id)
 	context_dict['quiz'] = quiz
-	student = Student.objects.get(request.user.id)
+	student = Student.objects.get(id=request.user.id)
 
-	if request.method == 'POST':
-		student.quizes.remove(quiz)
+	"""if request.method == 'POST':
+		student.quizes.remove(quiz)"""
+
 
 	return render(request,'pre_quiz_page.html', context_dict)
 
@@ -316,7 +317,7 @@ def pre_survey_view(request,id, cid):
 	survey = Survey.objects.get(id=id)
 	context_dict['survey'] = survey
 
-	student = Student.objects.get(request.user.id)
+	student = Student.objects.get(id=request.user.id)
 
 	if request.method == 'POST':
 		student.surveys.remove(survey)

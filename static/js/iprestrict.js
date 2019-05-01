@@ -55,7 +55,7 @@ getUserIP(function (ip) {
     const isIp4InCidrs = (ip, cidrs) => cidrs.some(isIp4InCidr(ip));
 
     if (isIp4InCidrs(ip, ['141.165.0.0/16']) == false) {
-        window.location.replace("/");
+        document.getElementById("bgnQuizBtn").disabled = true
         alert("YOU ARE NOT ON THE SCHOOLS NETWORK.");
     }
 });
