@@ -59,8 +59,15 @@ function quizEditPageLoad() {
                      radio.value = "radio";
                      radio.id = "id_EQuestion" + (i + 1) + "Radio" + j;
 
-                     var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
-                     answerBx.parentNode.insertBefore(radio, answerBx);
+                     if (document.getElementById("id_Question" + (i + 1) + "Answer" + j)) {
+                         var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
+                         answerBx.parentNode.insertBefore(radio, answerBx);
+                     }
+                     else {
+                         radio.checked = true;
+                         var answerBx = document.getElementById("Question" + (i + 1) + "Answer" + j + "correct");
+                         answerBx.parentNode.insertBefore(radio, answerBx);
+                     }
                  }
 
 
@@ -72,11 +79,19 @@ function quizEditPageLoad() {
                      var checkbox = document.createElement('input');
                      checkbox.type = "checkbox";
                      checkbox.name = "Question" + (i + 1) + "CheckboxGrp"
-                     checkbox.value = document.getElementById("id_Question" + (i + 1) + "Answer" + j).innerText;
                      checkbox.id = "id_EQuestion" + (i + 1) + "Checkbox" + j;
 
-                     var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
-                     answerBx.parentNode.insertBefore(checkbox, answerBx);
+                     if(document.getElementById("id_Question" + (i + 1) + "Answer" + j)) {
+                         checkbox.checked = true;
+                         checkbox.value = document.getElementById("id_Question" + (i + 1) + "Answer" + j).innerText;
+                         var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
+                         answerBx.parentNode.insertBefore(checkbox, answerBx);
+                     }
+                     else {
+                         checkbox.value = document.getElementById("Question" + (i + 1) + "Answer" + j + "correct").innerText;
+                         var answerBx = document.getElementById("Question" + (i + 1) + "Answer" + j + "correct");
+                         answerBx.parentNode.insertBefore(checkbox, answerBx);
+                     }
                  }
 
                  arp.appendChild(adda);

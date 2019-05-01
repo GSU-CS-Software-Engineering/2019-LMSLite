@@ -195,54 +195,54 @@ def send_email(students, assignment):
 	for i in range(len(emails)):
 
 		if assignment.type == 0:
-			s = smtplib.SMTP('smtp.gmail.com', 587)
+			s = smtplib.SMTP('smtp.zoho.com', 587)
 			s.starttls()
-			s.login("chino.s.ugwumadu@gmail.com", "busybee1")
-			message = "Subject:{subj}\n\n"\
-					  "{prof} has posted a new {type}.\n" \
-					  "Course: {course}\n" \
-					  "Assignment: {name}\n" \
-					  "Due Date: {date}".format(
-				subj=assignment.course_id.course_name,
-				prof=assignment.prof.first_name + assignment.prof.last_name,
-				type="Quiz",
-				course=assignment.course_id.course_name,
-				name=assignment.assignment_name,
-				date=assignment.due_date)
-
-		elif assignment.type == 1:
-			s = smtplib.SMTP('smtp.gmail.com', 587)
-			s.starttls()
-			s.login("chino.s.ugwumadu@gmail.com", "busybee1")
+			s.login("lmslite.no-reply@gsulms.com", "openLMS2019*")
 			message = "Subject:{subj}\n\n" \
 					  "{prof} has posted a new {type}.\n" \
 					  "Course: {course}\n" \
 					  "Assignment: {name}\n" \
 					  "Due Date: {date}".format(
 				subj=assignment.course_id.course_name,
-				prof=assignment.prof.first_name + assignment.prof.last_name,
+				prof=assignment.prof.first_name +" "+ assignment.prof.last_name,
+				type="Survey",
+				course=assignment.course_id.course_name,
+				name=assignment.assignment_name,
+				date=assignment.due_date)
+
+		elif assignment.type == 1:
+			s = smtplib.SMTP('smtp.zoho.com', 587)
+			s.starttls()
+			s.login("lmslite.no-reply@gsulms.com", "openLMS2019*")
+			message = "Subject:{subj}\n\n" \
+					  "{prof} has posted a new {type}.\n" \
+					  "Course: {course}\n" \
+					  "Assignment: {name}\n" \
+					  "Due Date: {date}".format(
+				subj=assignment.course_id.course_name,
+				prof=assignment.prof.first_name +" "+ assignment.prof.last_name,
 				type="Survey",
 				course=assignment.course_id.course_name,
 				name=assignment.assignment_name,
 				date=assignment.due_date)
 
 		elif assignment.type == 2:
-			s = smtplib.SMTP('smtp.gmail.com', 587)
+			s = smtplib.SMTP('smtp.zoho.com', 587)
 			s.starttls()
-			s.login("chino.s.ugwumadu@gmail.com", "busybee1")
+			s.login("lmslite.no-reply@gsulms.com", "openLMS2019*")
 			message = "Subject:{subj}\n\n" \
 					  "{prof} has posted a new {type}.\n" \
 					  "Course: {course}\n" \
 					  "Assignment: {name}\n" \
 					  "Due Date: {date}".format(
 				subj=assignment.course_id.course_name,
-				prof=assignment.prof.first_name + assignment.prof.last_name,
-				type="Homework",
+				prof=assignment.prof.first_name +" "+ assignment.prof.last_name,
+				type="Survey",
 				course=assignment.course_id.course_name,
 				name=assignment.assignment_name,
 				date=assignment.due_date)
 
-		s.sendmail("chino.s.ugwumadu@gmail.com", emails[i], message)
+		s.sendmail("lmslite.no-reply@gsulms.com", emails[i], message)
 		s.quit()
 
 

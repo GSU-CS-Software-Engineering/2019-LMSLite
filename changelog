@@ -1,4 +1,5 @@
 - version: unreleased
+- setup custom email(@Chino96)
 - Quizzes can be verified with quiz codes(@Chino96)
 - Assignments restricted by date(@Chino96)
 - Fixed form bugs(@kh06089)

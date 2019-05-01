@@ -26,6 +26,7 @@ def course_view(request, id):
 	context_dict['quizes'] = course.quizes.all()
 
 	if 'quizFileUpdate' in request.POST:
+		print(request.POST)
 		post = request.POST.copy()
 		update_quiz(Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1].file.name, post)
 		return redirect('index')
@@ -151,8 +152,9 @@ def quiz_list_view(request, cid):
 	context_dict['course'] = course
 
 	for quiz in quizzes:
-		if quiz.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
-			student.quizes.remove(quiz)
+		if quiz.restrict_date:
+			if quiz.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+				student.quizes.remove(quiz)
 
 	return render(request, 'quiz_list_page.html', context_dict)
 
@@ -163,8 +165,9 @@ def pre_quiz_view(request,id, cid):
 	context_dict['quiz'] = quiz
 	student = Student.objects.get(id=request.user.id)
 
-	"""if request.method == 'POST':
-		student.quizes.remove(quiz)"""
+	if request.method == 'POST':
+		student.quizes.remove(quiz)
+		return redirect('quiz_page',quiz.course_id.id, quiz.id)
 
 
 	return render(request,'pre_quiz_page.html', context_dict)

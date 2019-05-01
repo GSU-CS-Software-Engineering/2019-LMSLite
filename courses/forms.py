@@ -125,14 +125,25 @@ class QuizEditForm(forms.Form):
 											 'cols': 40,
 											 'style': 'height: 5rem;'}))
 
+
 			for y, answer in enumerate(question.answers, start=1):
-				self.fields['Question' + str(x) + 'Answer' + str(y)] = forms.CharField(
-					label='Answer ' + str(y),
-					max_length=1000,
-					initial=answer,
-					widget=forms.Textarea(attrs={'rows': 1,
-												 'cols': 40,
-												 'style': 'height: 2rem;'}))
+				if answer in question.cAnswers:
+					self.fields['Question' + str(x) + 'Answer' + str(y)] = forms.CharField(
+						label='Answer ' + str(y),
+						max_length=1000,
+						initial=answer,
+						widget=forms.Textarea(attrs={'id':'Question' + str(x) + 'Answer' + str(y) +'correct',
+													 'rows': 1,
+													 'cols': 40,
+													 'style': 'height: 2rem;'}))
+				else:
+					self.fields['Question' + str(x) + 'Answer' + str(y)] = forms.CharField(
+						label='Answer ' + str(y),
+						max_length=1000,
+						initial=answer,
+						widget=forms.Textarea(attrs={'rows': 1,
+													 'cols': 40,
+													 'style': 'height: 2rem;'}))
 
 	def __init__(self, *args, **kwargs):
 		super(QuizEditForm, self).__init__(*args, **kwargs)
