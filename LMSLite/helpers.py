@@ -260,29 +260,25 @@ def update_quiz(input, post):
 
 def print_grades(id):
 	sum = 0
-	average = 0
-	student_grades = {}
-
 	row_count = 0
 
 	with open('grade_report.csv', 'w') as report:
 		w = csv.writer(report)
 		x = csv.writer(report)
 		for student in Course.objects.get(id=id).students.all():
-			w.writerow(["Student", "Assignment Name", "Grade"])
+			for course in student.courses.all(): #Course.objects.get(id=id).course_name:
+				w.writerow(["Student", "Course Name", "Assignment Name", "Grade"])
+				for grade in student.grade_set.all():
+					std_grade = [student.get_full_name(), course.course_name, grade.assignment, round(grade.grade_value, 2)]
+					x.writerow(std_grade)
 
-			for grade in student.grade_set.all():
-				std_grade = [student.get_full_name(), grade.assignment, round(grade.grade_value, 2)]
-				x.writerow(std_grade)
-
-				sum = sum + std_grade[2]
-				row_count = row_count + 1
-
-			average = sum / row_count
-			w.writerow(["Student", "Average"])
-			x.writerows(zip([std_grade[0]], [round(average,2)]))
-			row_count = 0
-			sum = 0
+					sum = sum + std_grade[3]
+					row_count = row_count + 1
+				average = sum / row_count
+				w.writerow(["Student", "Course Name", "Average"])
+				x.writerows(zip([std_grade[0]], [std_grade[1]], [round(average,2)]))
+				row_count = 0
+				sum = 0
 
 
 
