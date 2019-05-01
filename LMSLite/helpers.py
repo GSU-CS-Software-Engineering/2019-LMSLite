@@ -265,20 +265,25 @@ def print_grades(id):
 	with open('grade_report.csv', 'w') as report:
 		w = csv.writer(report)
 		x = csv.writer(report)
+		w.writerow(["Student", "Course Name", "Assignment Name", "Grade"])
+		course = Course.objects.get(id=id)
 		for student in Course.objects.get(id=id).students.all():
-			for course in student.courses.all(): #Course.objects.get(id=id).course_name:
-				w.writerow(["Student", "Course Name", "Assignment Name", "Grade"])
-				for grade in student.grade_set.all():
-					std_grade = [student.get_full_name(), course.course_name, grade.assignment, round(grade.grade_value, 2)]
-					x.writerow(std_grade)
+			row_count = 0
+			sum = 0
+			std_grade = []
 
+			for grade in student.grades.all():
+				print("Test expo")
+				if grade.assignment.course_id == course:
+					std_grade = [student.first_name+" "+student.last_name, grade.assignment.course_id.course_name, grade.assignment.assignment_name, round(grade.grade_value, 2)]
+					x.writerow(std_grade)
+					print(std_grade)
 					sum = sum + std_grade[3]
-					row_count = row_count + 1
+					row_count += 1
+
+			if row_count > 0:
 				average = sum / row_count
-				w.writerow(["Student", "Course Name", "Average"])
 				x.writerows(zip([std_grade[0]], [std_grade[1]], [round(average,2)]))
-				row_count = 0
-				sum = 0
 
 
 
