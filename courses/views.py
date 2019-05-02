@@ -65,12 +65,18 @@ def course_view(request, id):
 		survey.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
 		edit = SurveyEditForm
-
+		key_name = course.course_name + '/Surveys/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		blob = bucket.get_blob(course.course_name + '/Surveys/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt')
-		downloaded_blob = blob.download_as_string()
-
+		try:
+			blob = bucket.get_blob(key_name)
+			downloaded_blob = blob.download_as_string()
+		except:
+			file = default_storage.open(key_name, 'w+')
+			file.write('MC\tSample Question?\tCorrect Answer\tCorrect\tIncorrect Answer\tIncorrect')
+			file.close()
+			blob = bucket.get_blob(key_name)
+			downloaded_blob = blob.download_as_string()
 		quizKey = NamedTemporaryFile(delete=False)
 		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
 		quizKey.seek(0)
@@ -88,13 +94,12 @@ def course_view(request, id):
 
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		downloaded_blob = ''
 		try:
 			blob = bucket.get_blob(key_name)
 			downloaded_blob = blob.download_as_string()
 		except:
 			file = default_storage.open(key_name, 'w+')
-			file.write('MC\tSample Question?\tCorrect Anster\tCorrect\tIncorrect Answer\tIncorrect')
+			file.write('MC\tSample Question?\tCorrect Answer\tCorrect\tIncorrect Answer\tIncorrect')
 			file.close()
 			blob = bucket.get_blob(key_name)
 			downloaded_blob = blob.download_as_string()
