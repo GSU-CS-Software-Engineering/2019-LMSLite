@@ -80,6 +80,7 @@
                      <a href="{% url 'assignment_list' cid=survey.course_id.id %}">{{ survey.assignment_name }}</a>
                 {% endfor %}
             {% elif user.role == 2 %}
+                <h2>TASK VIEW</h2>
                 {% for quiz in quizzes %}
                      <a href="{% url 'quiz_start' cid=quiz.course_id.id id=quiz.id %}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
