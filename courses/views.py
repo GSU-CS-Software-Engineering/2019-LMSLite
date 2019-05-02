@@ -75,6 +75,9 @@ def course_view(request, id):
 			file = default_storage.open(key_name, 'w+')
 			file.write('MC\tSample Question?\tCorrect Answer\tCorrect\tIncorrect Answer\tIncorrect')
 			file.close()
+			survey_instance = Survey.objects.order_by('id')[len(Survey.objects.all()) - 1]
+			survey_instance.file = file.name
+			survey_instance.save()
 			blob = bucket.get_blob(key_name)
 			downloaded_blob = blob.download_as_string()
 		quizKey = NamedTemporaryFile(delete=False)
@@ -86,7 +89,6 @@ def course_view(request, id):
 
 
 	if 'quizSubmit' in request.POST:
-		print(request.POST)
 		quiz.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
 		key_name = course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
@@ -101,6 +103,9 @@ def course_view(request, id):
 			file = default_storage.open(key_name, 'w+')
 			file.write('MC\tSample Question?\tCorrect Answer\tCorrect\tIncorrect Answer\tIncorrect')
 			file.close()
+			survey_instance = Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1]
+			survey_instance.file = file.name
+			survey_instance.save()
 			blob = bucket.get_blob(key_name)
 			downloaded_blob = blob.download_as_string()
 
@@ -205,7 +210,6 @@ def pre_quiz_view(request,id, cid):
 
 	if request.method == 'POST':
 		if quiz.quiz_code:
-			print("Here")
 			if quiz.quiz_code == request.POST['quiz-code']:
 				student.quizes.remove(quiz)
 				return redirect('quiz_page', quiz.course_id.id, quiz.id)

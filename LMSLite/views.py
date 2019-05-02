@@ -24,7 +24,6 @@ def index(request):
 
             for quiz in course.quizes.all():
                 if quiz.due_date.replace(tzinfo=None) > d and x < 5:
-                    print(quiz.assignment_name)
                     quizzes.append(quiz)
                     x+=1
             x = 0
@@ -49,7 +48,6 @@ def index(request):
         for course in courses:
 
             for quiz in course.quizes.all():
-                #print(quiz.assignment_name)
                 if quiz.due_date.replace(tzinfo=None) > d and x < 5:
                     quizzes.append(quiz)
                     x += 1
