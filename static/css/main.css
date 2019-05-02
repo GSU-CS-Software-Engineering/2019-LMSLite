@@ -47,6 +47,11 @@ label[id*=questionLabel] {
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
+
+}
+
+html,body{
+    height: 100%;
 }
 
 form {
@@ -71,7 +76,7 @@ footer {
     height: 25px;
     line-height: 25px;
     z-index: -1;
-    bottom: 0;
+    position: absolute;
     width: 100%;
     display: block;
 }
@@ -155,7 +160,7 @@ footer {
     background-color: #a4520d;
     height: 25px;
     line-height: 25px;
-    position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
     display: block;
@@ -371,9 +376,6 @@ ul.errorlist.nonfield {
     width: fit-content;
 }
 
-#cngPassHead {
-    text-align: center;
-}
 
 #overlay {
     position: fixed;
@@ -564,6 +566,18 @@ td[id*=instructions]{
     padding-bottom: 1.5rem;
 }
 
-p #id_grade_viewable:parent {
-
+.column{
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+    height: 600px;
 }
+
+.row after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
+
+
