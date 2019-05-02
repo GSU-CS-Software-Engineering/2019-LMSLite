@@ -38,6 +38,7 @@ class Assignment(models.Model):
 	assignment_name	= models.CharField(max_length=255, blank=True)
 	open_date		= models.DateTimeField(blank=True)
 	due_date		= models.DateTimeField(blank=True)
+	restrict_date	= models.DateTimeField(blank=True, default=None, null=True)
 	prof			= models.ForeignKey('accounts.Professor', on_delete=models.CASCADE)
 	course_id		= models.ForeignKey('courses.Course', on_delete=models.CASCADE)
 
@@ -55,6 +56,9 @@ class Assignment(models.Model):
 
 class Quiz(Assignment):
 
+	average = models.FloatField(blank=True,default=0, null=True)
+	quiz_code = models.CharField(max_length=8, blank=True, default=None, null=True)
+	restricted = models.BooleanField()
 	grade_viewable = models.BooleanField()
 	file = models.FileField(upload_to=quiz_upload_address, blank=True)
 

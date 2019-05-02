@@ -3,120 +3,194 @@
 
 {% block navbar %}
     {% block extra_js %}
-        <!--<script type = "text/javascript" src="{% static '/js/iprestrict.js' %}"></script>-->
-
         <noscript>
-            <style>html{display:none;}</style>
+            <style>html {
+                display: none;
+            }</style>
             <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
         </noscript>
     {% endblock %}
-<nav>
-      <div class="topnav" id="myTopnav">
-          <a href="{% url 'index' %}"><i class="fa fa-home" style="font-size:30px"></i> Home</a>
-          <a href="{% url 'profile' %}"><i class="fa fa-user" style="font-size:18px"></i> Profile</a>
-          <div class = "dropdown">
-              <button class="dropbtn">Assignments
-                  <i class="fa fa-caret-down"></i>
-              </button>
-              <div class="dropdown-content">
-                  {% if user.role == 1 %}
-                     <a href="#" onclick="showHideQuiz()" id = "quizBtn">Quizzes</a>
-                     <a href="#" onclick= "showHideHmwk()" id = "hmwkBtn">Homeworks</a>
-                     <a href="#" onclick= "showHideSurvey()" id = "survBtn">Surveys</a>
-                  {% else %}
-                  <a href="{%  url 'quiz_list' cid=course.id %}" id = "quizBtn">Quizzes</a>
-                  <a href="{% url 'homework_list' id=course.id %}"  id = "hmwkBtn">Homeworks</a>
-                  <a href="{% url 'survey_list' cid=course.id %}"  id = "survBtn">Surveys</a>
-                  {% endif %}
+    <nav>
+        <div class="topnav" id="myTopnav">
+            <a href="{% url 'index' %}"><i class="fa fa-home" style="font-size:18px"></i> Home</a>
+            <a href="{% url 'profile' %}"><i class="fa fa-user" style="font-size:18px"></i> Profile</a>
+            <div class="dropdown">
+                <button class="dropbtn">Assignments
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    {% if user.role == 1 %}
+                        <a href="#" onclick="showHideQuiz()" id="quizBtn">Quizzes</a>
+                        <a href="#" onclick="showHideHmwk()" id="hmwkBtn">Homeworks</a>
+                        <a href="#" onclick="showHideSurvey()" id="survBtn">Surveys</a>
+                    {% else %}
+                        <a href="{% url 'quiz_list' cid=course.id %}" id="quizBtn">Quizzes</a>
+                        <a href="{% url 'homework_list' id=course.id %}" id="hmwkBtn">Homeworks</a>
+                        <a href="{% url 'survey_list' cid=course.id %}" id="survBtn">Surveys</a>
+                    {% endif %}
 
-              </div>
+                </div>
 
-          </div>
-          <a href={% url 'assignment_list' cid=course.id %}>Grades</a>
-          {% if user.is_authenticated %}
-              <a href="{% url 'logout' %}"><i class="fa fa-sign-out" style="font-size:18px"></i> Logout</a>
-          {% else %}
-            <a href="{% url 'login' %}"><i class="fa fa-sign-in" style="font-size:18px"></i> Login</a>
-          {% endif %}
-          <a href="javascript:void(0);" class="icon" onclick="navBarFunction()">
-              <i class="fa fa-bars"></i>
-          </a>
-      </div>
+            </div>
+            <a href={% url 'assignment_list' cid=course.id %}>Grades</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}"><i class="fa fa-sign-out" style="font-size:18px"></i> Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}"><i class="fa fa-sign-in" style="font-size:18px"></i> Login</a>
+            {% endif %}
+            <a href="javascript:void(0);" class="icon" onclick="navBarFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
 
 
-</nav>
+    </nav>
 {% endblock navbar %}
 
 {% block content %}
 
     <div class="row">
-  <div class="main w3-animate-opacity">
-    <h2 id = "courseName" onclick="showHideCourse()">{{ course.course_name }}</h2>
+        <div class="main w3-animate-opacity">
+            <h2 id="courseName" onclick="showHideCourse()">{{ course.course_name }}</h2>
 
-      <div id="courseDesc" style="display: block;">
-            <h3>Description</h3>
-            {{ course.description }}
-      </div>
+            <div id="courseDesc" style="display: block;">
+                <h3>Description</h3>
+                {{ course.description }}
+            </div>
 
-      <form  onload="quizEditPageLoad()" id = "quizForm" style="display: none;" method="POST" enctype="multipart/form-data">
-      <h3>Quiz Form</h3>
-                {% for quiz in quizes %}
-                    <a href="{% url 'download' id=quiz.id%}">{{ quiz.assignment_name }}</a>
-                {% endfor %}
-            {% csrf_token %}
-            {{ quizform.as_p }}
+            <!--<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="{% static '/js/liveSurveyMC.js' %}"></script>
+<div id="piechart" style="width: 900px; height: 500px;"></div>-->
+            {% if user.role == 1 %}
+                <form onload="quizEditPageLoad()" id="quizForm" style="display: none;" method="POST"
+                      enctype="multipart/form-data">
+                    <h3>Quiz Form</h3>
+                    {% for quiz in quizes %}
+                        <a href="{% url 'download' id=quiz.id %}">{{ quiz.assignment_name }}</a>
+                    {% endfor %}
+                    {% csrf_token %}
+                    {{ quizform.as_p }}
 
-      {% if quizform.has_changed %}
-        <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+                    {% if quizform.has_changed %}
+                        <script type="text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
 
-        <p id="quizEditExtension">
-              <button style="display: none" id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
-              <input id = "submitQuizUpload" type="submit" value="Submit" name="quizFileUpdate">
-          </p>
-      {% else %}
-          <p id="quizEditExtension">
-              <input id="submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
-          </p>
-      {% endif %}
-      </form>
+                        <p id="quizEditExtension">
+                            <button style="display: none" id="quizQuestionBtn" href="javascript:void();"
+                                    onclick="newQuestion()">+ Add Question
+                            </button>
+                            <input id="submitQuizUpload" type="submit" value="Submit" name="quizFileUpdate">
 
-    <form id ="hmwkForm" style="display: none;" method="POST" enctype="multipart/form-data">
-      <h3>Homework Form</h3>
-          {% for assignment in course.homeworks.all %}
-              <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
-          {% endfor %}
-          {% csrf_token %}
-          {{ hwForm.as_p }}
-        <input type="submit" value="Submit" name="hmwkSubmit">
-    </form>
+                            <button style="display: none" id="cancelQuizBtn" href="{% url 'index' %}">Upload without
+                                Edit
+                            </button>
+                        </p>
+                    {% else %}
+                        <p id="quizEditExtension">
+                            <input id="submitQuizUpload" type="submit" value="Submit" name="quizSubmit">
+                        </p>
+                    {% endif %}
+                </form>
+                <form id="hmwkForm" style="display: none;" method="POST" enctype="multipart/form-data">
+                    <h3>Homework Form</h3>
+                    {% for assignment in course.homeworks.all %}
+                        <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
+                    {% endfor %}
+                    {% csrf_token %}
+                    {{ hwForm.as_p }}
+                    <p><input type="submit" value="Submit" name="hmwkSubmit"></p>
 
-  <form id ="surveyForm"  style="display: none;" method="POST" enctype="multipart/form-data">
-      <h3>Survey Form</h3>
-          {% for assignment in course.surveys.all %}
-              <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
-          {% endfor %}
-          {% csrf_token %}
-          {{ surveyForm.as_p }}
+                </form>
 
-          {% if surveyForm.has_changed %}
-            <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+                <form onload="quizEditPageLoad()" id="surveyForm" style="display: none;" method="POST"
+                      enctype="multipart/form-data">
+                    <h3>Survey Form</h3>
+                    {% for assignment in course.surveys.all %}
+                        <a href="{% url 'download' id=assignment.id %}">{{ assignment.assignment_name }}</a>
+                    {% endfor %}
+                    {% csrf_token %}
+                    {{ surveyForm.as_p }}
 
-            <p id="surveyEditExtension">
-                  <button style="display: none" id ="surveyQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
-                  <input id="submitSurveyUpload" type="submit" value="Submit" name="surveyFileUpdate">
-            </p>
-          {% else %}
-            <p id="surveyEditExtension">
-                <input id = "submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
-            </p>
-      {% endif %}
-    </form>
+                    {% if surveyForm.has_changed %}
+                        <script type="text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
 
-  </div>
-  <div class="side w3-center w3-animate-right">
-    <h2>TASK VIEW</h2>
-    <h5>Title description, Dec 7, 2017</h5>
+                        <p id="surveyEditExtension">
+                            <button style="display: none" id="surveyQuestionBtn" href="javascript:void();"
+                                    onclick="newQuestion()">+ Add Question
+                            </button>
+                            <input id="submitSurveyUpload" type="submit" value="Submit" name="surveyFileUpdate">
 
-  </div>
-</div>
+                            <button style="display: none" id="cancelSurveyBtn" href="{% url 'index' %}">Upload without
+                                Edit
+                            </button>
+
+                        </p>
+                    {% else %}
+
+                        <p id="surveyEditExtension">
+                            <input id="submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
+                        </p>
+
+                    {% endif %}
+                </form>
+                </div>
+                <div class="side w3-center w3-animate-right">
+
+                    <h2>TASK VIEW</h2>
+                    <div class="row">
+
+
+                        <div class="column left">
+                            <h3>Quizzes</h3>
+                            {% for quiz in course.quizes.all %}
+                                <a href="{% url 'assignment_list' cid=quiz.course_id.id %}">{{ quiz.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="column middle">
+                            <h3>Homeworks</h3>
+                            {% for homework in course.homeworks.all %}
+                                <a href="{% url 'assignment_list' cid=homework.course_id.id %}">{{ homework.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="column right">
+                            <h3>Surveys</h3>
+                            {% for survey in course.surveys.all %}
+                                <a href="{% url 'assignment_list' cid=survey.course_id.id %}">{{ survey.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+            </div>
+                <div class="side w3-center w3-animate-right">
+
+                    <h2>TASK VIEW</h2>
+                    <div class="row">
+
+
+                        <div class="column left">
+                            <h3>Quizzes</h3>
+                            {% for quiz in course.quizes.all %}
+                                <a href="{% url 'quiz_start' cid=quiz.course_id.id id=quiz.id %}">{{ quiz.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="column middle">
+                            <h3>Homeworks</h3>
+                            {% for homework in course.homeworks.all %}
+                                <a href="{% url 'homework_list' id=homework.course_id.id %}">{{ homework.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="column right">
+                            <h3>Surveys</h3>
+                            {% for survey in course.surveys.all %}
+                                <a href="{% url 'pre_survey' cid=survey.course_id.id id=survey.id %}">{{ survey.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+    </div>
 {% endblock content %}

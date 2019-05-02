@@ -3,11 +3,11 @@
 {% block content %}
 
     {% block extra_css %}
-    <link rel="stylesheet" type = "text/css" href="{% static '/css/logo.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static '/css/logo.css' %}">
     {% endblock %}
 
     {% block extra_js %}
-    <script type = "text/javascript" src="{% static '/js/logo.js' %}"></script>
+        <script type="text/javascript" src="{% static '/js/logo.js' %}"></script>
     {% endblock %}
 
     <div class="row">
@@ -66,28 +66,68 @@
             </div>
         {% endif %}
         <div class="side w3-center w3- w3-animate-right">
-            {% if user.is_authenticated %}
+            {% if user.role == 1 %}
                 <h2>TASK VIEW</h2>
-                {% for quiz in quizzes %}
+                <div class="row">
+                    <div class="column left">
+                        {% for quiz in quizzes %}
+                            <a href="{% url 'assignment_list' cid=quiz.course_id.id %}">{{ quiz.assignment_name }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="column middle">
+                        {% for homework in homeworks %}
 
-                     <a>{{ quiz.assignment_name }}</a>
-                {% endfor %}
+                            <a href="{% url 'assignment_list' cid=homework.course_id.id %}">{{ homework.assignment_name }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="column right">
+                        {% for survey in surveys %}
 
+                            <a href="{% url 'assignment_list' cid=survey.course_id.id %}">{{ survey.assignment_name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% elif user.role == 2 %}
+                <h2>TASK VIEW</h2>
+                <div class="row">
+                    <div class="column left">
+                    <h3>Quizzes</h3>
+                        {% for quiz in quizzes %}
+                            <a href="{% url 'quiz_start' cid=quiz.course_id.id id=quiz.id %}">{{ quiz.assignment_name }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="column middle">
+                    <h3>Homeworks</h3>
+                        {% for homework in homeworks %}
+
+                            <a href="{% url 'homework_list' id=homework.course_id.id %}">{{ homework.assignment_name }}</a>
+                        {% endfor %}
+                    </div>
+                    <div class="column right">
+                    <h3>Surveys</h3>
+                    {% for survey in surveys %}
+                            <a href="{% url 'pre_survey' cid=survey.course_id.id id=survey.id %}">{{ survey.assignment_name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
             {% else %}
                 <h2>TODAY</h2><br>
 
-        <div class = "w3-center" id="calendar">
-                <p id="calendar-day"></p>
-                <p id="calendar-date"></p>
-                <p id="calendar-month-year"></p>
-        </div><br><br>
-          <div style="width: 100%;">
-              <iframe style="display: block;" src="https://cdnres.willyweather.com/widget/loadView.html?id=105288" width="100%" height="228" frameborder="0" scrolling="no"></iframe>
-              <a style="height: 20px;z-index: 1;margin: -20px 0 0 0;position: relative;display: block;text-indent: -9999em" href="https://www.willyweather.com/ga/bulloch-county/statesboro.html" rel="nofollow">local weather</a>
-          <script type = "text/javascript" src="{% static '/js/calendar.js' %}"></script>
-          </div>
+                <div class="w3-center" id="calendar">
+                    <p id="calendar-day"></p>
+                    <p id="calendar-date"></p>
+                    <p id="calendar-month-year"></p>
+                </div><br><br>
+                <div style="width: 100%;">
+                    <iframe style="display: block;" src="https://cdnres.willyweather.com/widget/loadView.html?id=108071"
+                            width="100%" height="228" frameborder="0" scrolling="no"></iframe>
+                    <a style="height: 20px;z-index: 1;margin: -20px 0 0 0;position: relative;display: block;text-indent: -9999em"
+                       href="https://www.willyweather.com/ga/bulloch-county/statesboro.html" rel="nofollow">local
+                        weather</a>
+                    <script type="text/javascript" src="{% static '/js/calendar.js' %}"></script>
+                </div>
 
-      {% endif %}
-  </div>
-</div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock content %}

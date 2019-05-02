@@ -3,6 +3,8 @@ import csv
 from django.core.files.storage import default_storage
 import smtplib
 
+from courses.models import Course
+
 
 class Question:
 	type = 0
@@ -164,10 +166,23 @@ def grade_quiz(input, key):
 		if first[i][0] == "MA":
 			j = 3
 			gradeable += 1
+			correctCounter = 0
+			incorrectCounter = 0
+			studentCorrectCounter = 0
 			while j < len(first[i]):
-				if first[i][j] == second[i][j]:
-					correct += (1 / ((len(first[i][2:]) / 2)))
+				if first[i][j] == "Correct":
+					correctCounter += 1
+				if first[i][j] == second[i][j] and first[i][j] == "Correct":
+					studentCorrectCounter += 1 # (1 / ((len(first[i][2:]) / 2)))
+				elif first[i][j] == "Incorrect" and second[i][j] == "Correct":
+					incorrectCounter += 1
+				elif second[i][j] == "Incorrect" and first[i][j] == "Correct":
+					incorrectCounter += 0
 				j += 2
+			if ((1/correctCounter*studentCorrectCounter)-(1/correctCounter*incorrectCounter)) >= 0:
+				correct += (1/correctCounter*studentCorrectCounter)-(1/correctCounter*incorrectCounter)
+			else:
+				correct += 0
 		i += 1
 	return round(100 *(correct/gradeable),2)
 
@@ -180,18 +195,56 @@ def send_email(students, assignment):
 
 
 	for i in range(len(emails)):
-		s = smtplib.SMTP('smtp.gmail.com', 587)
-		s.starttls()
-		s.login("chino.s.ugwumadu@gmail.com", "busybee1")
-		message = "{prof} has posted a new {type}.\n" \
-				  "Course:{course} Assignment:{name} Due Date:{date}".format(
-			prof=assignment.prof,
-			type=assignment.type,
-			course=assignment.course_id.couurse_name,
-			name=assignment.assignment_name,
-			date=assignment.due_date)
 
-		s.sendmail("chino.s.ugwumadu@gmail.com", emails[i], message)
+		if assignment.type == 0:
+			s = smtplib.SMTP('smtp.zoho.com', 587)
+			s.starttls()
+			s.login("lmslite.no-reply@gsulms.com", "openLMS2019*")
+			message = "Subject:{subj}\n\n" \
+					  "{prof} has posted a new {type}.\n" \
+					  "Course: {course}\n" \
+					  "Assignment: {name}\n" \
+					  "Due Date: {date}".format(
+				subj=assignment.course_id.course_name,
+				prof=assignment.prof.first_name +" "+ assignment.prof.last_name,
+				type="Quiz",
+				course=assignment.course_id.course_name,
+				name=assignment.assignment_name,
+				date=assignment.due_date)
+
+		elif assignment.type == 1:
+			s = smtplib.SMTP('smtp.zoho.com', 587)
+			s.starttls()
+			s.login("lmslite.no-reply@gsulms.com", "openLMS2019*")
+			message = "Subject:{subj}\n\n" \
+					  "{prof} has posted a new {type}.\n" \
+					  "Course: {course}\n" \
+					  "Assignment: {name}\n" \
+					  "Due Date: {date}".format(
+				subj=assignment.course_id.course_name,
+				prof=assignment.prof.first_name +" "+ assignment.prof.last_name,
+				type="Survey",
+				course=assignment.course_id.course_name,
+				name=assignment.assignment_name,
+				date=assignment.due_date)
+
+		elif assignment.type == 2:
+			s = smtplib.SMTP('smtp.zoho.com', 587)
+			s.starttls()
+			s.login("lmslite.no-reply@gsulms.com", "openLMS2019*")
+			message = "Subject:{subj}\n\n" \
+					  "{prof} has posted a new {type}.\n" \
+					  "Course: {course}\n" \
+					  "Assignment: {name}\n" \
+					  "Due Date: {date}".format(
+				subj=assignment.course_id.course_name,
+				prof=assignment.prof.first_name +" "+ assignment.prof.last_name,
+				type="Homework",
+				course=assignment.course_id.course_name,
+				name=assignment.assignment_name,
+				date=assignment.due_date)
+
+		s.sendmail("lmslite.no-reply@gsulms.com", emails[i], message)
 		s.quit()
 
 
@@ -208,7 +261,7 @@ def update_quiz(input, post):
 				if ('Question%stype' % i) in post:
 					if post['Question%stype' % i] == '1':
 						post['Question%stype' % i] = 'MC'
-						file.write("%s\t%s\t" % (post['Question%stype' % i], post['Question %s' % i]))
+						file.write("%s\t%s" % (post['Question%stype' % i], post['Question %s' % i]))
 						bool = False
 						for key, value in post.items():
 							if key == ('Question%sRadioGrp' % i):
@@ -216,11 +269,11 @@ def update_quiz(input, post):
 
 							if key.startswith("Question%sAnswer" % i):
 								if bool:
-									file.write("{value}\t{val}\t".format(value=value, val='Correct'))
+									file.write("\t{value}\t{val}".format(value=value, val='Correct'))
 									bool = False
 
 								else:
-									file.write("{value}\t{val}\t".format(value=value, val='Incorrect'))
+									file.write("\t{value}\t{val}".format(value=value, val='Incorrect'))
 						file.write("\n")
 
 					if post['Question%stype' % i] == '2':
@@ -230,13 +283,12 @@ def update_quiz(input, post):
 
 					if post['Question%stype' % i] == '3':
 						post['Question%stype' % i] = 'MA'
-						file.write("%s\t%s\t" % (post['Question%stype' % i], post['Question %s' % i]))
-						for key, value in post.items():
-							if key.startswith("Question%sAnswer" % i):
-								if value[0] in post['Question%sCheckboxGrp' % i]:
-									file.write("{value}\t{bool}\t".format(value=(value), bool='Correct'))
-								else:
-									file.write("{value}\t{bool}\t".format(value=(value), bool='Incorrect'))
+						file.write("%s\t%s" % (post['Question%stype' % i], post['Question %s' % i]))
+						for key, val in post.items():
+							if val in post.getlist('Question%sCheckboxGrp' % i) and key.startswith('Question%sAnswer' %i):
+								file.write("\t{value}\t{bool}".format(value=(val), bool='Correct'))
+							elif key.startswith('Question%sAnswer' %i):
+								file.write("\t{value}\t{bool}".format(value=(val), bool='Incorrect'))
 						file.write("\n")
 
 					if post['Question%stype' % i] == '4':
@@ -252,5 +304,34 @@ def update_quiz(input, post):
 					if post['Question%stype' % i] == '6':
 						post['Question%stype' % i] = 'ESS'
 						file.write("%s\t%s\t%s\n" % (
-						post['Question%stype' % i], post['Question %s' % i], post['Question%sAnswer1' % i]))
+						post['Question%stype' % i], post['Question %s' % i], " "))
 		file.close()
+
+
+def print_grades(id):
+	course = Course.objects.get(id=id)
+
+	with default_storage.open(course.course_name +'/grade_report.csv', 'w+b') as report:
+		w = csv.writer(report)
+		x = csv.writer(report)
+		w.writerow(["id", "Student", "Assignment Name", "Grade"])
+		for student in course.students.all():
+			row_count = 0
+			sum = 0
+			std_grade = []
+
+			for grade in student.grades.all():
+				if grade.assignment.course_id.id == course.id:
+					std_grade = [student.id, student.first_name+" "+student.last_name, grade.assignment.assignment_name, round(grade.grade_value, 2)]
+					x.writerow(std_grade)
+					sum = sum + std_grade[3]
+					row_count += 1
+
+			if row_count > 0:
+				average = sum / row_count
+				x.writerows(zip([std_grade[0]], [std_grade[1]], [round(average,2)]))
+
+		report.close()
+
+		return report
+

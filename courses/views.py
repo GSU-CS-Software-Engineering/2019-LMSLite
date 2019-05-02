@@ -1,8 +1,13 @@
+import datetime
+
 from django.core.files.storage import default_storage
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from tempfile import NamedTemporaryFile
 
-from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz
+from django.utils.encoding import smart_str
+
+from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz, print_grades
 from accounts.models import Professor, Student
 from courses.models import Course, Quiz, Grade, Homework, Survey
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm, SurveyEditForm
@@ -16,12 +21,34 @@ def course_view(request, id):
 	quiz = QuizFileForm(request.POST, request.FILES)
 	homework = HomeworkCreationForm(request.POST, request.FILES)
 	survey = SurveyFileForm(request.POST, request.FILES)
+	d = datetime.datetime.today()
 
 	context_dict['course'] = course
 	context_dict['quizform'] = quiz
 	context_dict['hwForm'] = homework
 	context_dict['surveyForm'] = survey
 	context_dict['quizes'] = course.quizes.all()
+
+	assignments = []
+
+	x = 0
+
+	for assignment in course.quizes.all():
+		if assignment.due_date.replace(tzinfo=None) > d and x < 5:
+			assignments.append(assignment)
+			x += 1
+	x = 0
+	for assignment in course.homeworks.all():
+		if assignment.due_date.replace(tzinfo=None) > d and x < 5:
+			assignments.append(assignment)
+			x += 1
+	x = 0
+	for assignment in course.surveys.all():
+		if assignment.due_date.replace(tzinfo=None) > d and x < 5:
+			assignments.append(assignment)
+			x += 1
+
+	context_dict['assignments'] = assignments
 
 	if 'quizFileUpdate' in request.POST:
 		post = request.POST.copy()
@@ -38,12 +65,21 @@ def course_view(request, id):
 		survey.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
 		edit = SurveyEditForm
-
+		key_name = course.course_name + '/Surveys/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		blob = bucket.get_blob(course.course_name + '/Surveys/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt')
-		downloaded_blob = blob.download_as_string()
-
+		try:
+			blob = bucket.get_blob(key_name)
+			downloaded_blob = blob.download_as_string()
+		except:
+			file = default_storage.open(key_name, 'w+')
+			file.write('MC\tSample Question?\tCorrect Answer\tCorrect\tIncorrect Answer\tIncorrect')
+			file.close()
+			survey_instance = Survey.objects.order_by('id')[len(Survey.objects.all()) - 1]
+			survey_instance.file = key_name
+			survey_instance.save()
+			blob = bucket.get_blob(key_name)
+			downloaded_blob = blob.download_as_string()
 		quizKey = NamedTemporaryFile(delete=False)
 		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
 		quizKey.seek(0)
@@ -55,12 +91,23 @@ def course_view(request, id):
 	if 'quizSubmit' in request.POST:
 		quiz.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
+		key_name = course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
 		edit = QuizEditForm
 
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		blob = bucket.get_blob(course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt')
-		downloaded_blob = blob.download_as_string()
+		try:
+			blob = bucket.get_blob(key_name)
+			downloaded_blob = blob.download_as_string()
+		except:
+			file = default_storage.open(key_name, 'w+')
+			file.write('MC\tSample Question?\tCorrect Answer\tCorrect\tIncorrect Answer\tIncorrect')
+			file.close()
+			quiz_instance = Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1]
+			quiz_instance.file = key_name
+			quiz_instance.save()
+			blob = bucket.get_blob(key_name)
+			downloaded_blob = blob.download_as_string()
 
 		quizKey = NamedTemporaryFile(delete=False)
 		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
@@ -68,10 +115,10 @@ def course_view(request, id):
 
 		edit.file_address = quizKey.name
 		context_dict['quizform'] = edit
-		context_dict['fileAddr'] = course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
 
 	if 'hmwkSubmit' in request.POST:
 		homework.save(course=course, prof=Professor.objects.get(id=request.user.id))
+		return redirect('index')
 
 	return render(request,  'course_page.html', context_dict)
 
@@ -130,6 +177,7 @@ def quiz_view(request, cid, id):
 		grade.stdnt = student
 		grade.save()
 		student.quizes.remove(quiz)
+		student.grades.add(grade)
 
 		return render(request, 'post_quiz_page.html', context_dict)
 
@@ -140,8 +188,16 @@ def quiz_list_view(request, cid):
 	context_dict = {}
 	course = Course.objects.get(id=cid)
 	quizzes = Student.objects.get(id=request.user.id).quizes.all()
+	student = Student.objects.get(id=request.user.id)
+
+
 	context_dict['quizzes'] = quizzes
 	context_dict['course'] = course
+
+	for quiz in quizzes:
+		if quiz.restrict_date:
+			if quiz.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+				student.quizes.remove(quiz)
 
 	return render(request, 'quiz_list_page.html', context_dict)
 
@@ -150,6 +206,17 @@ def pre_quiz_view(request,id, cid):
 	context_dict = {}
 	quiz = Quiz.objects.get(id=id)
 	context_dict['quiz'] = quiz
+	student = Student.objects.get(id=request.user.id)
+
+	if request.method == 'POST':
+		if quiz.quiz_code:
+			if quiz.quiz_code == request.POST['quiz-code']:
+				student.quizes.remove(quiz)
+				return redirect('quiz_page', quiz.course_id.id, quiz.id)
+			else:
+				return render(request, 'pre_quiz_page.html', context_dict)
+
+		return redirect('quiz_page', quiz.course_id.id, quiz.id)
 
 	return render(request,'pre_quiz_page.html', context_dict)
 
@@ -157,24 +224,63 @@ def pre_quiz_view(request,id, cid):
 def grade_view(request, cid):
 	context_dict = {}
 	quiz_grades = []
+	hw_grades = []
+
+	if request.method == 'POST':
+		file = default_storage.open(print_grades(cid).name)
+		response = HttpResponse(file, content_type='text/csv')
+		response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(file.name)
+		return response
+
 
 	course = Course.objects.get(id=cid)
-
+	if request.user.role == 2:
+		student = Student.objects.get(id=request.user.id)
+		context_dict['student']=student
 	quizzes = course.quizes.all()
 	homeworks = course.homeworks.all()
 	surveys = course.surveys.all()
 
+
+	k = 0
 	for quiz in quizzes:
-		try:
-			quiz_grades.append(Grade.objects.get(assignment=quiz))
-		except:
-			pass
+		quiz_average = 0
+		for student in course.students.all():
+			try:
+				grade = student.grades.get(assignment=quiz)
+				quiz_average += grade.grade_value
+				quiz_grades.append(grade)
+				k += 1
+			except:
+				pass
+		if k > 0:
+			quiz_average /= k
+			context_dict['quiz_average'] = quiz_average
+			quiz_average = round(quiz_average, 2)
+			quiz.average = quiz_average
+			k = 0
+
+
+	for homework in homeworks:
+		for student in course.students.all():
+			try:
+				grade = student.grades.get(assignment=homework)
+				hw_grades.append(grade)
+				print("made it")
+			except:
+				print("NOPE")
+				pass
+
+
+
+
 
 	context_dict['course'] = course
 	context_dict['quizzes'] = quizzes
 	context_dict['homeworks'] = homeworks
 	context_dict['surveys'] = surveys
 	context_dict['quiz_grades'] = quiz_grades
+	context_dict['hw_grades'] = hw_grades
 
 
 	return render(request, 'assignment_list.html', context_dict)
@@ -203,6 +309,8 @@ def submission_view(request, cid, id):
 
 	if request.method == 'POST':
 		grade_form.save()
+		grade.stdnt.grades.add(grade)
+		return redirect('/courses/'+str(grade.assignment.course_id.id) +'/grades')
 
 	return render(request,'submission_view.html',context_dict)
 
@@ -211,7 +319,7 @@ def homework_view(request,id):
 	context_dict = {}
 
 	course = Course.objects.get(id=id)
-	homework = Course.objects.get(id=id).homeworks.all()
+	homework = Student.objects.get(id=request.user.id).homeworks.all()
 
 	context_dict['homework'] = homework
 	context_dict['course'] = course
@@ -225,6 +333,10 @@ def homework_submit_view(request,id,cid):
 	homework = Homework.objects.get(id=id)
 	student = Student.objects.get(id=request.user.id)
 
+	if homework.restrict_date:
+		if homework.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+			student.homeworks.remove(homework)
+
 	context_dict['homework'] = homework
 
 	if request.method == 'POST':
@@ -237,6 +349,12 @@ def homework_submit_view(request,id,cid):
 		grade.file = sub_addr
 		grade.stdnt = student
 		grade.save()
+		grade.stdnt.grades.add(grade)
+
+		if request.method == 'POST':
+			student.homeworks.remove(homework)
+
+		return redirect('index')
 
 
 	return render(request,'homework_submit_page.html',context_dict)
@@ -246,10 +364,17 @@ def survey_list_view(request,cid):
 	context_dict = {}
 
 	course = Course.objects.get(id=cid)
-	survey = Course.objects.get(id=cid).surveys.all()
+	surveys = Student.objects.get(id=request.user.id).surveys.all()
+	student = Student.objects.get(id=request.user.id)
 
 	context_dict['course'] = course
-	context_dict['survey'] = survey
+	context_dict['survey'] = surveys
+
+
+	for survey in surveys:
+		if survey.restrict_date:
+			if survey.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+				student.surveys.remove(survey)
 
 	return render(request, 'survey_list_view.html', context_dict)
 
@@ -257,6 +382,14 @@ def pre_survey_view(request,id, cid):
 	context_dict = {}
 	survey = Survey.objects.get(id=id)
 	context_dict['survey'] = survey
+
+	student = Student.objects.get(id=request.user.id)
+
+	if request.method == 'POST':
+		student.surveys.remove(survey)
+		return redirect('survey_page', survey.course_id.id, survey.id)
+	else:
+		return render(request, 'pre_survey_page.html', context_dict)
 
 	return render(request,'pre_survey_page.html', context_dict)
 

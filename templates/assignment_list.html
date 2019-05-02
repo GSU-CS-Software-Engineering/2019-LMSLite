@@ -3,35 +3,155 @@
 {% block content %}
 
     <noscript>
-            <style>html{display:none;}</style>
-            <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
-        </noscript>
-    <a href="{% url 'course_page' id=course.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i> {{ course.course_name }}</a>
+        <style>html {
+            display: none;
+        }</style>
+        <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
+    </noscript>
+    <a href="{% url 'course_page' id=course.id %}"><i class="fa fa-arrow-left"
+                                                      style="font-size:24px"></i> {{ course.course_name }}</a>
     <h1>Grades</h1>
-
-    <table class="w3-table-all w3-centered">
-        <tbody>
-        <tr class="quiztablerow w3-dark-gray">
-            <th class="tablerowheader">Quizzes</th>
-            <th class="tablerowheader">Grade</th>
-        </tr>
-         {% for Grade in quiz_grades %}
-
-            <tr>
-                <td class="cQuizList">
-                    <a href="{% url 'submission_view' cid=Grade.assignment.course_id.id id=Grade.id %} ">
-                        {{ Grade.assignment.assignment_name }}
-                    </a>
-                </td>
-                <td>{{ Grade.grade_value }}</td>
+    {% if user.role == 1 %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="submit" name="download" value="Download">
+        </form>
+        <table class="w3-table-all w3-centered">
+            <tbody>
+            <tr class="quiztablerow w3-dark-gray">
+                <th class="tablerowheader">Quizzes</th>
+                <th class="tablerowheader">Average</th>
+                <th class="tablerowheader">Quiz Code</th>
             </tr>
 
-        {% endfor %}
+            {% for quiz in quizzes %}
 
-        <tr class="quiztablerow w3-dark-gray">
-            <th class="tablerowheader">Homeworks</th>
-            <th class="tablerowheader">Grade</th>
-        </tr>
-        </tbody>
-    </table>
+                <tr class="quiztablerow w3-deep-orange">
+                    <td class="cQuizList">
+                        {{ quiz.assignment_name }}
+                    </td>
+                    {% if quiz_average %}
+                        <td>{{ quiz.average }}</td>
+                    {% else %}
+                        <td>0</td>
+                    {% endif %}
+                    <td>
+                        {% if quiz.quiz_code %}
+                            {{ quiz.quiz_code }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% for grade in quiz_grades %}
+                    {% if grade.assignment.id == quiz.id %}
+                        <tr>
+
+                            <td><a href="{% url 'submission_view' cid=course.id id=grade.id %}">
+                                {{ grade.stdnt.first_name }} {{ grade.stdnt.last_name }}
+                            </a>
+                            </td>
+                            <td>
+                                {{ grade.grade_value }}
+                            </td>
+                            <td></td>
+
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            {% endfor %}
+            <tr class="quiztablerow w3-dark-gray">
+                <th class="tablerowheader">Homeworks</th>
+                <th class="tablerowheader">Grades</th>
+                <th></th>
+            </tr>
+
+            {% for homework in homeworks %}
+
+                <tr class="quiztablerow w3-deep-orange">
+                    <td class="cQuizList">
+                        {{ homework.assignment_name }}
+                    </td>
+                    <td class="cQuizList"></td>
+                    <td></td>
+                </tr>
+                {% for grade in hw_grades %}
+                    {% if grade.assignment.id == homework.id %}
+                        <tr>
+
+                            <td><a href="{% url 'submission_view' cid=course.id id=grade.id %}">
+                                {{ grade.stdnt.first_name }} {{ grade.stdnt.last_name }}
+                            </a>
+                            </td>
+                            <td>
+                                {{ grade.grade_value }}
+                            </td>
+                        <td></td>
+
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endfor %}
+            </tbody>
+        </table>
+
+    {% elif user.role == 2 %}
+        <table class="w3-table-all w3-centered">
+            <tbody>
+            <tr class="quiztablerow w3-dark-gray">
+                <th class="tablerowheader">Quizzes</th>
+                <th class="tablerowheader">Grade</th>
+            </tr>
+            {% for grade in student.grades.all %}
+                {% if grade.assignment.course_id == course and grade.assignment.type == 0 %}
+                    <tr class="quiztablerow ">
+                        <td class="cQuizList">
+                            <a href="{% url 'submission_view' cid=course.id id=grade.id %}">
+                                {{ grade.assignment.assignment_name }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ grade.grade_value }}
+                        </td>
+
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+
+            <tr class="quiztablerow w3-dark-gray">
+                <th class="tablerowheader">Homeworks</th>
+                <th class="tablerowheader">Grade</th>
+            </tr>
+
+            {% for homework in homeworks %}
+
+                <tr class="quiztablerow ">
+                    <td class="cQuizList">
+                        {{ homework.assignment_name }}
+                    </td>
+                    <td class="cQuizList"></td>
+                </tr>
+                {% for grade in hw_grades %}
+                    {% if grade.assignment.id == homework.id %}
+                        <tr>
+
+                            <td><a href="{% url 'download'  id=grade.assignment.id %}">
+                                {{ grade.assignment.assignment_name }}
+                            </a>
+                            </td>
+                            <td>
+                                {{ grade.grade_value }}
+                            </td>
+
+                        </tr>
+                    {% endif %}
+
+                {% endfor %}
+
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
 {% endblock content %}
