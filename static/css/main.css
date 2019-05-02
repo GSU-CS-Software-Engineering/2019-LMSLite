@@ -412,6 +412,10 @@ textarea {
     display: block;
 }
 
+#surveyForm p label, #hmwkForm p label {
+    display: block;
+}
+
 #studQuizForm div {
     width: 60vw;
     margin: auto;
@@ -453,6 +457,7 @@ input[id*=id_EQuestion][type=checkbox], input[id*=id_EQuestion][type=radio] {
     vertical-align: 10px;
 }
 
+
 button#quizQuestionBtn, input#submitQuizUpload {
     padding: 4px;
     background: #717171;
@@ -465,13 +470,19 @@ button#surveyQuestionBtn, input#submitSurveyUpload {
     border-radius: 5px;
 }
 
+button[id*=cancelQuizBtn], button[id*=cancelSurveyBtn]{
+    padding: 4px;
+    background: #717171;
+    border-radius: 5px;
+}
+
 button[id*=id_removeAnswerBtn], button[id*=id_addAnswerBtn] {
     padding: 7px;
     background: #717171;
     border-radius: 25px;
 }
 
-button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#quizQuestionBtn:hover, button[id*=deleteBtn]:hover, input#submitQuizUpload:hover, button#surveyQuestionBtn:hover, input#submitSurveyUpload:hover {
+button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#quizQuestionBtn:hover, button[id*=deleteBtn]:hover, button[id*=cancelQuizBtn]:hover, button[id*=cancelSurveyBtn]:hover, input#submitQuizUpload:hover, button#surveyQuestionBtn:hover, input#submitSurveyUpload:hover {
     color: #eaeaea;
 }
 

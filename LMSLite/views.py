@@ -4,25 +4,27 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.utils.encoding import smart_str
 
-from accounts.models import Professor
+from accounts.models import Professor, Student
 from courses.models import Quiz, Assignment, Homework, Survey
 
 def index(request):
     context_dict = {}
 
+    quizzes = []
+    homeworks = []
+    surveys = []
+
     if request.user.is_authenticated and request.user.role == 1:
         d = datetime.datetime.today()
         prof = Professor.objects.get(id=request.user.id)
         courses = prof.courses.all()
-        quizzes = []
-        homeworks = []
-        surveys = []
 
         x = 0
         for course in courses:
 
             for quiz in course.quizes.all():
                 if quiz.due_date.replace(tzinfo=None) > d and x < 5:
+                    print(quiz.assignment_name)
                     quizzes.append(quiz)
                     x+=1
             x = 0
@@ -35,11 +37,37 @@ def index(request):
                 if survey.due_date.replace(tzinfo=None) > d and x < 5:
                     surveys.append(survey)
                     x+=1
-
-        context_dict['homeworks'] = homeworks
-        context_dict['surveys'] = surveys
-        context_dict['quizzes'] = quizzes
         context_dict['courses'] = courses
+
+    elif request.user.is_authenticated and request.user.role == 2:
+        d = datetime.datetime.today()
+        std = Student.objects.get(id=request.user.id)
+        courses = std.courses.all()
+
+
+        x = 0
+        for course in courses:
+
+            for quiz in course.quizes.all():
+                #print(quiz.assignment_name)
+                if quiz.due_date.replace(tzinfo=None) > d and x < 5:
+                    quizzes.append(quiz)
+                    x += 1
+            x = 0
+            for homework in course.homeworks.all():
+                if homework.due_date.replace(tzinfo=None) > d and x < 5:
+                    homeworks.append(homework)
+                    x += 1
+            x = 0
+            for survey in course.surveys.all():
+                if survey.due_date.replace(tzinfo=None) > d and x < 5:
+                    surveys.append(survey)
+                    x += 1
+        context_dict['courses'] = courses
+
+    context_dict['homeworks'] = homeworks
+    context_dict['surveys'] = surveys
+    context_dict['quizzes'] = quizzes
 
 
     return render(request, 'index.html', context_dict)
