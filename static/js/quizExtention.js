@@ -12,8 +12,11 @@ function updateQuestion(updatedid) {
 function quizEditPageLoad() {
     event.preventDefault();
 
+    var quizformlength = document.getElementById("quizForm").length;
+    var surveyformlength = document.getElementById("surveyForm").length;
+    var courseformlength = document.getElementById("courseDesc").length;
 
-    if (document.getElementById("id_Question 1").parentElement.parentElement.id == "quizForm") {
+    if (quizformlength > surveyformlength) {
              var x = document.getElementById("quizForm");
              x.style.display = "block";
 
@@ -26,7 +29,7 @@ function quizEditPageLoad() {
              var t = document.getElementById("surveyForm");
              t.style.display = "none";
          }
-         else if (document.getElementById("id_Question 1").parentElement.parentElement.id == "surveyForm") {
+         else if (surveyformlength > quizformlength) {
              var t = document.getElementById("surveyForm");
              t.style.display = "block";
 
