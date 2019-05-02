@@ -66,21 +66,31 @@
             </div>
         {% endif %}
         <div class="side w3-center w3- w3-animate-right">
-            {% if user.is_authenticated %}
+            {% if user.role == 1 %}
                 <h2>TASK VIEW</h2>
                 {% for quiz in quizzes %}
-
-                     <a>{{ quiz.assignment_name }}</a>
+                     <a href="{% url 'assignment_list' cid=quiz.course_id.id %}">{{ quiz.assignment_name }}</a>
                 {% endfor %}
                 {% for homework in homeworks %}
 
-                     <a>{{ homework.assignment_name }}</a>
+                     <a href="{%url 'assignment_list' cid=homework.course_id.id %}">{{ homework.assignment_name }}</a>
                 {% endfor %}
                 {% for survey in surveys %}
 
-                     <a>{{ survey.assignment_name }}</a>
+                     <a href="{% url 'assignment_list' cid=survey.course_id.id %}">{{ survey.assignment_name }}</a>
                 {% endfor %}
+            {% elif user.role == 2 %}
+                {% for quiz in quizzes %}
+                     <a href="{% url 'quiz_start' cid=quiz.course_id.id id=quiz.id %}">{{ quiz.assignment_name }}</a>
+                {% endfor %}
+                {% for homework in homeworks %}
 
+                     <a href="{%url 'homework_list' id=homework.course_id.id %}">{{ homework.assignment_name }}</a>
+                {% endfor %}
+                {% for survey in surveys %}
+
+                     <a href="{% url 'pre_survey' cid=survey.course_id.id id=survey.id %}">{{ survey.assignment_name }}</a>
+                {% endfor %}
             {% else %}
                 <h2>TODAY</h2><br>
 

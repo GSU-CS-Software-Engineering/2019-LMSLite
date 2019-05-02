@@ -10,7 +10,7 @@
     {% endblock %}
 <nav>
       <div class="topnav" id="myTopnav">
-          <a href="{% url 'index' %}"><i class="fa fa-home" style="font-size:30px"></i> Home</a>
+          <a href="{% url 'index' %}"><i class="fa fa-home" style="font-size:18px"></i> Home</a>
           <a href="{% url 'profile' %}"><i class="fa fa-user" style="font-size:18px"></i> Profile</a>
           <div class = "dropdown">
               <button class="dropbtn">Assignments
@@ -74,6 +74,8 @@
         <p id="quizEditExtension">
               <button style="display: none" id ="quizQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
               <input id = "submitQuizUpload" type="submit" value="Submit" name="quizFileUpdate">
+
+            <button style="display: none" id ="cancelQuizBtn" href="{% url 'index' %}">Upload without Edit</button>
           </p>
       {% else %}
           <p id="quizEditExtension">
@@ -101,15 +103,19 @@
           {{ surveyForm.as_p }}
 
           {% if surveyForm.has_changed %}
-              <p id="surveyEditExtension">
-                <input id="submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
-              </p>
-          {% else %}
-               <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
+              <script type = "text/javascript" src="{% static '/js/quizExtention.js' %}"></script>
 
-            <p id="surveyEditExtension">
+              <p id="surveyEditExtension">
                   <button style="display: none" id ="surveyQuestionBtn" href="javascript:void();" onclick="newQuestion()">+ Add Question</button>
                   <input id="submitSurveyUpload" type="submit" value="Submit" name="surveyFileUpdate">
+
+                  <button style="display: none" id ="cancelSurveyBtn" href="{% url 'index' %}">Upload without Edit</button>
+
+              </p>
+          {% else %}
+
+            <p id="surveyEditExtension">
+                    <input id="submitSurveyUpload" type="submit" value="Submit" name="surveySubmit">
             </p>
 
           {% endif %}
@@ -118,8 +124,18 @@
   </div>
   <div class="side w3-center w3-animate-right">
     <h2>TASK VIEW</h2>
-    <h5>Title description, Dec 7, 2017</h5>
+    {% for quiz in assignments %}
 
+                     <a>{{ quiz.assignment_name }}</a>
+                {% endfor %}
+                {% for homework in homeworks %}
+
+                     <a>{{ homework.assignment_name }}</a>
+                {% endfor %}
+                {% for survey in surveys %}
+
+                     <a>{{ survey.assignment_name }}</a>
+                {% endfor %}
   </div>
 </div>
 {% endblock content %}

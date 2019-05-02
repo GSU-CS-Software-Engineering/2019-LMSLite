@@ -56,6 +56,10 @@ function quizEditPageLoad() {
          }
 
          document.getElementById("quizQuestionBtn").style.display = "inline-block";
+         document.getElementById("cancelQuizBtn").style.display = "inline-block";
+         document.getElementById("cancelSurveyBtn").style.display = "inline-block";
+
+
          var x = document.querySelectorAll("select[id*=id_Question]").length;
          var count = 1;
 

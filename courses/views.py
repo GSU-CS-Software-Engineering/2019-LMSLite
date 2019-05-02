@@ -21,12 +21,34 @@ def course_view(request, id):
 	quiz = QuizFileForm(request.POST, request.FILES)
 	homework = HomeworkCreationForm(request.POST, request.FILES)
 	survey = SurveyFileForm(request.POST, request.FILES)
+	d = datetime.datetime.today()
 
 	context_dict['course'] = course
 	context_dict['quizform'] = quiz
 	context_dict['hwForm'] = homework
 	context_dict['surveyForm'] = survey
 	context_dict['quizes'] = course.quizes.all()
+
+	assignments = []
+
+	x = 0
+
+	for assignment in course.quizes.all():
+		if assignment.due_date.replace(tzinfo=None) > d and x < 5:
+			assignments.append(assignment)
+			x += 1
+	x = 0
+	for assignment in course.homeworks.all():
+		if assignment.due_date.replace(tzinfo=None) > d and x < 5:
+			assignments.append(assignment)
+			x += 1
+	x = 0
+	for assignment in course.surveys.all():
+		if assignment.due_date.replace(tzinfo=None) > d and x < 5:
+			assignments.append(assignment)
+			x += 1
+
+	context_dict['assignments'] = assignments
 
 	if 'quizFileUpdate' in request.POST:
 		post = request.POST.copy()
