@@ -50,10 +50,6 @@ body {
 
 }
 
-html,body{
-    height: 100%;
-}
-
 form {
     padding-bottom: 10px;
 }
@@ -76,9 +72,10 @@ footer {
     height: 25px;
     line-height: 25px;
     z-index: -1;
-    position: absolute;
+    bottom: 0;
     width: 100%;
     display: block;
+    position: relative;
 }
 
 .logo {
@@ -137,15 +134,20 @@ footer {
     display: flex;
     flex-wrap: wrap;
     height: 100%;
-    min-height: 100vh;
+    min-height: 40vh;
     margin: 0px;
+}
+
+html,body {
+    height: 100%;
 }
 
 .side {
     flex: 30%;
     background-color: #f1f1f1;
     padding: 20px;
-    min-height: 100%;
+    min-height: 50%;
+    height: 50%
 }
 
 .main {
@@ -160,7 +162,7 @@ footer {
     background-color: #a4520d;
     height: 25px;
     line-height: 25px;
-    position: absolute;
+    position: relative;
     bottom: 0;
     width: 100%;
     display: block;
@@ -570,7 +572,7 @@ td[id*=instructions]{
     float: left;
     width: 33.33%;
     padding: 10px;
-    height: 600px;
+    height: 40vh;
 }
 
 .row after{

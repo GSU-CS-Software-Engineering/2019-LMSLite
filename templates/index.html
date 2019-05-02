@@ -68,7 +68,7 @@
         <div class="side w3-center w3- w3-animate-right">
             {% if user.role == 1 %}
                 <h2>TASK VIEW</h2>
-                <div class="row">
+                <div>
                     <div class="column left">
                         {% for quiz in quizzes %}
                             <a href="{% url 'assignment_list' cid=quiz.course_id.id %}">{{ quiz.assignment_name }}</a>
@@ -89,7 +89,7 @@
                 </div>
             {% elif user.role == 2 %}
                 <h2>TASK VIEW</h2>
-                <div class="row">
+                <div>
                     <div class="column left">
                     <h3>Quizzes</h3>
                         {% for quiz in quizzes %}
