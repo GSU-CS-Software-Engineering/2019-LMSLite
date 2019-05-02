@@ -249,6 +249,7 @@ def send_email(students, assignment):
 
 
 def update_quiz(input, post):
+	print(post['Question4CheckboxGrp'])
 	n = 1
 	for key, value in post.items():
 		if key.startswith("Question "):
