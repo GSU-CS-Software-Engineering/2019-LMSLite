@@ -261,7 +261,7 @@ def update_quiz(input, post):
 				if ('Question%stype' % i) in post:
 					if post['Question%stype' % i] == '1':
 						post['Question%stype' % i] = 'MC'
-						file.write("%s\t%s\t" % (post['Question%stype' % i], post['Question %s' % i]))
+						file.write("%s\t%s" % (post['Question%stype' % i], post['Question %s' % i]))
 						bool = False
 						for key, value in post.items():
 							if key == ('Question%sRadioGrp' % i):
@@ -283,13 +283,12 @@ def update_quiz(input, post):
 
 					if post['Question%stype' % i] == '3':
 						post['Question%stype' % i] = 'MA'
-						file.write("%s\t%s\t" % (post['Question%stype' % i], post['Question %s' % i]))
-						for key, value in post.items():
-							if key.startswith("Question%sAnswer" % i):
-								if value[0] in post['Question%sCheckboxGrp' % i]:
-									file.write("{value}\t{bool}\t".format(value=(value), bool='Correct'))
-								else:
-									file.write("{value}\t{bool}\t".format(value=(value), bool='Incorrect'))
+						file.write("%s\t%s" % (post['Question%stype' % i], post['Question %s' % i]))
+						for key, val in post.items():
+							if val in post.getlist('Question%sCheckboxGrp' % i) and key.startswith('Question%sAnswer' %i):
+								file.write("\t{value}\t{bool}".format(value=(val), bool='Correct'))
+							elif key.startswith('Question%sAnswer' %i):
+								file.write("\t{value}\t{bool}".format(value=(val), bool='Incorrect'))
 						file.write("\n")
 
 					if post['Question%stype' % i] == '4':

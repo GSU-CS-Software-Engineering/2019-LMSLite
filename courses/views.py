@@ -29,7 +29,7 @@ def course_view(request, id):
 		print(request.POST)
 		post = request.POST.copy()
 		update_quiz(Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1].file.name, post)
-		return redirect('index')
+		#return redirect('index')
 
 	if 'surveyFileUpdate' in request.POST:
 		post = request.POST.copy()

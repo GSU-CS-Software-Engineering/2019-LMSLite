@@ -2,6 +2,11 @@
 function updateMAcheckbox(updatedid) {
     var x = document.getElementById(updatedid).value;
     document.getElementById(updatedid).previousElementSibling.value = x;
+    document.getElementById( updatedid ).innerHTML = document.getElementById( updatedid ).value
+}
+
+function updateQuestion(updatedid) {
+    document.getElementById( updatedid ).innerHTML = document.getElementById( updatedid ).value
 }
 
 function quizEditPageLoad() {
@@ -127,13 +132,13 @@ function quizEditPageLoad() {
                      checkbox.id = "id_EQuestion" + (i + 1) + "Checkbox" + j;
 
                      if(document.getElementById("id_Question" + (i + 1) + "Answer" + j)) {
-                         checkbox.value = document.getElementById("id_Question" + (i + 1) + "Answer" + j).innerText;
+                         checkbox.value = document.getElementById("id_Question" + (i + 1) + "Answer" + j).innerHTML;
                          var answerBx = document.getElementById("id_Question" + (i + 1) + "Answer" + j);
                          answerBx.parentNode.insertBefore(checkbox, answerBx);
                      }
                      else {
                          checkbox.checked = true;
-                         checkbox.value = document.getElementById("Question" + (i + 1) + "Answer" + j + "correct").innerText;
+                         checkbox.value = document.getElementById("Question" + (i + 1) + "Answer" + j + "correct").innerHTML;
                          var answerBx = document.getElementById("Question" + (i + 1) + "Answer" + j + "correct");
                          answerBx.parentNode.insertBefore(checkbox, answerBx);
                      }
@@ -246,6 +251,8 @@ function newQuestion() {
     qtArea.setAttribute("style", "height: 5rem");
     qtArea.setAttribute("maxlength", "1000");
     qtArea.setAttribute("id", "id_Question " + updateDeleteLabel);
+    qtArea.setAttribute("onchange", "updateQuestion(this.id)");
+    qtArea.setAttribute("name","Question " + updateDeleteLabel)
 
     quizForm.insertBefore(p, document.getElementById("quizEditExtension"));
     p.appendChild(qlabel);
@@ -296,6 +303,7 @@ function newAnswer(ddid) {
 
             var qanswer = document.createElement("textarea");
             qanswer.setAttribute("id", "id_Question" + dropdownnum + "Answer" + i);
+            qanswer.setAttribute("name", "Question"+dropdownnum+"Answer"+i);
 
             var radio = document.createElement('input');
             radio.type = "radio";
@@ -333,6 +341,7 @@ function newAnswer(ddid) {
             var qanswer = document.createElement("textarea");
             qanswer.setAttribute("id", "id_Question" + dropdownnum + "Answer" + i);
             qanswer.setAttribute("onchange","updateMAcheckbox(this.id)");
+            qanswer.setAttribute("name", "Question"+dropdownnum+"Answer"+i);
 
             var checkbox = document.createElement('input');
             checkbox.type = "checkbox";
@@ -369,6 +378,7 @@ function newAnswer(ddid) {
 
         var qanswer = document.createElement("textarea");
         qanswer.setAttribute("id", "id_Question" + dropdownnum + "Answer1");
+        qanswer.setAttribute("name", "Question"+dropdownnum+"Answer1");
         panswer.appendChild(alabel);
         panswer.appendChild(qanswer);
         var ddparent = document.getElementById(ddid).parentNode;
@@ -414,12 +424,17 @@ function deleteElements(clicked_id) {
     qParent.remove();
 
     var acount = document.querySelectorAll("textarea[id*=id_Question" + num + "Answer]").length;
+    acount += document.querySelectorAll("textarea[id*=Question" + num + "Answer][id$=correct").length;
 
     for (var i = 1; i <= acount; i++) {
         if (document.getElementById("id_Question" + num + "Answer" + i)) {
             var aParent = document.getElementById("id_Question" + num + "Answer" + i).parentNode;
             aParent.remove();
-        } else {
+        }
+        else if (document.getElementById("Question" + num + "Answer" + i + "correct")) {
+            var aParent = document.getElementById("Question" + num + "Answer" + i + "correct").parentNode;
+            aParent.remove();
+        }else {
             break;
         }
     }
@@ -446,11 +461,21 @@ function deleteLastAnswer(clicked_id) {
     var num = splitBtnName[1];
     var aNum = Number(num);
     var count = document.querySelectorAll("textarea[id*=id_Question" + aNum + "Answer]").length;
+    count += document.querySelectorAll("textarea[id*=Question" + num + "Answer][id$=correct").length;
 
     if (count > 0) {
-        var lastqAnswer = document.querySelector("textarea[id*=id_Question" + aNum + "Answer" + count + "]");
-        var aParent = lastqAnswer.parentNode;
-        aParent.remove();
+        if (document.querySelector("textarea[id*=id_Question" + aNum + "Answer" + count + "]")) {
+            var lastqAnswer = document.querySelector("textarea[id*=id_Question" + aNum + "Answer" + count + "]");
+            var aParent = lastqAnswer.parentNode;
+            aParent.remove();
+        }
+        else if (document.querySelector("textarea[id*=id_Question" + aNum + "Answer" + count + "correct]")) {
+            var lastqAnswer = document.querySelector("textarea[id*=id_Question" + aNum + "Answer" + count + "correct]");
+            var aParent = lastqAnswer.parentNode;
+            aParent.remove();
+        }
+
+
     }
     window.scrollBy(0, -118);
 }
@@ -463,6 +488,8 @@ function addLastAnswer(clicked_id) {
     var num = splitBtnName[1];
     var aNum = Number(num);
     var count = document.querySelectorAll("textarea[id*=id_Question" + aNum + "Answer]").length;
+    count += document.querySelectorAll("textarea[id*=Question" + aNum + "Answer][id$=correct").length;
+
     var e = document.getElementById("id_Question" + aNum + "type");
 
     if (e.options[e.selectedIndex].text == "MC") {
@@ -475,6 +502,7 @@ function addLastAnswer(clicked_id) {
         var qanswer = document.createElement("textarea");
         qanswer.setAttribute("id", "id_Question" + aNum + "Answer" + (count + 1));
         qanswer.setAttribute("onchange","updateMAcheckbox(this.id)");
+        qanswer.setAttribute("name", "Question"+aNum+"Answer"+(count+1));
 
         var radio = document.createElement('input');
         radio.type = "radio";
@@ -497,11 +525,14 @@ function addLastAnswer(clicked_id) {
 
         var qanswer = document.createElement("textarea");
         qanswer.setAttribute("id", "id_Question" + aNum + "Answer" + (count + 1));
+        qanswer.setAttribute("onchange","updateMAcheckbox(this.id)");
+        qanswer.setAttribute("name", "Question"+aNum+"Answer"+(count+1));
 
         var checkbox = document.createElement('input');
         checkbox.type = "checkbox";
         checkbox.name = "Question" + aNum + "CheckboxGrp"
         checkbox.value = "value";
+
         checkbox.id = "id_EQuestion" + aNum + "Checkbox" + (count + 1);
         panswer.appendChild(alabel);
 
