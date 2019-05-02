@@ -261,30 +261,37 @@ def update_quiz(input, post):
 def print_grades(id):
 	sum = 0
 	row_count = 0
-
 	with open('grade_report.csv', 'w') as report:
-		w = csv.writer(report)
+		w = csv.writer(report, quoting=csv.QUOTE_NONE, escapechar='\t')
 		x = csv.writer(report)
-		w.writerow(["Student", "Course Name", "Assignment Name", "Grade"])
+
 		course = Course.objects.get(id=id)
+		assignments = list(course.quizes.all()) + list(course.homeworks.all())
+		assignment_names = []
+		student_grade_list = {}
+
+		for assignment in assignments:
+			assignment_names.append(assignment.assignment_name)
+
+		w.writerow(["Student", ','.join(assignment_names), "Grade"])
+
 		for student in Course.objects.get(id=id).students.all():
 			row_count = 0
 			sum = 0
 			std_grade = []
+			student_grade_list = ['0']*len(assignment_names)
 
 			for grade in student.grades.all():
-				print("Test expo")
-				if grade.assignment.course_id == course:
-					std_grade = [student.first_name+" "+student.last_name, grade.assignment.course_id.course_name, grade.assignment.assignment_name, round(grade.grade_value, 2)]
-					x.writerow(std_grade)
-					print(std_grade)
-					sum = sum + std_grade[3]
-					row_count += 1
+					if grade.assignment.course_id == course:
+						if grade.assignment.assignment_name in assignment_names:
+							i = assignment_names.index(grade.assignment.assignment_name)
+							student_grade_list[i] = str(grade.grade_value)
+							std_grade = [student.first_name+" "+student.last_name, round(grade.grade_value, 2)]  #grade.assignment.course_id.course_name, #grade.assignment.assignment_name,
+							sum = sum + grade.grade_value
 
-			if row_count > 0:
-				average = sum / row_count
-				x.writerows(zip([std_grade[0]], [std_grade[1]], [round(average,2)]))
-
+			if len(student_grade_list) > 0:
+				average = sum / len(assignment_names)
+				w.writerow([student.first_name + " " + student.last_name, ','.join(student_grade_list), average])
 
 
 
