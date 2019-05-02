@@ -207,7 +207,7 @@ def send_email(students, assignment):
 					  "Due Date: {date}".format(
 				subj=assignment.course_id.course_name,
 				prof=assignment.prof.first_name +" "+ assignment.prof.last_name,
-				type="Survey",
+				type="Quiz",
 				course=assignment.course_id.course_name,
 				name=assignment.assignment_name,
 				date=assignment.due_date)
@@ -239,7 +239,7 @@ def send_email(students, assignment):
 					  "Due Date: {date}".format(
 				subj=assignment.course_id.course_name,
 				prof=assignment.prof.first_name +" "+ assignment.prof.last_name,
-				type="Survey",
+				type="Homework",
 				course=assignment.course_id.course_name,
 				name=assignment.assignment_name,
 				date=assignment.due_date)
