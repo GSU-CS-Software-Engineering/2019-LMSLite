@@ -1,15 +1,62 @@
 {% extends 'base.html' %}
+{% block navbar %}
+    {% block extra_js %}
+        <noscript>
+            <style>html {
+                display: none;
+            }</style>
+            <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
+        </noscript>
+    {% endblock %}
+    <nav>
+        <div class="topnav" id="myTopnav">
+            <a href="{% url 'index' %}"><i class="fa fa-home" style="font-size:18px"></i> Home</a>
+            <a href="{% url 'profile' %}"><i class="fa fa-user" style="font-size:18px"></i> Profile</a>
+            <div class="dropdown">
+                <button class="dropbtn">Assignments
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                    {% if user.role == 1 %}
+                        <a href="#" onclick="showHideQuiz()" id="quizBtn">Quizzes</a>
+                        <a href="#" onclick="showHideHmwk()" id="hmwkBtn">Homeworks</a>
+                        <a href="#" onclick="showHideSurvey()" id="survBtn">Surveys</a>
+                    {% else %}
+                        <a href="{% url 'quiz_list' cid=course.id %}" id="quizBtn">Quizzes</a>
+                        <a href="{% url 'homework_list' id=course.id %}" id="hmwkBtn">Homeworks</a>
+                        <a href="{% url 'survey_list' cid=course.id %}" id="survBtn">Surveys</a>
+                    {% endif %}
+
+                </div>
+
+            </div>
+            <a href={% url 'assignment_list' cid=course.id %}>Grades</a>
+            {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}"><i class="fa fa-sign-out" style="font-size:18px"></i> Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}"><i class="fa fa-sign-in" style="font-size:18px"></i> Login</a>
+            {% endif %}
+            <a href="javascript:void(0);" class="icon" onclick="navBarFunction()">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+
+
+    </nav>
+{% endblock navbar %}
 
 {% block content %}
     <noscript>
             <style>html{display:none;}</style>
             <meta http-equiv="refresh" content="0.0;url={% url 'index'  %}">
         </noscript>
+    <a href="{% url 'course_page' id=course.id %}"><i class="fa fa-arrow-left"
+                                                      style="font-size:24px"></i> {{ course.course_name }}</a>
     <h1>Quiz List</h1><br>
     <table class="w3-table-all w3-centered">
     <tbody>
     <tr class="quiztablerow w3-dark-gray">
-        <th class="tablerowheader">Current Quizzes</th>
+        <th class="tablerowheader">Quizzes</th>
         <th class="tablerowheader">Start Date</th>
         <th class="tablerowheader">Due Date</th>
     </tr>
@@ -22,17 +69,7 @@
             </tr>
         {% endif %}
     {% endfor %}
-    <tr class="quiztablerow w3-dark-gray">
-        <th class="tablerowheader">Future Quizzes</th>
-        <th class="tablerowheader">Start Date</th>
-        <th class="tablerowheader">Due Date</th>
-    </tr>
 
-    <tr class="quiztablerow w3-dark-gray">
-        <th class="tablerowheader">Past Quizzes</th>
-        <th class="tablerowheader">Start Date</th>
-        <th class="tablerowheader">Due Date</th>
-    </tr>
     </tbody>
     </table>
 {% endblock content %}

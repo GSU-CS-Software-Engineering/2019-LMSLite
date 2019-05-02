@@ -14,6 +14,8 @@
         <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
     </noscript>
 
+    <a href="{% url 'course_page' id=quiz.course_id.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i> {{ quiz.course_id.course_name }}</a>
+
     <h1>{{ quiz.course_id.course_name }}</h1>
     <hr>
     <h1>{{ quiz.assignment_name }}</h1>

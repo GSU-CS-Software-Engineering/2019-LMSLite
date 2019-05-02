@@ -8,6 +8,9 @@
         }</style>
         <meta http-equiv="refresh" content="0.0;url={% url 'index' %}">
     </noscript>
+
+    <a href="{% url 'course_page' id=survey.course_id.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i> {{ survey.course_id.course_name }}</a>
+
     <h1>{{ survey.course_id.course_name }}</h1>
     <hr>
     <h1>{{ survey.assignment_name }}</h1>
@@ -40,7 +43,7 @@
         <tr>
             <td style="text-align: left;" colspan="2">
                                 <form method="post">
-
+                                {% csrf_token %}
                 <a href="{% url 'survey_page' cid=survey.course_id.id id=survey.id %}"> <input id="bgnSurveyBtn" type="submit" value="Begin Survey"></a>
                                 </form>
             <td></td>

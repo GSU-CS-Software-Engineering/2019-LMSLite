@@ -132,35 +132,65 @@
 
                     {% endif %}
                 </form>
-            {% endif %}
-        </div>
-        <div class="side w3-center w3-animate-right">
-
-            <h2>TASK VIEW</h2>
-            <div class="row">
-                <div class="column left">
-
-                    {% for quiz in assignments %}
-
-                        <a>{{ quiz.assignment_name }}</a>
-
-                    {% endfor %}
                 </div>
-                <div class="column middle">
-                    {% for homework in homeworks %}
+                <div class="side w3-center w3-animate-right">
 
-                        <a>{{ homework.assignment_name }}</a>
+                    <h2>TASK VIEW</h2>
+                    <div class="row">
 
-                    {% endfor %}
+
+                        <div class="column left">
+                            <h3>Quizzes</h3>
+                            {% for quiz in course.quizes.all %}
+                                <a href="{% url 'assignment_list' cid=quiz.course_id.id %}">{{ quiz.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="column middle">
+                            <h3>Homeworks</h3>
+                            {% for homework in course.homeworks.all %}
+                                <a href="{% url 'assignment_list' cid=homework.course_id.id %}">{{ homework.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="column right">
+                            <h3>Surveys</h3>
+                            {% for survey in course.surveys.all %}
+                                <a href="{% url 'assignment_list' cid=survey.course_id.id %}">{{ survey.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
-                <div class="column right">
-                    {% for survey in surveys %}
-
-                        <a>{{ survey.assignment_name }}</a>
-
-                    {% endfor %}
-                </div>
+            {% else %}
             </div>
-        </div>
+                <div class="side w3-center w3-animate-right">
+
+                    <h2>TASK VIEW</h2>
+                    <div class="row">
+
+
+                        <div class="column left">
+                            <h3>Quizzes</h3>
+                            {% for quiz in course.quizes.all %}
+                                <a href="{% url 'quiz_start' cid=quiz.course_id.id id=quiz.id %}">{{ quiz.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="column middle">
+                            <h3>Homeworks</h3>
+                            {% for homework in course.homeworks.all %}
+                                <a href="{% url 'homework_list' id=homework.course_id.id %}">{{ homework.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="column right">
+                            <h3>Surveys</h3>
+                            {% for survey in course.surveys.all %}
+                                <a href="{% url 'pre_survey' cid=survey.course_id.id id=survey.id %}">{{ survey.assignment_name }}</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
     </div>
 {% endblock content %}

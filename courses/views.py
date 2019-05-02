@@ -266,7 +266,9 @@ def grade_view(request, cid):
 			try:
 				grade = student.grades.get(assignment=homework)
 				hw_grades.append(grade)
+				print("made it")
 			except:
+				print("NOPE")
 				pass
 
 
@@ -331,8 +333,9 @@ def homework_submit_view(request,id,cid):
 	homework = Homework.objects.get(id=id)
 	student = Student.objects.get(id=request.user.id)
 
-	if homework.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
-		student.homeworks.remove(homework)
+	if homework.restrict_date:
+		if homework.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+			student.homeworks.remove(homework)
 
 	context_dict['homework'] = homework
 
@@ -346,6 +349,7 @@ def homework_submit_view(request,id,cid):
 		grade.file = sub_addr
 		grade.stdnt = student
 		grade.save()
+		grade.stdnt.grades.add(grade)
 
 		if request.method == 'POST':
 			student.homeworks.remove(homework)
@@ -368,8 +372,9 @@ def survey_list_view(request,cid):
 
 
 	for survey in surveys:
-		if survey.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
-			student.surveys.remove(survey)
+		if survey.restrict_date:
+			if survey.restrict_date.replace(tzinfo=None) <= datetime.datetime.today():
+				student.surveys.remove(survey)
 
 	return render(request, 'survey_list_view.html', context_dict)
 
@@ -382,6 +387,9 @@ def pre_survey_view(request,id, cid):
 
 	if request.method == 'POST':
 		student.surveys.remove(survey)
+		return redirect('survey_page', survey.course_id.id, survey.id)
+	else:
+		return render(request, 'pre_survey_page.html', context_dict)
 
 	return render(request,'pre_survey_page.html', context_dict)
 

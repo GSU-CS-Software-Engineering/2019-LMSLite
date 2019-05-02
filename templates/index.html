@@ -91,19 +91,21 @@
                 <h2>TASK VIEW</h2>
                 <div class="row">
                     <div class="column left">
+                    <h3>Quizzes</h3>
                         {% for quiz in quizzes %}
                             <a href="{% url 'quiz_start' cid=quiz.course_id.id id=quiz.id %}">{{ quiz.assignment_name }}</a>
                         {% endfor %}
                     </div>
                     <div class="column middle">
+                    <h3>Homeworks</h3>
                         {% for homework in homeworks %}
 
                             <a href="{% url 'homework_list' id=homework.course_id.id %}">{{ homework.assignment_name }}</a>
                         {% endfor %}
                     </div>
-                    <div class="right">
-                        {% for survey in surveys %}
-
+                    <div class="column right">
+                    <h3>Surveys</h3>
+                    {% for survey in surveys %}
                             <a href="{% url 'pre_survey' cid=survey.course_id.id id=survey.id %}">{{ survey.assignment_name }}</a>
                         {% endfor %}
                     </div>

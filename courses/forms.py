@@ -20,9 +20,9 @@ class CourseAdminCreationForm(forms.ModelForm):
 		if commit:
 			course.save()
 
-		course.prof.courses.add(course)
-		for student in course.students.all():
-			student.courses.add(course)
+			course.prof.courses.add(course)
+			for student in course.students.all():
+				student.courses.add(course)
 
 		return course
 
@@ -82,7 +82,7 @@ class SurveyFileForm(forms.ModelForm):
 			'restrict_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'open_date': forms.TextInput(attrs={'autocomplete': 'off'}),
 			'due_date': forms.TextInput(attrs={'autocomplete': 'off'}),
-			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off', 'lobael':'NAME'}),
+			'assignment_name': forms.TextInput(attrs={'autocomplete': 'off'}),
 		}
 
 	def save(self, commit=True, course=None, prof=None):

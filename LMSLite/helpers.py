@@ -304,7 +304,7 @@ def update_quiz(input, post):
 					if post['Question%stype' % i] == '6':
 						post['Question%stype' % i] = 'ESS'
 						file.write("%s\t%s\t%s\n" % (
-						post['Question%stype' % i], post['Question %s' % i], post['Question%sAnswer1' % i]))
+						post['Question%stype' % i], post['Question %s' % i], " "))
 		file.close()
 
 

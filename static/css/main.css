@@ -579,5 +579,7 @@ td[id*=instructions]{
     clear: both;
 }
 
-
+.column.left a, .column.middle a, .column.right a {
+    display: block;
+}
 
