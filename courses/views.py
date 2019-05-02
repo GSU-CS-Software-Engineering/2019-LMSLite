@@ -76,7 +76,7 @@ def course_view(request, id):
 			file.write('MC\tSample Question?\tCorrect Answer\tCorrect\tIncorrect Answer\tIncorrect')
 			file.close()
 			survey_instance = Survey.objects.order_by('id')[len(Survey.objects.all()) - 1]
-			survey_instance.file = file.name
+			survey_instance.file = key_name
 			survey_instance.save()
 			blob = bucket.get_blob(key_name)
 			downloaded_blob = blob.download_as_string()
@@ -103,9 +103,9 @@ def course_view(request, id):
 			file = default_storage.open(key_name, 'w+')
 			file.write('MC\tSample Question?\tCorrect Answer\tCorrect\tIncorrect Answer\tIncorrect')
 			file.close()
-			survey_instance = Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1]
-			survey_instance.file = file.name
-			survey_instance.save()
+			quiz_instance = Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1]
+			quiz_instance.file = key_name
+			quiz_instance.save()
 			blob = bucket.get_blob(key_name)
 			downloaded_blob = blob.download_as_string()
 
