@@ -46,8 +46,12 @@
             <td style="text-align: left;" colspan="2">
                 <form method="post">
                     {% csrf_token %}
-                    <a href={% url 'quiz_page' cid=quiz.course_id.id id=quiz.id %}>
-                    <input id="bgnQuizBtn" type="submit" value="Begin Quiz">
+                    {% if quiz.quiz_code %}
+                        <input id="quiz-code-input" type="password" name="quiz-code">
+                        <br>
+                    {% endif %}
+                        <a href={% url 'quiz_page' cid=quiz.course_id.id id=quiz.id %}>
+                        <input id="bgnQuizBtn" type="submit" value="Begin Quiz">
                 </a>
                 </form>
             <td></td>

@@ -3,6 +3,8 @@ import csv
 from django.core.files.storage import default_storage
 import smtplib
 
+from courses.models import Course
+
 
 class Question:
 	type = 0
@@ -247,6 +249,7 @@ def send_email(students, assignment):
 
 
 def update_quiz(input, post):
+	print(post['Question4CheckboxGrp'])
 	n = 1
 	for key, value in post.items():
 		if key.startswith("Question "):
@@ -259,7 +262,7 @@ def update_quiz(input, post):
 				if ('Question%stype' % i) in post:
 					if post['Question%stype' % i] == '1':
 						post['Question%stype' % i] = 'MC'
-						file.write("%s\t%s\t" % (post['Question%stype' % i], post['Question %s' % i]))
+						file.write("%s\t%s" % (post['Question%stype' % i], post['Question %s' % i]))
 						bool = False
 						for key, value in post.items():
 							if key == ('Question%sRadioGrp' % i):
@@ -267,11 +270,11 @@ def update_quiz(input, post):
 
 							if key.startswith("Question%sAnswer" % i):
 								if bool:
-									file.write("{value}\t{val}\t".format(value=value, val='Correct'))
+									file.write("\t{value}\t{val}".format(value=value, val='Correct'))
 									bool = False
 
 								else:
-									file.write("{value}\t{val}\t".format(value=value, val='Incorrect'))
+									file.write("\t{value}\t{val}".format(value=value, val='Incorrect'))
 						file.write("\n")
 
 					if post['Question%stype' % i] == '2':
@@ -281,13 +284,12 @@ def update_quiz(input, post):
 
 					if post['Question%stype' % i] == '3':
 						post['Question%stype' % i] = 'MA'
-						file.write("%s\t%s\t" % (post['Question%stype' % i], post['Question %s' % i]))
-						for key, value in post.items():
-							if key.startswith("Question%sAnswer" % i):
-								if value[0] in post['Question%sCheckboxGrp' % i]:
-									file.write("{value}\t{bool}\t".format(value=(value), bool='Correct'))
-								else:
-									file.write("{value}\t{bool}\t".format(value=(value), bool='Incorrect'))
+						file.write("%s\t%s" % (post['Question%stype' % i], post['Question %s' % i]))
+						for key, val in post.items():
+							if val in post.getlist('Question%sCheckboxGrp' % i) and key.startswith('Question%sAnswer' %i):
+								file.write("\t{value}\t{bool}".format(value=(val), bool='Correct'))
+							elif key.startswith('Question%sAnswer' %i):
+								file.write("\t{value}\t{bool}".format(value=(val), bool='Incorrect'))
 						file.write("\n")
 
 					if post['Question%stype' % i] == '4':
@@ -305,3 +307,32 @@ def update_quiz(input, post):
 						file.write("%s\t%s\t%s\n" % (
 						post['Question%stype' % i], post['Question %s' % i], post['Question%sAnswer1' % i]))
 		file.close()
+
+
+def print_grades(id):
+	course = Course.objects.get(id=id)
+
+	with default_storage.open(course.course_name +'/grade_report.csv', 'w') as report:
+		w = csv.writer(report)
+		x = csv.writer(report)
+		w.writerow(["Student", "Course Name", "Assignment Name", "Grade"])
+		for student in course.students.all():
+			row_count = 0
+			sum = 0
+			std_grade = []
+
+			for grade in student.grades.all():
+				if grade.assignment.course_id == course:
+					std_grade = [student.first_name+" "+student.last_name, grade.assignment.course_id.course_name, grade.assignment.assignment_name, round(grade.grade_value, 2)]
+					x.writerow(std_grade)
+					sum = sum + std_grade[3]
+					row_count += 1
+
+			if row_count > 0:
+				average = sum / row_count
+				x.writerows(zip([std_grade[0]], [std_grade[1]], [round(average,2)]))
+
+		report.close()
+
+		return report
+

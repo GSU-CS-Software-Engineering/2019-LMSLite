@@ -53,6 +53,10 @@ class ProfessorAdminCreationForm(forms.ModelForm):
         user.role = 1
         if commit:
             user.save()
+            prof = Professor.objects.get(id=user.id)
+            for course in prof.courses.all():
+                course.prof = prof
+                course.save()
         return user
 
 
@@ -99,6 +103,9 @@ class StudentAdminCreationForm(forms.ModelForm):
         user.set_password(self.cleaned_data["password1"])
         if commit:
             user.save()
+            student = Student.objects.get(id=user.id)
+            for course in student.courses.all():
+                course.students.add(student)
         return user
 
 

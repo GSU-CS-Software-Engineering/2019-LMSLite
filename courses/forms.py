@@ -55,6 +55,7 @@ class SurveyEditForm(forms.Form):
 				initial=question.label,
 				widget=forms.Textarea(attrs={'rows': 1,
 											 'cols': 40,
+											 'onchange': 'updateQuestion(this.id)',
 											 'style': 'height: 5rem;'}))
 
 			for y, answer in enumerate(question.answers, start=1):
@@ -64,6 +65,7 @@ class SurveyEditForm(forms.Form):
 					initial=answer,
 					widget=forms.Textarea(attrs={'rows': 1,
 												 'cols': 40,
+												 'onchange': 'updateMAcheckbox(this.id)',
 												 'style': 'height: 2rem;'}))
 
 	def __init__(self, *args, **kwargs):
@@ -123,6 +125,7 @@ class QuizEditForm(forms.Form):
 				initial=question.label,
 				widget=forms.Textarea(attrs={'rows': 1,
 											 'cols': 40,
+											 'onchange': 'updateQuestion(this.id)',
 											 'style': 'height: 5rem;'}))
 
 
@@ -133,6 +136,7 @@ class QuizEditForm(forms.Form):
 						max_length=1000,
 						initial=answer,
 						widget=forms.Textarea(attrs={'id':'Question' + str(x) + 'Answer' + str(y) +'correct',
+													 'onchange': 'updateMAcheckbox(this.id)',
 													 'rows': 1,
 													 'cols': 40,
 													 'style': 'height: 2rem;'}))
