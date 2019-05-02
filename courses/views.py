@@ -230,14 +230,17 @@ def grade_view(request, cid):
 
 
 	course = Course.objects.get(id=cid)
-
+	if request.user.role == 2:
+		student = Student.objects.get(id=request.user.id)
+		context_dict['student']=student
 	quizzes = course.quizes.all()
 	homeworks = course.homeworks.all()
 	surveys = course.surveys.all()
 
-	quiz_average = 0
+
 	k = 0
 	for quiz in quizzes:
+		quiz_average = 0
 		for student in course.students.all():
 			try:
 				grade = student.grades.get(assignment=quiz)
@@ -248,6 +251,7 @@ def grade_view(request, cid):
 				pass
 		if k > 0:
 			quiz_average /= k
+			context_dict['quiz_average'] = quiz_average
 			quiz_average = round(quiz_average, 2)
 			quiz.average = quiz_average
 			k = 0
@@ -264,7 +268,7 @@ def grade_view(request, cid):
 
 
 
-	context_dict['quiz_average'] = quiz_average
+
 	context_dict['course'] = course
 	context_dict['quizzes'] = quizzes
 	context_dict['homeworks'] = homeworks
