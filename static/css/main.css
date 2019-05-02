@@ -155,7 +155,7 @@ footer {
     background-color: #a4520d;
     height: 25px;
     line-height: 25px;
-    position: fixed;
+    position: relative;
     bottom: 0;
     width: 100%;
     display: block;
