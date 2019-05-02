@@ -166,9 +166,15 @@ def pre_quiz_view(request,id, cid):
 	student = Student.objects.get(id=request.user.id)
 
 	if request.method == 'POST':
-		student.quizes.remove(quiz)
-		return redirect('quiz_page',quiz.course_id.id, quiz.id)
+		if quiz.quiz_code:
+			print("Here")
+			if quiz.quiz_code == request.POST['quiz-code']:
+				student.quizes.remove(quiz)
+				return redirect('quiz_page', quiz.course_id.id, quiz.id)
+			else:
+				return render(request, 'pre_quiz_page.html', context_dict)
 
+		return redirect('quiz_page', quiz.course_id.id, quiz.id)
 
 	return render(request,'pre_quiz_page.html', context_dict)
 
