@@ -8,7 +8,10 @@
         </noscript>
     <a href="{% url 'course_page' id=course.id %}"><i class="fa fa-arrow-left" style="font-size:24px"></i> {{ course.course_name }}</a>
     <h1>Grades</h1>
-
+    <form method="post">
+    {% csrf_token %}
+        <input type="submit" name="download" value="Download">
+    </form>
     <table class="w3-table-all w3-centered">
         <tbody>
         <tr class="quiztablerow w3-dark-gray">

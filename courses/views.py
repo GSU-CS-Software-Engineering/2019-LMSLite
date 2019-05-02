@@ -1,10 +1,13 @@
 import datetime
 
 from django.core.files.storage import default_storage
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from tempfile import NamedTemporaryFile
 
-from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz
+from django.utils.encoding import smart_str
+
+from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz, print_grades
 from accounts.models import Professor, Student
 from courses.models import Course, Quiz, Grade, Homework, Survey
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm, SurveyEditForm
@@ -26,10 +29,9 @@ def course_view(request, id):
 	context_dict['quizes'] = course.quizes.all()
 
 	if 'quizFileUpdate' in request.POST:
-		print(request.POST)
 		post = request.POST.copy()
 		update_quiz(Quiz.objects.order_by('id')[len(Quiz.objects.all()) - 1].file.name, post)
-		#return redirect('index')
+		return redirect('index')
 
 	if 'surveyFileUpdate' in request.POST:
 		post = request.POST.copy()
@@ -56,14 +58,24 @@ def course_view(request, id):
 
 
 	if 'quizSubmit' in request.POST:
+		print(request.POST)
 		quiz.save(course=course, prof=Professor.objects.get(id=request.user.id))
 
+		key_name = course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
 		edit = QuizEditForm
 
 		client = storage.Client()
 		bucket = client.get_bucket('lms-lite-2019')
-		blob = bucket.get_blob(course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt')
-		downloaded_blob = blob.download_as_string()
+		downloaded_blob = ''
+		try:
+			blob = bucket.get_blob(key_name)
+			downloaded_blob = blob.download_as_string()
+		except:
+			file = default_storage.open(key_name, 'w+')
+			file.write('MC\tSample Question?\tCorrect Anster\tCorrect\tIncorrect Answer\tIncorrect')
+			file.close()
+			blob = bucket.get_blob(key_name)
+			downloaded_blob = blob.download_as_string()
 
 		quizKey = NamedTemporaryFile(delete=False)
 		quizKey.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
@@ -71,7 +83,6 @@ def course_view(request, id):
 
 		edit.file_address = quizKey.name
 		context_dict['quizform'] = edit
-		context_dict['fileAddr'] = course.course_name + '/Quizzes/' +request.POST['assignment_name']+'/'+request.POST['assignment_name'].replace(' ', '_') +'_key.txt'
 
 	if 'hmwkSubmit' in request.POST:
 		homework.save(course=course, prof=Professor.objects.get(id=request.user.id))
@@ -183,6 +194,12 @@ def grade_view(request, cid):
 	context_dict = {}
 	quiz_grades = []
 	hw_grades = []
+
+	if request.method == 'POST':
+		file = default_storage.open(print_grades(cid).name)
+		response = HttpResponse(file, content_type='text/csv')
+		response['Content-Disposition'] = 'attachment; filename=%s' % smart_str(file.name)
+		return response
 
 
 	course = Course.objects.get(id=cid)

@@ -312,18 +312,18 @@ def update_quiz(input, post):
 def print_grades(id):
 	course = Course.objects.get(id=id)
 
-	with default_storage.open(course.course_name +'/grade_report.csv', 'w') as report:
+	with default_storage.open(course.course_name +'/grade_report.csv', 'w+b') as report:
 		w = csv.writer(report)
 		x = csv.writer(report)
-		w.writerow(["Student", "Course Name", "Assignment Name", "Grade"])
+		w.writerow(["id", "Student", "Assignment Name", "Grade"])
 		for student in course.students.all():
 			row_count = 0
 			sum = 0
 			std_grade = []
 
 			for grade in student.grades.all():
-				if grade.assignment.course_id == course:
-					std_grade = [student.first_name+" "+student.last_name, grade.assignment.course_id.course_name, grade.assignment.assignment_name, round(grade.grade_value, 2)]
+				if grade.assignment.course_id.id == course.id:
+					std_grade = [student.id, student.first_name+" "+student.last_name, grade.assignment.assignment_name, round(grade.grade_value, 2)]
 					x.writerow(std_grade)
 					sum = sum + std_grade[3]
 					row_count += 1
