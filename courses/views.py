@@ -9,7 +9,7 @@ from django.utils.encoding import smart_str
 
 from LMSLite.helpers import grade_quiz, reset_quiz, create_quiz, update_quiz, print_grades
 from accounts.models import Professor, Student
-from courses.models import Course, Quiz, Grade, Homework, Survey
+from courses.models import Course, Quiz, Grade, Homework, Survey, Assignment
 from courses.forms import QuizFileForm, QuizEditForm, HomeworkCreationForm, GradeEditForm, SurveyFileForm, SurveyEditForm
 from google.cloud import storage
 
@@ -294,18 +294,19 @@ def submission_view(request, cid, id):
 	context_dict['grade'] = grade
 	context_dict['grade_form'] = grade_form
 
-	client = storage.Client()
-	bucket = client.get_bucket('lms-lite-2019')
-	blob = bucket.get_blob(grade.file.name)
+	if grade.assignment.type == 0:
+		client = storage.Client()
+		bucket = client.get_bucket('lms-lite-2019')
+		blob = bucket.get_blob(grade.file.name)
 
-	downloaded_blob = blob.download_as_string()
-	response = NamedTemporaryFile(delete=False)
-	response.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
-	response.seek(0)
+		downloaded_blob = blob.download_as_string()
+		response = NamedTemporaryFile(delete=False)
+		response.write(bytes(downloaded_blob.decode('utf8'), 'UTF-8'))
+		response.seek(0)
 
-	questions = create_quiz(response.name)
+		questions = create_quiz(response.name)
 
-	context_dict['questions'] = questions
+		context_dict['questions'] = questions
 
 	if request.method == 'POST':
 		grade_form.save()

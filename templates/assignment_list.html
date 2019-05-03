@@ -84,7 +84,7 @@
                             <td>
                                 {{ grade.grade_value }}
                             </td>
-                        <td></td>
+                            <td></td>
 
                         </tr>
                     {% endif %}
@@ -126,15 +126,9 @@
 
             {% for homework in homeworks %}
 
-                <tr class="quiztablerow ">
-                    <td class="cQuizList">
-                        {{ homework.assignment_name }}
-                    </td>
-                    <td class="cQuizList"></td>
-                </tr>
                 {% for grade in hw_grades %}
                     {% if grade.assignment.id == homework.id %}
-                        <tr>
+                        <tr class="quiztablerow ">
 
                             <td><a href="{% url 'download'  id=grade.assignment.id %}">
                                 {{ grade.assignment.assignment_name }}

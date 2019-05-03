@@ -70,17 +70,20 @@
                 <h2>TASK VIEW</h2>
                 <div>
                     <div class="column left">
+                    <h3>Quizzes</h3>
                         {% for quiz in quizzes %}
                             <a href="{% url 'assignment_list' cid=quiz.course_id.id %}">{{ quiz.assignment_name }}</a>
                         {% endfor %}
                     </div>
                     <div class="column middle">
+                    <h3>Homeworks</h3>
                         {% for homework in homeworks %}
 
                             <a href="{% url 'assignment_list' cid=homework.course_id.id %}">{{ homework.assignment_name }}</a>
                         {% endfor %}
                     </div>
                     <div class="column right">
+                    <h3>Surveys</h3>
                         {% for survey in surveys %}
 
                             <a href="{% url 'assignment_list' cid=survey.course_id.id %}">{{ survey.assignment_name }}</a>

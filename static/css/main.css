@@ -47,7 +47,6 @@ label[id*=questionLabel] {
 body {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-
 }
 
 form {
@@ -75,7 +74,6 @@ footer {
     bottom: 0;
     width: 100%;
     display: block;
-    position: relative;
 }
 
 .logo {
@@ -134,20 +132,15 @@ footer {
     display: flex;
     flex-wrap: wrap;
     height: 100%;
-    min-height: 40vh;
+    min-height: 100vh;
     margin: 0px;
-}
-
-html,body {
-    height: 100%;
 }
 
 .side {
     flex: 30%;
     background-color: #f1f1f1;
     padding: 20px;
-    min-height: 50%;
-    height: 50%
+    min-height: 100%;
 }
 
 .main {
@@ -232,6 +225,7 @@ form #submit {
     display: inline-block;
     position: relative;
     transition: 0.5s;
+    font-size: 75%;
 }
 
 .classList a span:after {
@@ -369,8 +363,8 @@ ul.errorlist.nonfield {
     width: fit-content;
 }
 
-#courseName:hover {
-    background-color: #444444;
+h2[id*=courseName]:hover {
+    color: #a4520d;
 
 }
 
@@ -378,6 +372,9 @@ ul.errorlist.nonfield {
     width: fit-content;
 }
 
+#cngPassHead {
+    text-align: center;
+}
 
 #overlay {
     position: fixed;
@@ -531,6 +528,8 @@ input[name=hmwkSubmit]{
       color: #eaeaea;
   }
 
+
+
 select[id*=type] {
     padding: 5px;
 }
@@ -567,7 +566,6 @@ td[id*= availability] {
 td[id*=instructions]{
     padding-bottom: 1.5rem;
 }
-
 .column{
     float: left;
     width: 33.33%;
@@ -585,3 +583,22 @@ td[id*=instructions]{
     display: block;
 }
 
+input[name*=download]{
+      background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+  }
+
+  input[name*=upload]{
+      background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+  }
+
+  input[name*=download]:hover, input[name*=upload]:hover{
+      color:#eaeaea;
+  }

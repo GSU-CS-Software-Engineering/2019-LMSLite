@@ -7,7 +7,7 @@ from courses.models import Course
 
 def photo_upload_address(instance, filename):
 	name, ext = filename.split('.')
-	filename = instance.assignment_name
+	filename = str(instance.id) + "_" + instance.email.split('@')[1]
 	file_path = 'user-profile-photos/{username}/{filename}.{ext}'.format(
 		username=instance.email.split('@')[0], filename=filename, ext=ext)
 	return file_path
