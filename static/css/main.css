@@ -443,8 +443,16 @@ hr {
     border-top: 1px solid transparent;
 }
 
-#id_File, #id_file {
+#id_File, #id_file, input[name*=upload] {
     background-color: antiquewhite;
+}
+
+input[name*=Update]{
+    background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
 }
 
 button[id*=deleteBtn] {
@@ -483,7 +491,7 @@ button[id*=id_removeAnswerBtn], button[id*=id_addAnswerBtn] {
     border-radius: 25px;
 }
 
-button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#quizQuestionBtn:hover, button[id*=deleteBtn]:hover, button[id*=cancelQuizBtn]:hover, button[id*=cancelSurveyBtn]:hover, input#submitQuizUpload:hover, button#surveyQuestionBtn:hover, input#submitSurveyUpload:hover {
+button[id*=id_removeAnswerBtn]:hover, button[id*=id_addAnswerBtn]:hover, button#quizQuestionBtn:hover, button[id*=deleteBtn]:hover, button[id*=cancelQuizBtn]:hover, button[id*=cancelSurveyBtn]:hover, input#submitQuizUpload:hover, button#surveyQuestionBtn:hover, input#submitSurveyUpload:hover, input[name*=Update]:hover {
     color: #eaeaea;
 }
 
@@ -508,6 +516,13 @@ input[name =survey_submit]{
     border-radius: 10px;
 }
 
+input[id*=UploadAssign]{
+    background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+}
 input[name=hmwkSubmit]{
      background-color: #717171;
     border-style: solid;
@@ -591,7 +606,7 @@ input[name*=download]{
     border-radius: 10px;
   }
 
-  input[name*=upload]{
+  input[name*=UploadAssign]{
       background-color: #717171;
     border-style: solid;
     color: black;
@@ -599,6 +614,14 @@ input[name*=download]{
     border-radius: 10px;
   }
 
-  input[name*=download]:hover, input[name*=upload]:hover{
+  input[name*=Submit]{
+      background-color: #717171;
+    border-style: solid;
+    color: black;
+    padding: .5rem 1.5rem;
+    border-radius: 10px;
+  }
+
+  input[name*=download]:hover, input[name*=UploadAssign]:hover, input[name*=Submit]:hover{
       color:#eaeaea;
   }

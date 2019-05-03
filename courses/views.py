@@ -266,9 +266,7 @@ def grade_view(request, cid):
 			try:
 				grade = student.grades.get(assignment=homework)
 				hw_grades.append(grade)
-				print("made it")
 			except:
-				print("NOPE")
 				pass
 
 
